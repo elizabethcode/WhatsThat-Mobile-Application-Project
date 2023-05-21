@@ -40,7 +40,7 @@
 //         let blob = await res.blob();
   
 //         return fetch("http://localhost:3333/api/1.0.0/user/" + user_id + "/photo", {
-//             method: "POST",
+//              method: "POST",
 //             headers: {
 //                 "Content-Type": "image/png",
 //                 "X-Authorization": await AsyncStorage.getItem('@whatsThat_session_token'),
