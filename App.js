@@ -124,10 +124,11 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UpdateProfile from './Component/UpdateProfile';
 import CameraScreen from './Component/Camera';
 // import ViewBlockedContacts from './Component/ViewBlockedContacts';
-import AddChat from './Component/Chats';
+import AddChat from './Component/Chat';
 // import ViewChats from './Component/ViewChats';
 import Profile from './Component/Profile';
 import Users from './Component/User';
+import BlockedContacts from './Component/BlockedContacts';
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -157,8 +158,10 @@ export default class App extends Component {
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Register" component={Register} />
             <Stack.Screen name="MainAppNavigation" component={TabNavigation} options={{headerShown: false}}/>
+            <Stack.Screen name="BlockedContacts" component={BlockedContacts} />
           </Stack.Navigator>
         </NavigationContainer>
     )
   }
 }
+

@@ -1,3 +1,5 @@
+
+// working edit
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
@@ -5,7 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { FlatList } from 'react-native';
 
-export default class ViewContacts extends Component {
+export default class BlockedContacts extends Component {
     constructor(props){
         super(props);
 
@@ -15,65 +17,35 @@ export default class ViewContacts extends Component {
             submitted: false
         }
     }
-
-    componentDidMount() {
-        this.loadContacts();
-    }
-
-
-    loadContacts = async () => {
-        const token = await AsyncStorage.getItem('whatsthat_session_token');
-        fetch('http://localhost:3333/api/1.0.0/contacts', {
-          method: 'get',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-Authorization': token,
-          },
-        })
-          .then((response) => response.json())
-          .then((responseJson) => {
-            console.log(responseJson);
-            this.setState({ contacts: responseJson });
-          })
-          .catch((error) => {
-            //console.log(error);
-          });
-      };
+componentDidMount() {
+    this.loadBlockedContacts();
+}
 
 
+loadBlockedContacts = async () => {
+    const token = await AsyncStorage.getItem('whatsthat_session_token');
+    fetch('http://localhost:3333/api/1.0.0/blocked', {
+      method: 'get',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+        this.setState({ contacts: responseJson });
+      })
+      .catch((error) => {
+        //console.log(error);
+      });
+  };
 
-  blockContact = async (user_id) => {
+  
+  Unblock = async (user_id) => {
     
     try {
         const response = await fetch(`http://localhost:3333/api/1.0.0/user/${user_id}/block`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-Authorization': await AsyncStorage.getItem("whatsthat_session_token")
-            },
-            body: JSON.stringify({ user_id }),
-        });
-
-        if (response.status === 200) {
-          window.alert('contact blcokced')
-          this.loadContacts();
-            return true;
-        } else {
-            const errorData = await response.text();
-            console.error(`Error (${response.status}):`, errorData.message);
-            throw new Error(errorData.message);
-        }
-    } catch (error) {
-        console.error('Error blocking contact:', error);
-        throw new Error('An error occurred while blocking the contact. Please try again.');
-    }
-};
-
-
-    deleteContact = async (user_id) => {
-    
-    try {
-        const response = await fetch(`http://localhost:3333/api/1.0.0/user/${user_id}/contact`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -83,7 +55,7 @@ export default class ViewContacts extends Component {
 
         if (response.status === 200) {
           window.alert('this works')
-          this.loadContacts()
+          this.loadBlockedContacts()
             return true;
 
         } else if (response.status === 400) {
@@ -108,13 +80,11 @@ export default class ViewContacts extends Component {
         throw new Error('An error occurred while removing the contact. Please try again.');
     }
 };
-
-
-render() {
+  render() {
     return (
       <View style={styles.container}>
         <View style={styles.formContainer}>
-<TouchableOpacity onPress={() => this.props.navigation.navigate('BlockedContacts')}><Text>Open blocked contacts page</Text></TouchableOpacity>
+{/* <TouchableOpacity onPress={() => this.props.navigation.navigate('BlockedContacts')}><Text>Open blocked contacts page</Text></TouchableOpacity> */}
  
         </View>
   
@@ -122,29 +92,18 @@ render() {
           style={styles.listContainer}
           data={this.state.contacts}
           renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.listItem}
-              onPress={() =>
-                this.props.navigation.navigate("Single Chat", { contact: item })
-              }
-            >
               <View style={styles.listContainer}>
               <Text style={styles.listItemText}>{item.first_name}, {item.last_name}, {item.user_id}</Text> 
-              <View style={styles.loginbtn}>
-              <TouchableOpacity onPress={() => this.blockContact(item.user_id)}>
+           
+              <TouchableOpacity onPress={() => this.Unblock(item.user_id)}>
               <View style={styles.button}>
                 <Text style={styles.buttonText}>block Contact</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => this.deleteContact(item.user_id)}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Delete Contact</Text>
-              </View>
-            </TouchableOpacity>
-              </View>
+   
+    
 
               </View>
-            </TouchableOpacity>
           )}
         />
       </View>
