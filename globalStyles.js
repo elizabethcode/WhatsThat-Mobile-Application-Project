@@ -46,8 +46,6 @@ export const globalStyles = StyleSheet.create({
 
   Titles:{
     fontSize: 20,
-    // color: "#F98125",
-    color: "red",
-
+    color: "#F98125",
 },
 });

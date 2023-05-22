@@ -15,11 +15,15 @@ export default class ViewContacts extends Component {
             submitted: false
         }
     }
-
     componentDidMount() {
-        this.loadContacts();
-    }
+      this.unsubscribe = this.props.navigation.addListener('focus', () => {
+      this. loadContacts();
 
+  }); 
+}
+    componentWillUnmount() {
+      this.unsubscribe();
+  }
 
     loadContacts = async () => {
         const token = await AsyncStorage.getItem('whatsthat_session_token');
@@ -55,7 +59,7 @@ export default class ViewContacts extends Component {
         });
 
         if (response.status === 200) {
-          window.alert('contact blcokced')
+          window.alert('contact blocked')
           this.loadContacts();
             return true;
         } else {
