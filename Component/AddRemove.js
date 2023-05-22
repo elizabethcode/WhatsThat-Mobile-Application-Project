@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import { MaterialIcons} from '@expo/vector-icons';
 export default class AddRemove extends Component {
   constructor(props) {
     super(props);

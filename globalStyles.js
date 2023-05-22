@@ -1,37 +1,3 @@
-//global stylesheet
-
-// import {StyleSheet} from 'react-native';
-
-// export const globalStyles = StyleSheet.create({
-//     // FormContainer:{
-
-//     // },
-//     // ButtonContainer:{
-
-//     // },
-//     // Button: {
-
-//     // },
-
-//     // ButtonText:{
-
-//     // },
-
-    // Titles:{
-    //     fontSize: 20,
-    //     // color: "#F98125",
-    //     color: "red",
-
-    // },
-
-
-
-
-    
-// });
-
-
-
 import { StyleSheet } from 'react-native';
 
 export const globalStyles = StyleSheet.create({

@@ -13,10 +13,10 @@ export default class NewChat extends Component {
             submitted: false
         }
 
-        this._onPressButton = this._onPressButton.bind(this)
+        this.OnPressButton = this.OnPressButton.bind(this)
     }
 
-    _onPressButton = async() => {
+    OnPressButton = async() => {
         this.setState({ submitted: true });
         this.setState({ error: "" });
 
@@ -77,7 +77,7 @@ export default class NewChat extends Component {
                     </View>
             
                     <View style={styles.loginbtn}>
-                        <TouchableOpacity onPress={() => this._onPressButton()}>
+                        <TouchableOpacity onPress={() => this.OnPressButton()}>
                             <View style={styles.button}>
                                 <Text style={styles.buttonText}>Create Chat</Text>
                                 
@@ -99,7 +99,7 @@ export default class NewChat extends Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    Container: {
       flex: 1,
     backgroundColor: '#F6F1F1',
     },
