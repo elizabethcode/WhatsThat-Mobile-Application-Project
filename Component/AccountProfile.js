@@ -26,7 +26,7 @@ export default class AccountProfile extends Component{
     }
 
     checkLoggedIn = async () => {
-        const value = await AsyncStorage.getItem('@session_token');
+        const value = await AsyncStorage.getItem('whatsthat_session_token');
         if (value==null) {
             this.props.navigation.navigate('Login');
         }
@@ -71,7 +71,7 @@ export default class AccountProfile extends Component{
 logoutbutton = async () => {
 
     return fetch("http://localhost:3333/api/1.0.0/logout", {
-        method: "POST",
+        method: 'POST',
         headers: {
             "X-Authorization": await AsyncStorage.getItem("whatsthat_session_token")
         }

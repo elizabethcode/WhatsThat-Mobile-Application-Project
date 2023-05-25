@@ -2,20 +2,42 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-export default class DelContact extends Component {
+import { NavigationContainer } from '@react-navigation/native';
+export default class DelUserChat extends Component {
     constructor(props){
         super(props);
 
         this.state = {
             user_id: "",
             error: "", 
-            submitted: false
+            submitted: false,
         }
 
         this._onPressButton = this._onPressButton.bind(this)
     }
 
+    async componentDidMount() {
+        try {
+          const token = await AsyncStorage.getItem('whatsthat_session_token');
+    
+          const headers = {
+            'Content-Type': 'application/json',
+            'X-Authorization': token,
+          };
+    
+          const { chat_id } = this.props.route.params;
+          const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`, {
+            headers,
+          });
+    
+          const responseJson = await response.json();
+    
+          this.setState({ messages: responseJson.messages.reverse() });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
     _onPressButton = async() => {
         this.setState({ submitted: true });
         this.setState({ error: "" });
@@ -25,18 +47,18 @@ export default class DelContact extends Component {
             return;
         }
 
-        console.log("Contact: " + this.state.user_id + " deleted ");
-
         try {
-            const token = await AsyncStorage.getItem("whatsthat_session_token");
-
+         
+            const token = await AsyncStorage.getItem('whatsthat_session_token');
+    
             const headers = {
-                "X-Authorization": token,
-                "Content-Type": "application/json", 
+                'Content-Type': 'application/json',
+                'X-Authorization': token,
             };
 
-            const response = await fetch('http://localhost:3333/api/1.0.0/user/'+ this.state.user_id +'/contact', {
-                method: 'delete',
+            const { chat_id } = this.props.route.params;
+            const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`+'/user/'+ this.state.user_id , {
+                method: 'DELETE',
                 headers,
                 body: JSON.stringify({
                     user_id: this.state.user_id,
@@ -45,17 +67,20 @@ export default class DelContact extends Component {
 
             const responseJson = await response.json();
 
-            console.log("User deleted: ", responseJson.token);
+            console.log("User Deleted from Chat: ", responseJson.token);
+
         } catch (error) {
             console.log(error);
-            this.props.navigation.navigate("Contacts");
+            this.props.navigation.navigate("ViewChats");
         }
+        
     }
 
-    render(){
+    render(){  
+   const { chat_id } = this.props.route.params;
         return (
             <View style={styles.container}>
-               <Text style={styles.title}>Delete Contact</Text>
+                <Text style={styles.title}> Remove User from Chat: {chat_id}</Text>
                 <View style={styles.formContainer}>
                 
                     <View style={styles.email}>
@@ -77,7 +102,7 @@ export default class DelContact extends Component {
                     <View style={styles.loginbtn}>
                         <TouchableOpacity onPress={() => this._onPressButton()}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonText}>Delete Contact</Text>
+                                <Text style={styles.buttonText}>Remove Contact</Text>
                                 
                             </View>
                         </TouchableOpacity>
@@ -99,21 +124,21 @@ export default class DelContact extends Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-    backgroundColor: '#F6F1F1',
+    backgroundColor: '#FFFFFF',
     },
      formContainer: {
     padding: 20,
     },
 
   title: {
-    color:'#AFD3E2',
+    color:'#000000',
     backgroundColor:'#146C94',
     padding:10,
     fontSize:25
     },
    formLabel: {
     fontSize:15,
-    color:'#AFD3E2'
+    color:'#146C94'
   },
     email:{
      paddingVertical: 10
@@ -127,7 +152,7 @@ const styles = StyleSheet.create({
   
     },
     button: {
-   backgroundColor: '#19A7CE',
+   backgroundColor: '#146C94',
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5,

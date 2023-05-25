@@ -124,7 +124,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import UpdateProfile from './Component/UpdateProfile';
 import CameraScreen from './Component/Camera';
 // import ViewBlockedContacts from './Component/ViewBlockedContacts';
-import AddChat from './Component/Chat';
+import Chats from './Component/Chats';
 // import ViewChats from './Component/ViewChats';
 import Profile from './Component/Profile';
 import Users from './Component/User';
@@ -140,8 +140,9 @@ function TabNavigation() {
         <Tab.Screen name="UpdateProfile" component={UpdateProfile}/>
         <Tab.Screen name="ViewContacts" component={ViewContacts}/>
         <Tab.Screen name="Camera" component={CameraScreen}/>
+        <Tab.Screen name="Chats" component={Chats}/>
         {/* <Tab.Screen name="ViewBlockedContacts" component={ViewBlockedContacts}/> */}
-        <Tab.Screen name="Chat" component={AddChat}/>
+        {/* <Tab.Screen name="Chat" component={AddChat}/> */}
         {/* <Tab.Screen name="ViewChats" component={ViewChats}/> */}
         <Tab.Screen name="Profile" component={Profile} options={{ headerLeft: false }} />
 

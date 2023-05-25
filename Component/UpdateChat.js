@@ -18,7 +18,7 @@ export default class UpdateChat extends Component {
 
     async componentDidMount() {
         try {
-          const token = await AsyncStorage.getItem("whatsthat_session_token");
+          const token = await AsyncStorage.getItem('whatsthat_session_token');
     
           const headers = {
             'Content-Type': 'application/json',
@@ -50,11 +50,11 @@ export default class UpdateChat extends Component {
         console.log("Chat Name: " + this.state.name + " . Changed! ");
 
         try {
-            const token = await AsyncStorage.getItem("whatsthat_session_token");
+            const token = await AsyncStorage.getItem('whatsthat_session_token');
 
             const headers = {
-            "X-Authorization": token,
-            "Content-Type": "application/json", 
+                'Content-Type': 'application/json',
+                'X-Authorization': token,
             };
 
             const { chat_id } = this.props.route.params;

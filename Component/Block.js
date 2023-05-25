@@ -3,12 +3,12 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default class NewChat extends Component {
+export default class Block extends Component {
     constructor(props){
         super(props);
 
         this.state = {
-            name:"",
+            user_id: "",
             error: "", 
             submitted: false
         }
@@ -20,58 +20,56 @@ export default class NewChat extends Component {
         this.setState({ submitted: true });
         this.setState({ error: "" });
 
-        if (!this.state.name) {
-            this.setState({ error: "*Must enter a chat name & ID " });
+        if (!this.state.user_id) {
+            this.setState({ error: "*Must enter user id field" });
             return;
         }
 
-        console.log("Chat Name: " + this.state.name + " . Created! ");
+        console.log("Contact: " + this.state.user_id + " Blocked ");
 
         try {
-            const token = await AsyncStorage.getItem('whatsthat_session_token');
+            const token = await AsyncStorage.getItem('@session_token');
 
             const headers = {
                 'Content-Type': 'application/json',
                 'X-Authorization': token,
             };
 
-            const response = await fetch('http://localhost:3333/api/1.0.0/chat', {
+            const response = await fetch('http://localhost:3333/api/1.0.0/user/'+ this.state.user_id +'/block', {
                 method: 'post',
                 headers,
                 body: JSON.stringify({
-                    "name": this.state.name,
+                    user_id: this.state.user_id,
                 }),
             });
 
             const responseJson = await response.json();
 
-            console.log("Chat Created: ", responseJson.token);
-            this.props.navigation.navigate("ViewChats");
+            console.log("User Blocked: ", responseJson.token);
         } catch (error) {
             console.log(error);
-        
+            this.props.navigation.navigate("Blocked");
         }
     }
 
     render(){
         return (
             <View style={styles.container}>
-               <Text style={styles.title}>Create Chats</Text>
+               <Text style={styles.title}>Block Contact</Text>
                 <View style={styles.formContainer}>
                 
-            
                     <View style={styles.email}>
-                       <Text style={styles.formLabel}>chat name:</Text>
+                       <Text style={styles.formLabel}>user_id:</Text>
                         <TextInput
                             style={{height: 40, borderWidth: 1, paddingVertical: 10}}
-                            placeholder=" Enter chat name"
-                            onChangeText={name => this.setState({name})}
-                            defaultValue={this.state.name}
+                            placeholder=" Enter user_id"
+                            onChangeText={user_id => this.setState({user_id})}
+                            defaultValue={this.state.user_id}
                         />
 
                         <>
-                            {this.state.submitted && !this.state.name &&
-                                <Text style={styles.error}>*Chat name is required</Text>
+                            {this.state.submitted && !this.state.user_id &&
+                                <Text style={styles.error}>*user_id is required</Text>
                             }
                         </>
                     </View>
@@ -79,7 +77,7 @@ export default class NewChat extends Component {
                     <View style={styles.loginbtn}>
                         <TouchableOpacity onPress={() => this._onPressButton()}>
                             <View style={styles.button}>
-                                <Text style={styles.buttonText}>Create Chat</Text>
+                                <Text style={styles.buttonText}>Block Contact</Text>
                                 
                             </View>
                         </TouchableOpacity>
@@ -115,7 +113,7 @@ const styles = StyleSheet.create({
     },
    formLabel: {
     fontSize:15,
-    color:'#146C94'
+    color:'#4A641E'
   },
     email:{
      paddingVertical: 10
@@ -129,7 +127,7 @@ const styles = StyleSheet.create({
   
     },
     button: {
-   backgroundColor: '#146C94',
+   backgroundColor: '#19A7CE',
     paddingHorizontal: 10,
     paddingVertical: 10,
     borderRadius: 5,

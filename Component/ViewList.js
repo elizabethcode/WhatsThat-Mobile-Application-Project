@@ -3,7 +3,6 @@ import { View, Text, Button, TouchableOpacity, StyleSheet, FlatList } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { MaterialIcons} from '@expo/vector-icons';
 import { Ionicons} from '@expo/vector-icons';
-
 export default class ViewList extends Component {
   constructor(props) {
     super(props);
@@ -18,12 +17,12 @@ export default class ViewList extends Component {
   }
 
   loadContacts = async () => {
-    const token = await AsyncStorage.getItem("whatsthat_session_token");
+    const token = await AsyncStorage.getItem('whatsthat_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
-      method: 'GET',
+      method: 'get',
       headers: {
-        "X-Authorization": token,
-        "Content-Type": "application/json", 
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
       },
     })
       .then((response) => response.json())

@@ -20,10 +20,10 @@ export default class LoginScreen extends Component {
             submitted: false,
         };
 
-        this.loginbutton = this.loginbutton.bind(this);
+        this.LoginingButton = this.LoginingButton.bind(this);
     }
 
-    loginbutton = async () => {
+    LoginingButton = async () => {
         console.log('Hello');
 
         this.setState({ submitted: true });
@@ -126,7 +126,7 @@ export default class LoginScreen extends Component {
                 </View>
 
                 <View style={styles.loginbtn}>
-                    <TouchableOpacity onPress={() => this.loginbutton()}>
+                    <TouchableOpacity onPress={() => this.LoginingButton()}>
                         <View style={styles.button}>
                             <Text style={styles.buttonText}>Login</Text>
                         </View>

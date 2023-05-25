@@ -62,8 +62,8 @@ export default class SendMsg extends Component {
       const token = await AsyncStorage.getItem('whatsthat_session_token');
       const Id = await AsyncStorage.getItem('user_id');
       const headers = {
-        "X-Authorization": token,
-        "Content-Type": "application/json", 
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
       };
 
       const { chat_id } = this.props.route.params;

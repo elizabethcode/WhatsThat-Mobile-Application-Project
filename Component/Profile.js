@@ -44,7 +44,7 @@ export default class Profile extends Component{
         }
     }
 
-    checkLoggedIn = async () => {
+    CheckingUserLoggedIn = async () => {
         const value = await AsyncStorage.getItem('@session_token');
         if (value==null) {
             this.props.navigation.navigate('Login');
@@ -64,7 +64,7 @@ export default class Profile extends Component{
 
    async getProfilephoto() {
     const id = await AsyncStorage.getItem('whatsthat_user_id')
-    const token = await AsyncStorage.getItem("whatsthat_session_token")
+    const token = await AsyncStorage.getItem('whatsthat_session_token')
     return fetch(`http://localhost:3333/api/1.0.0/user/${id}/photo`, {
         headers: {
             "X-Authorization": token

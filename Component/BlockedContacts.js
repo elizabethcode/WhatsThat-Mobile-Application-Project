@@ -25,7 +25,7 @@ componentDidMount() {
 loadBlockedContacts = async () => {
     const token = await AsyncStorage.getItem('whatsthat_session_token');
     fetch('http://localhost:3333/api/1.0.0/blocked', {
-      method: 'get',
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,

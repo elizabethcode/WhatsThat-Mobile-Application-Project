@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
 
+
+
+import { Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
 export default class ViewChats extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       chats: [],
     };
@@ -14,16 +17,17 @@ export default class ViewChats extends Component {
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener('focus', () => {
     this.loadContacts();
+  
 }); 
 }
 
   loadContacts = async () => {
-    const token = await AsyncStorage.getItem("whatsthat_session_token");
+    const token = await AsyncStorage.getItem('whatsthat_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
-      method: 'get',
+      method: 'GET',
       headers: {
-        "X-Authorization": token,
-        "Content-Type": "application/json", 
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
       },
     })
       .then((response) => response.json())
