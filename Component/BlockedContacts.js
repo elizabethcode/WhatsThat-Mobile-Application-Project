@@ -97,7 +97,7 @@ loadBlockedContacts = async () => {
            
               <TouchableOpacity onPress={() => this.Unblock(item.user_id)}>
               <View style={styles.button}>
-                <Text style={styles.buttonText}>block Contact</Text>
+                <Text style={styles.buttonText}>Unblock Contact</Text>
               </View>
             </TouchableOpacity>
    

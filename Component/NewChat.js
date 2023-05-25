@@ -16,6 +16,10 @@ export default class NewChat extends Component {
         this.OnPressButton = this.OnPressButton.bind(this)
     }
 
+    componentDidMount() {
+        this.OnPressButton();
+    }
+
     OnPressButton = async() => {
         this.setState({ submitted: true });
         this.setState({ error: "" });
@@ -28,7 +32,7 @@ export default class NewChat extends Component {
         console.log("Chat Name: " + this.state.name + " . Created! ");
 
         try {
-            const token = await AsyncStorage.getItem('whatsthat_session_token');
+            const token = await AsyncStorage.getItem("whatsthat_session_token");
 
             const headers = {
             "X-Authorization": token,
@@ -55,7 +59,7 @@ export default class NewChat extends Component {
 
     render(){
         return (
-            <View style={styles.container}>
+            <View style={styles.Container}>
                <Text style={styles.title}>Create Chats</Text>
                 <View style={styles.formContainer}>
                 

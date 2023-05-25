@@ -28,7 +28,7 @@ export default class DelContact extends Component {
         console.log("Contact: " + this.state.user_id + " deleted ");
 
         try {
-            const token = await AsyncStorage.getItem('@whatsthat_session_token');
+            const token = await AsyncStorage.getItem("whatsthat_session_token");
 
             const headers = {
                 "X-Authorization": token,

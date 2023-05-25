@@ -16,7 +16,7 @@ export default class AddRemove extends Component {
   }
 
   loadContacts = async () => {
-    const token = await AsyncStorage.getItem('whatsthat_session_token');
+    const token = await AsyncStorage.getItem("whatsthat_session_token");
     fetch('http://localhost:3333/api/1.0.0/chat', {
       method: 'GET',
       headers: {

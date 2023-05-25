@@ -24,7 +24,7 @@ export default class UpdateMsg extends Component {
 
   async componentDidMount() {
     try {
-      const token = await AsyncStorage.getItem('whatsthat_session_token');
+      const token = await AsyncStorage.getItem("whatsthat_session_token");
 
       const headers = {
         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export default class UpdateMsg extends Component {
       return;
     } 
     try {
-      const token = await AsyncStorage.getItem('whatsthat_session_token');
+      const token = await AsyncStorage.getItem("whatsthat_session_token");
       const headers = {
         'Content-Type': 'application/json',
         'X-Authorization': token,
@@ -90,7 +90,7 @@ export default class UpdateMsg extends Component {
   
   deleteMessage = async (message_id) => {  
     try {
-      const token = await AsyncStorage.getItem('whatsthat_session_token');
+      const token = await AsyncStorage.getItem("whatsthat_session_token");
     
       const headers = {
         "X-Authorization": token,
