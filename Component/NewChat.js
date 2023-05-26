@@ -20,33 +20,27 @@ export default class NewChat extends Component {
         this.setState({ submitted: true });
         this.setState({ error: "" });
 
-        if (!this.state.name) {
-            this.setState({ error: "*Must enter a chat name & ID " });
-            return;
-        }
-
         console.log("Chat Name: " + this.state.name + " . Created! ");
 
         try {
-            const token = await AsyncStorage.getItem('whatsthat_session_token');
-
-            const headers = {
-                'Content-Type': 'application/json',
-                'X-Authorization': token,
+           
+            let toSend = {
+                name: this.state.name,
             };
 
+            
             const response = await fetch('http://localhost:3333/api/1.0.0/chat', {
-                method: 'post',
-                headers,
-                body: JSON.stringify({
-                    "name": this.state.name,
-                }),
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-Authorization': await AsyncStorage.getItem('whatsthat_session_token'),
+                },
+                body: JSON.stringify(toSend)
             });
-
+            window.alert(this.state.name)
             const responseJson = await response.json();
-
-            console.log("Chat Created: ", responseJson.token);
-            this.props.navigation.navigate("ViewChats");
+            window.alert("Chat Created: ", responseJson);
+            window.alert('this works' + this.state.name)
         } catch (error) {
             console.log(error);
         
@@ -66,7 +60,7 @@ export default class NewChat extends Component {
                             style={{height: 40, borderWidth: 1, paddingVertical: 10}}
                             placeholder=" Enter chat name"
                             onChangeText={name => this.setState({name})}
-                            defaultValue={this.state.name}
+                            value={this.state.name}
                         />
 
                         <>

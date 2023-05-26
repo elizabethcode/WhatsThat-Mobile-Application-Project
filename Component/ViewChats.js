@@ -15,9 +15,9 @@ export default class ViewChats extends Component {
   }
 
   componentDidMount() {
+    this.loadContacts();
     this.unsubscribe = this.props.navigation.addListener('focus', () => {
     this.loadContacts();
-  
 }); 
 }
 
@@ -44,7 +44,7 @@ export default class ViewChats extends Component {
 
 
   displayList = ({ item }) => {
-    const timestamp = new Date(item.last_message.timestamp).toLocaleString();
+    // const timestamp = new Date(item.last_message.timestamp).toLocaleString();
     return (
 
     <TouchableOpacity
@@ -77,7 +77,7 @@ export default class ViewChats extends Component {
     return (
       <View style={styles.container}>
           <View style={styles.header}>
-          <Text style={styles.title}>Chats Page</Text>
+          <Text style={styles.title}>Chats Page5</Text>
           <View style={styles.buttonHeader}>
 
      <TouchableOpacity style={styles.addButton}onPress={() => this.props.navigation.navigate("NewChat")}>
@@ -93,16 +93,31 @@ export default class ViewChats extends Component {
        <Ionicons name="people" size={24}color="black" />
      </TouchableOpacity>
 
+     <FlatList
+          style={styles.listContainer}
+          data={this.state.chats}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              style={styles.listItem}
+            >
+              <View style={styles.listContainer}>
+              <Text style={styles.listItemText}>{item.name}</Text> 
+              <View style={styles.loginbtn}>
+              </View>
+              </View>
+            </TouchableOpacity>
+          )}
+        />
   
   
      </View>
      </View>
 
-        <FlatList
+        {/* <FlatList
           style={styles.listContainer}
           data={this.state.chats}
           renderItem={this.displayList}
-        />
+        /> */}
       </View>
     );
   }

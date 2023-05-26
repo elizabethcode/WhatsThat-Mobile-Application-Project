@@ -34,7 +34,7 @@ export default class AccountProfile extends Component{
 
     
     componentDidMount() {
-        this.unsubscribe = this.props.navigation.addListener('focus', () => {
+        this.unsubscribe = this.props.navigation.saddListener('focus', () => {
         this.getData();
         this.getProfilePicture();
     }); 

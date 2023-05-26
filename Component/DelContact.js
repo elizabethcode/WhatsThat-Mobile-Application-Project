@@ -99,7 +99,7 @@ export default class DelContact extends Component {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-    backgroundColor: '#F6F1F1',
+    backgroundColor: '#193A6F',
     },
      formContainer: {
     padding: 20,
