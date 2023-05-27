@@ -22,7 +22,7 @@ export default class Users extends Component {
     if (this.state.searchQuery) {
       try {
         const response = await fetch(
-          `http://localhost:3333/api/1.0.0/search?q=${this.state.searchQuery}`, 
+          `http://localhost:3333/api/1.0.0/search?q=${this.state.searchQuery}`,
           {
             method: "GET",
             headers: {
@@ -87,30 +87,31 @@ export default class Users extends Component {
   render() {
     return (
       <ScrollView>
-        <View style={styles.FriendSec}>
+        <View style={styles.container}>
           <TextInput
-            style={styles.SearchBox}
-            placeholder="Search for users..."
+            style={styles.searchBox}
+            placeholder="Search for users"
             onChangeText={this.handleSearch}
             value={this.state.searchQuery}
           />
           {this.state.searchQuery &&
             this.state.users.map((user) => {
               return (
-                <View style={styles.UserContainer} key={user.user_id}>
-                  <View style={{ alignItems: "flex-start" }}>
-                    <View>
-                      <Text>{user.user_id}</Text>
-                      <Text>
-                        {user.first_name} {user.last_name}
-                      </Text>
-                      <Text>{user.email}</Text>
-                    </View>
+                <View style={styles.userContainer} key={user.user_id}>
+                  <View style={styles.userInfoContainer}>
+                    <Text style={styles.userId}>{user.user_id}</Text>
+                    <Text style={styles.userName}>
+                      {user.first_name} {user.last_name}
+                    </Text>
+                    <Text style={styles.userEmail}>{user.email}</Text>
                   </View>
-                  <View style={{ alignItems: "flex-end" }}>
+                  <View style={styles.addButtonContainer}>
                     <Button
                       title="+"
                       onPress={() => this.addContact(user.user_id)}
+                      color="#F98125"
+                      borderStyle= "solid"
+                      borderRadius= "50"
                     />
                   </View>
                 </View>
@@ -123,28 +124,53 @@ export default class Users extends Component {
 }
 
 const styles = StyleSheet.create({
-  FriendSec: {
+  container: {
     flex: 1,
     paddingTop: 30,
     paddingHorizontal: 20,
-    backgroundColor: "#ffffff",
+    backgroundColor: "#0d416f",
   },
-  FriendTitle: {
-    fontSize: 28,
-    fontWeight: "bold",
-    paddingBottom: 20,
-  },
-  UserContainer: {
-    backgroundColor: "#f2f2f2",
-    padding: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-  },
-  SearchBox: {
+  searchBox: {
     height: 40,
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 50,
     paddingLeft: 10,
     marginBottom: 20,
+    color: "white",
+  },
+  userContainer: {
+    backgroundColor: "#f2f2f2",
+    padding: 20,
+    marginBottom: 20,
+    borderRadius: 100,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft:50,
+    marginRight:50,
+    marginTop:20,
+  },
+  userInfoContainer: {
+    flex: 1,
+    alignItems: "flex-start",
+  },
+  addButtonContainer: {
+    alignItems: "flex-end",
+    marginLeft: 20,
+  },
+  userId: {
+    fontSize: 16,
+    color: "Black",
+    paddingLeft: 40,
+  },
+  userName: {
+    fontSize: 16,
+    color: "Black",
+    paddingLeft: 40,
+  },
+  userEmail: {
+    fontSize: 16,
+    color: "Black",
+    paddingLeft: 40,
   },
 });
