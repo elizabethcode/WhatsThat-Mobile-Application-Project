@@ -304,8 +304,8 @@ function TabNavigation() {
         },
       })}
       tabBarOptions={{
-        activeTintColor: "blue",
-        inactiveTintColor: "blue",
+        activeTintColor: "#F98125",
+        inactiveTintColor: "#F98125",
       }}
     >
       <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
