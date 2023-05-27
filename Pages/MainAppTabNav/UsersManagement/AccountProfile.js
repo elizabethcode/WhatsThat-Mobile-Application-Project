@@ -755,10 +755,11 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 50,
     backgroundColor: "#193A6F",
+    height:"100%",
   },
   profileImage: {
-    width: 250,
-    height: 250,
+    width: 150,
+    height: 150,
     borderWidth: 4,
     borderStyle: "solid",
     borderColor: "#F98125",
@@ -780,7 +781,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 40,
+    // marginTop: 40,
   },
   buttonText: {
     color: "white",
