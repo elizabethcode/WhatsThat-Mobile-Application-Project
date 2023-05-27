@@ -94,11 +94,11 @@ export default function EditProfilePic({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.buttonContainer}>
+          {/* <View style={styles.buttonContainer}>
             <TouchableOpacity style={styles.button} onPress={backToMyProfile}>
               <Text style={styles.buttonText}>Back</Text>
             </TouchableOpacity>
-          </View>
+          </View> */}
         </Camera>
       </View>
     );
@@ -111,17 +111,18 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     alignSelf: "flex-end",
-    padding: 5,
-    margin: 5,
-    backgroundColor: "steelblue",
+    padding: 20,
+    margin: 10,
+    backgroundColor: "#F98125",
+    borderRadius: 50,
   },
   button: {
     width: "100%",
     height: "100%",
   },
   text: {
-    fontSize: 14,
+    fontSize: 18,
     fontWeight: "bold",
-    color: "#ddd",
+    color: "white",
   },
 });

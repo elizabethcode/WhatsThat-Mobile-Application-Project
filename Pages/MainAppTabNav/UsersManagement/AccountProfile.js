@@ -685,7 +685,7 @@ export default class AccountProfile extends Component {
     }
   };
 
-  render() {
+render() {
     const navigation = this.props.navigation;
 
     if (this.state.loading) {
@@ -701,17 +701,16 @@ export default class AccountProfile extends Component {
               style={styles.profileImage}
             />
 
-            <View style={styles.button}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.navigate("EditProfilePic", {
-                    data: this.state.profile,
-                  })
-                }
-              >
-                <Text style={styles.buttonText}>Edit Profile Photo</Text>
-              </TouchableOpacity>
-            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("EditProfilePic", {
+                  data: this.state.profile,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Edit Profile Photo</Text>
+            </TouchableOpacity>
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>
@@ -722,23 +721,23 @@ export default class AccountProfile extends Component {
                 Email: {this.state.profile.email}{" "}
               </Text>
 
-              <View style={styles.button}>
-                <TouchableOpacity
-                  onPress={() =>
-                    navigation.navigate("EditUserProfile", {
-                      data: this.state.profile,
-                    })
-                  }
-                >
-                  <Text style={styles.buttonText}>Edit Profile</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() =>
+                  navigation.navigate("EditUserProfile", {
+                    data: this.state.profile,
+                  })
+                }
+              >
+                <Text style={styles.buttonText}>Edit Profile</Text>
+              </TouchableOpacity>
 
-              <View style={styles.button}>
-                <TouchableOpacity onPress={this.logoutSubmit}>
-                  <Text style={styles.buttonText}>Logout</Text>
-                </TouchableOpacity>
-              </View>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={this.logoutSubmit}
+              >
+                <Text style={styles.buttonText}>Logout</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>
@@ -755,7 +754,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 50,
     backgroundColor: "#193A6F",
-    height:"100%",
+    height: "100%",
   },
   profileImage: {
     width: 150,
@@ -763,7 +762,7 @@ const styles = StyleSheet.create({
     borderWidth: 4,
     borderStyle: "solid",
     borderColor: "#F98125",
-    borderRadius:200,
+    borderRadius: 200,
   },
   inputContainer: {
     marginBottom: 20,
@@ -781,7 +780,7 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    // marginTop: 40,
+    marginTop: 20,
   },
   buttonText: {
     color: "white",

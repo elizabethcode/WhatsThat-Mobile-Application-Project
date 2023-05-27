@@ -87,6 +87,9 @@ export default class Users extends Component {
   render() {
     return (
       <ScrollView>
+      <View style={styles.header}>
+            <Text style={styles.headerText}>Users List</Text>
+          </View>
         <View style={styles.container}>
           <TextInput
             style={styles.searchBox}
@@ -110,8 +113,8 @@ export default class Users extends Component {
                       title="+"
                       onPress={() => this.addContact(user.user_id)}
                       color="#F98125"
-                      borderStyle= "solid"
-                      borderRadius= "50"
+                      borderStyle="solid"
+                      borderRadius={50}
                     />
                   </View>
                 </View>
@@ -129,6 +132,26 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: "#0d416f",
+    height: "100%"
+  },
+  header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    width:"100%"
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom: 20,
   },
   searchBox: {
     height: 40,
@@ -146,13 +169,14 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginLeft:50,
-    marginRight:50,
-    marginTop:20,
+    marginLeft: 50,
+    marginRight: 50,
+    marginTop: 20,
   },
   userInfoContainer: {
     flex: 1,
     alignItems: "flex-start",
+    paddingLeft: 40,
   },
   addButtonContainer: {
     alignItems: "flex-end",
@@ -160,17 +184,14 @@ const styles = StyleSheet.create({
   },
   userId: {
     fontSize: 16,
-    color: "Black",
-    paddingLeft: 40,
+    color: "black",
   },
   userName: {
     fontSize: 16,
-    color: "Black",
-    paddingLeft: 40,
+    color: "black",
   },
   userEmail: {
     fontSize: 16,
-    color: "Black",
-    paddingLeft: 40,
+    color: "black",
   },
 });

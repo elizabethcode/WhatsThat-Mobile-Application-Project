@@ -18,26 +18,24 @@ import UpdateChat from './ChatManagement/UpdateChat';
 import ManageMessage from './ChatManagement/ManageMessage';
 // import FullChat from './ChatManagement/FullChat'
 
-const ChatsStack = createNativeStackNavigator();
+const ChatsNavigationStack = createNativeStackNavigator();
 
 export default function Chats() {
   return (
     //this holds all the possible pages the user is able to go to through the profile
-      <ChatsStack.Navigator screenOptions={{
-        headerShown: false, // Hide the header for all screens
-      }}>
+      <ChatsNavigationStack.Navigator screenOptions={{ headerShown: false}}>
       {/* <ChatsStack.Screen name="Chat" component={Chat} /> */}
-      <ChatsStack.Screen name="NewChat" component={NewChat} />
-      <ChatsStack.Screen name="ViewChats" component={ViewChats} />
-      <ChatsStack.Screen name="SendMessage" component={SendMessage} />      
-      <ChatsStack.Screen name="ViewList" component={ViewList} />
-      <ChatsStack.Screen name="AddRemove" component={AddRemove} />
-      <ChatsStack.Screen name="AddUserChat" component={AddUserChat}/>
-      <ChatsStack.Screen name="DeleteUserChat" component={DeleteUserChat} />
-      <ChatsStack.Screen name="UpdateChat" component={UpdateChat}/>
-      <ChatsStack.Screen name="ManageMessage" component={ManageMessage}/>
+      <ChatsNavigationStack.Screen name="NewChat" component={NewChat} />
+      <ChatsNavigationStack.Screen name="ViewChats" component={ViewChats} />
+      <ChatsNavigationStack.Screen name="SendMessage" component={SendMessage} />      
+      <ChatsNavigationStack.Screen name="ViewList" component={ViewList} />
+      <ChatsNavigationStack.Screen name="AddRemove" component={AddRemove} />
+      <ChatsNavigationStack.Screen name="AddUserChat" component={AddUserChat}/>
+      <ChatsNavigationStack.Screen name="DeleteUserChat" component={DeleteUserChat} />
+      <ChatsNavigationStack.Screen name="UpdateChat" component={UpdateChat}/>
+      <ChatsNavigationStack.Screen name="ManageMessage" component={ManageMessage}/>
 
       {/* <ChatsStack.Screen name="FullChat" component={FullChat} /> */}
-      </ChatsStack.Navigator>
+      </ChatsNavigationStack.Navigator>
   );
 }

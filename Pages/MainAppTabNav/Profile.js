@@ -51,29 +51,16 @@ import EditUserProfileScreen from "./UsersManagement/EditUserProfile";
 import EditProfilePicScreen from "./UsersManagement/EditProfilePic";
 import UploadPhotoScreen from "./UsersManagement/UploadPhoto";
 
-const ProfileStack = createNativeStackNavigator();
+const ProfileNavigationStack = createNativeStackNavigator();
 
 export default function Profile() {
   return (
     // This holds all the possible pages the user is able to go to through the profile
-    <ProfileStack.Navigator
-      screenOptions={{
-        headerShown: false, // Hide the header for all screens
-      }}
-    >
-      <ProfileStack.Screen
-        name="AccountProfile"
-        component={AccountProfileScreen}
-      />
-      <ProfileStack.Screen
-        name="EditUserProfile"
-        component={EditUserProfileScreen}
-      />
-      <ProfileStack.Screen
-        name="EditProfilePic"
-        component={EditProfilePicScreen}
-      />
-      <ProfileStack.Screen name="UploadPhoto" component={UploadPhotoScreen} />
-    </ProfileStack.Navigator>
+    <ProfileNavigationStack.Navigator screenOptions={{ headerShown: false}}>
+      <ProfileNavigationStack.Screen name="AccountProfile" component={AccountProfileScreen} />
+      <ProfileNavigationStack.Screen name="EditUserProfile" component={EditUserProfileScreen} />
+      <ProfileNavigationStack.Screen name="EditProfilePic" component={EditProfilePicScreen} />
+      <ProfileNavigationStack.Screen name="UploadPhoto" component={UploadPhotoScreen} />
+    </ProfileNavigationStack.Navigator>
   );
 }

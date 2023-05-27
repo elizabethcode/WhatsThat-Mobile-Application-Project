@@ -284,22 +284,22 @@ import ChatsScreen from "./Pages/MainAppTabNav/Chats";
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
 
-function TabNavigation() {
-  const getIconName = (routeName, focused) => {
-    const iconNames = {
+function BottomTabNavigation() {
+  const RetrievingIconName = (routeName, focused) => {
+    const IconNames = {
       Profile: focused ? "person" : "person-outline",
       Users: focused ? "people" : "people-outline",
       Contact: focused ? "mail" : "mail-outline",
       Chats: focused ? "chatbubbles" : "chatbubbles-outline",
     };
-    return iconNames[routeName];
+    return IconNames[routeName];
   };
 
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
-          const iconName = getIconName(route.name, focused);
+          const iconName = RetrievingIconName(route.name, focused);
           return <Ionicons name={iconName} size={size} color={color} />;
         },
       })}
@@ -322,7 +322,7 @@ export default function App() {
       <AuthStack.Navigator>
         <AuthStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <AuthStack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
-        <AuthStack.Screen name="Profile" component={TabNavigation} options={{ headerShown: false }} />
+        <AuthStack.Screen name="Profile" component={BottomTabNavigation} options={{ headerShown: false }} />
       </AuthStack.Navigator>
     </NavigationContainer>
   );

@@ -133,6 +133,9 @@ export default class Contacts extends Component {
   render() {
     return (
       <View style={styles.container}>
+                 <View style={styles.header}>
+          <Text style={styles.headerText}>Contacts</Text>
+        </View>
         <View style={styles.formContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewBlockContact')}>
             <View style={styles.button}>
@@ -170,7 +173,21 @@ export default class Contacts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#0d416f',
+  },
+  header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
+    
   },
   formContainer: {
     padding: 20,
@@ -209,4 +226,117 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     width: '40%',
   },
+
 });
+
+
+
+
+// import React, { Component } from "react";
+// import { StyleSheet, Text, View, TouchableOpacity, FlatList } from "react-native";
+
+// export default class Contacts extends Component {
+//   constructor(props) {
+//     super(props);
+
+//     this.state = {
+//       contacts: []
+//     };
+//   }
+
+//   render() {
+//     return (
+//       <View style={styles.container}>
+//         <View style={styles.header}>
+//           <Text style={styles.headerText}>Contacts</Text>
+//         </View>
+
+//         <View style={styles.formContainer}>
+//           <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewBlockContact')}>
+//             <View style={styles.button}>
+//               <Text style={styles.buttonText}>View Blocked Contacts</Text>
+//             </View>
+//           </TouchableOpacity>
+//         </View>
+
+//         <FlatList
+//           style={styles.listContainer}
+//           data={this.state.contacts}
+//           renderItem={({ item }) => (
+//             <View style={styles.listItemContainer}>
+//               <Text style={styles.listItemText}>{item.first_name}, {item.last_name}, {item.user_id}</Text>
+//               <View style={styles.buttonContainer}>
+//                 <TouchableOpacity onPress={() => this.blockContact(item.user_id)}>
+//                   <View style={styles.button}>
+//                     <Text style={styles.buttonText}>Block</Text>
+//                   </View>
+//                 </TouchableOpacity>
+//                 <TouchableOpacity onPress={() => this.deleteContact(item.user_id)}>
+//                   <View style={styles.button}>
+//                     <Text style={styles.buttonText}>Delete</Text>
+//                   </View>
+//                 </TouchableOpacity>
+//               </View>
+//             </View>
+//           )}
+//         />
+//       </View>
+//     );
+//   }
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     backgroundColor: "#0d416f"
+//   },
+//   header: {
+//     backgroundColor: "#F98125",
+//     paddingVertical: 15,
+//     paddingHorizontal: 20,
+//     marginBottom: 10
+//   },
+//   headerText: {
+//     fontSize: 20,
+//     fontWeight: "bold",
+//     color: "#FFFFFF",
+//     textAlign: "center"
+//   },
+//   formContainer: {
+//     padding: 20
+//   },
+//   button: {
+//     backgroundColor: "#A4B389",
+//     paddingHorizontal: 10,
+//     paddingVertical: 10,
+//     borderRadius: 5,
+//     alignItems: "center"
+//   },
+//   buttonText: {
+//     fontSize: 15,
+//     fontWeight: "bold",
+//     color: "#4A641E"
+//   },
+//   listContainer: {
+//     padding: 20
+//   },
+//   listItemContainer: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     alignItems: "center",
+//     marginBottom: 10,
+//     borderRadius: 5,
+//     backgroundColor: "#F0F0F0",
+//     paddingVertical: 10,
+//     paddingHorizontal: 20
+//   },
+//   listItemText: {
+//     fontSize: 16,
+//     color: "#4A641E"
+//   },
+//   buttonContainer: {
+//     flexDirection: "row",
+//     justifyContent: "space-between",
+//     width: "40%"
+//   }
+// });

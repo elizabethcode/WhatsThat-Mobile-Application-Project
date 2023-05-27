@@ -108,13 +108,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#0d416f',
   },
   header: {
-    backgroundColor: '#F98125',
-    padding: 20,
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
   },
   headerText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: 'white',
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
   },
   listContainer: { 
     paddingTop:50,  
