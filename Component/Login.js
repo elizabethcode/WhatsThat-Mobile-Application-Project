@@ -91,6 +91,28 @@ export default class LoginScreen extends Component {
     // save the token and the ID
     // send to the contacts screen
 
+
+    componentDidMount() {
+        this.unsubscribe = this.props.navigation.addListener("focus", () => {
+          this.checkLoggedIn();
+        });
+      }
+    
+      componentWillUnmount() {
+        this.unsubscribe();
+      }
+
+      checkLoggedIn = async () => {
+        const value = await AsyncStorage.getItem("whatsthat_session_token");
+        if (value != null) {
+          // if (value == null) { if then go to Home
+          this.props.navigation.navigate("Profile");
+        }
+      };
+    
+
+
+
     render() {
         return (
             <View style={styles.formContainer}>

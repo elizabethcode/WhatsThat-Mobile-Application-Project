@@ -36,7 +36,7 @@ export default class Block extends Component {
             };
 
             const response = await fetch('http://localhost:3333/api/1.0.0/user/'+ this.state.user_id +'/block', {
-                method: 'post',
+                method: 'POST',
                 headers,
                 body: JSON.stringify({
                     user_id: this.state.user_id,
