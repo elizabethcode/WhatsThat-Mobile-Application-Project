@@ -137,17 +137,11 @@ getProfilePicture = async() =>{
 
 render(){
      if(this.state.isLoading){
+        
       return (<Text>Loading...</Text>)
      } else {
     return(
         <View style={styles.container}>
-
-
-
-
-
-
-            {/* <Text>Profile</Text> */}
             <Image
               source={{
                 uri: this.state.photo
