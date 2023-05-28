@@ -20,7 +20,7 @@ export default class ViewList extends Component {
   }
 
   loadContacts = async () => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
       method: 'GET',
       headers: {
@@ -29,9 +29,9 @@ export default class ViewList extends Component {
       },
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({ chats: responseJson });
+      .then((rJson) => {
+        console.log(rJson);
+        this.setState({ chats: rJson });
       })
       .catch((error) => {
         console.log(error);

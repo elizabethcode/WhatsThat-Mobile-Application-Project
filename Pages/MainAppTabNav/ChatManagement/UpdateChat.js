@@ -26,7 +26,7 @@ export default class UpdateChat extends Component {
 
   async componentDidMount() {
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
@@ -41,9 +41,9 @@ export default class UpdateChat extends Component {
         }
       );
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      this.setState({ messages: responseJson.messages.reverse() });
+      this.setState({ messages: rJson.messages.reverse() });
     } catch (error) {
       console.log(error);
     }
@@ -61,7 +61,7 @@ export default class UpdateChat extends Component {
     console.log("Chat Name: " + this.state.name + " . Changed! ");
 
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
@@ -80,9 +80,9 @@ export default class UpdateChat extends Component {
         }
       );
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      console.log("Chat name changed: ", responseJson.token);
+      console.log("Chat name changed: ", rJson.token);
     } catch (error) {
       console.log(error);
       this.props.navigation.navigate("ViewChats");

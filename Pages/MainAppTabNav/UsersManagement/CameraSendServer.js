@@ -45,7 +45,7 @@ export default function CameraSendServer() {
             headers: {
                 "Content-Type": "image/png",
                 "X-Authorization": await AsyncStorage.getItem(
-                    "@whatsThat_session_token"
+                    "app_session_token"
                 ),
             },
             body: blob,

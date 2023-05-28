@@ -20,7 +20,7 @@ export default class ViewBlockContact extends Component {
   }
 
   loadBlockedContacts = async () => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/blocked', {
       method: 'GET',
       headers: {
@@ -29,9 +29,9 @@ export default class ViewBlockContact extends Component {
       },
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({ contacts: responseJson });
+      .then((rJson) => {
+        console.log(rJson);
+        this.setState({ contacts: rJson });
       })
       .catch((error) => {
         //console.log(error);
@@ -44,7 +44,7 @@ export default class ViewBlockContact extends Component {
         method: 'DELETE',
         headers: {
           "Content-Type": "application/json",
-          "X-Authorization": await AsyncStorage.getItem("@whatsThat_session_token"),
+          "X-Authorization": await AsyncStorage.getItem("app_session_token"),
         },
       });
 

@@ -27,7 +27,7 @@ export default class Users extends Component {
             method: "GET",
             headers: {
               "X-Authorization": await AsyncStorage.getItem(
-                "@whatsThat_session_token"
+                "app_session_token"
               ),
               "Content-Type": "application/json",
             },
@@ -35,9 +35,9 @@ export default class Users extends Component {
         );
 
         if (response.status === 200) {
-          const responseJson = await response.json();
-          console.log(responseJson);
-          this.setState({ users: responseJson });
+          const rJson = await response.json();
+          console.log(rJson);
+          this.setState({ users: rJson });
           console.log("Success");
         } else if (response.status === 404) {
           throw "No Current Users/Contacts";
@@ -64,7 +64,7 @@ export default class Users extends Component {
           method: "POST",
           headers: {
             "X-Authorization": await AsyncStorage.getItem(
-              "@whatsThat_session_token"
+              "app_session_token"
             ),
             "Content-Type": "application/json",
           },

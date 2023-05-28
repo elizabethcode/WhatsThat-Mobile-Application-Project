@@ -36,7 +36,7 @@ export default class DeleteUserChat extends Component {
     console.log("Contact: " + this.state.user_id + " deleted ");
 
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
@@ -56,9 +56,9 @@ export default class DeleteUserChat extends Component {
         }
       );
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      console.log("User deleted: ", responseJson.token);
+      console.log("User deleted: ", rJson.token);
     } catch (error) {
       console.log(error);
       this.props.navigation.navigate("Chats");

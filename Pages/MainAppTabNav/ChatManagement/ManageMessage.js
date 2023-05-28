@@ -37,7 +37,7 @@ export default class ManageMessage extends Component {
 
   async componentDidMount() {
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
@@ -52,9 +52,9 @@ export default class ManageMessage extends Component {
         }
       );
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      this.setState({ messages: responseJson.messages.reverse() });
+      this.setState({ messages: rJson.messages.reverse() });
     } catch (error) {
       console.log(error);
     }
@@ -73,7 +73,7 @@ export default class ManageMessage extends Component {
       return;
     }
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
       const headers = {
         "Content-Type": "application/json",
         "X-Authorization": token,
@@ -109,7 +109,7 @@ export default class ManageMessage extends Component {
 
   deleteMessage = async (message_id) => {
     try {
-      const token = await AsyncStorage.getItem("@whatsThat_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",

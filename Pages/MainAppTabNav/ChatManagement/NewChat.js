@@ -437,7 +437,7 @@ export default class NewChat extends Component {
         console.log("Chat Name: " + this.state.name + " . Created! ");
 
         try {
-            const token = await AsyncStorage.getItem('@whatsthat_session_token');
+            const token = await AsyncStorage.getItem('app_session_token');
 
             const headers = {
                 'Content-Type': 'application/json',
@@ -452,9 +452,9 @@ export default class NewChat extends Component {
                 }),
             });
 
-            const responseJson = await response.json();
+            const rJson = await response.json();
 
-            console.log("Chat Created: ", responseJson.token);
+            console.log("Chat Created: ", rJson.token);
             this.props.navigation.navigate("ViewChats");
         } catch (error) {
             console.log(error);

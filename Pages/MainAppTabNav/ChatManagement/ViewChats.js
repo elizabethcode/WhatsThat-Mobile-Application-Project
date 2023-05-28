@@ -32,7 +32,7 @@
 //       .then((response) => response.json())
 //       .then((responseJson) => {
 //         console.log(responseJson);
-//         this.setState({ chats: responseJson });
+//         this.setState({ chats: rJson });
 //       })
 //       .catch((error) => {
 //         console.log(error);
@@ -237,7 +237,7 @@ export default class ViewChats extends Component {
 
   loadContacts = async () => {
     try {
-      const token = await AsyncStorage.getItem('@whatsThat_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
       const response = await fetch("http://localhost:3333/api/1.0.0/Chat", {
         method: "GET",
         headers: {

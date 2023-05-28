@@ -310,7 +310,7 @@ export default class AccountProfile extends Component {
 
   //checking whether user has logged in or not
   LoginStatus = async () => {
-    const value = await AsyncStorage.getItem("@whatsThat_session_token");
+    const value = await AsyncStorage.getItem("app_session_token");
     if (value === null) {
       this.props.navigation.navigate("Login");
     }
@@ -318,7 +318,7 @@ export default class AccountProfile extends Component {
 
   getProfilePic = async () => {
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
-    const token = await AsyncStorage.getItem("@whatsThat_session_token");
+    const token = await AsyncStorage.getItem("app_session_token");
 
     if (user_id && token) {
       try {
@@ -353,7 +353,7 @@ export default class AccountProfile extends Component {
 
   getData = async () => {
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
-    const token = await AsyncStorage.getItem("@whatsThat_session_token");
+    const token = await AsyncStorage.getItem("app_session_token");
 
     if (user_id && token) {
       try {
@@ -391,23 +391,23 @@ export default class AccountProfile extends Component {
         method: "POST",
         headers: {
           "X-Authorization": await AsyncStorage.getItem(
-            "@whatsThat_session_token"
+            "app_session_token"
           ),
         },
       });
 
       if (response.status === 200) {
-        await AsyncStorage.removeItem("@whatsThat_session_token");
+        await AsyncStorage.removeItem("app_session_token");
         await AsyncStorage.removeItem("whatsThat_user_id");
         this.props.navigation.navigate("Login");
       } else if (response.status === 401) {
         console.log("Unauthorised");
-        await AsyncStorage.removeItem("@whatsThat_session_token");
+        await AsyncStorage.removeItem("app_session_token");
         await AsyncStorage.removeItem("whatsThat_user_id");
         this.props.navigation.navigate("Login");
       } else if (response.status === 500) {
         console.log("Server Error");
-        await AsyncStorage.removeItem("@whatsThat_session_token");
+        await AsyncStorage.removeItem("app_session_token");
         await AsyncStorage.removeItem("whatsThat_user_id");
         this.props.navigation.navigate("Login");
       } else {

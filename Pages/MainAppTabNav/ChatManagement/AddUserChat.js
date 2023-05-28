@@ -18,7 +18,7 @@ export default class AddUserChat extends Component {
 
     async componentDidMount() {
         try {
-            const token = await AsyncStorage.getItem('@whatsThat_session_token');
+            const token = await AsyncStorage.getItem('app_session_token');
 
             const headers = {
                 "Content-Type": "application/json",
@@ -30,9 +30,9 @@ export default class AddUserChat extends Component {
                 headers,
             });
 
-            const responseJson = await response.json();
+            const rJson = await response.json();
 
-            this.setState({ messages: responseJson.messages.reverse() });
+            this.setState({ messages: rJson.messages.reverse() });
         } catch (error) {
             console.log(error);
         }
@@ -49,7 +49,7 @@ export default class AddUserChat extends Component {
 
         try {
 
-            const token = await AsyncStorage.getItem('@whatsThat_session_token');
+            const token = await AsyncStorage.getItem('app_session_token');
 
             const headers = {
                 "Content-Type": "application/json",
@@ -65,9 +65,9 @@ export default class AddUserChat extends Component {
                 }),
             });
 
-            const responseJson = await response.json();
+            const rJson = await response.json();
 
-            console.log("User Added: ", responseJson.token);
+            console.log("User Added: ", rJson.token);
 
         } catch (error) {
             console.log(error);

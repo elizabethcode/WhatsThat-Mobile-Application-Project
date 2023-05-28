@@ -22,7 +22,7 @@ export default class Contacts extends Component {
   }
 
   loadContacts = async () => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/contacts', {
       method: 'GET',
       headers: {
@@ -31,9 +31,9 @@ export default class Contacts extends Component {
       },
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({ contacts: responseJson });
+      .then((rJson) => {
+        console.log(rJson);
+        this.setState({ contacts: rJson });
       })
       .catch((error) => {
         //console.log(error);
@@ -47,7 +47,7 @@ export default class Contacts extends Component {
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          "X-Authorization": await AsyncStorage.getItem("@whatsThat_session_token"),
+          "X-Authorization": await AsyncStorage.getItem("app_session_token"),
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
@@ -72,14 +72,14 @@ export default class Contacts extends Component {
         method: 'POST',
         headers: {
           "Content-Type": "image/png",
-          "X-Authorization": await AsyncStorage.getItem("@whatsThat_session_token"),
+          "X-Authorization": await AsyncStorage.getItem("app_session_token"),
         },
         body: JSON.stringify({ user_id }),
       });
 
       if (response.status === 200) {
-        console.log('Contact Has Been Successfully Blocked')
-        this.loadContacts();
+        console.log('Blocked Contact')
+        this.loadContacts();        
         return true;
       } else {
         const errorData = await response.text();
@@ -98,7 +98,7 @@ export default class Contacts extends Component {
         method: 'DELETE',
         headers: {
           "Content-Type": "image/png",
-          "X-Authorization": await AsyncStorage.getItem("@whatsThat_session_token"),
+          "X-Authorization": await AsyncStorage.getItem("app_session_token"),
         },
       });
 

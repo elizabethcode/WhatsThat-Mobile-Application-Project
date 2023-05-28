@@ -29,7 +29,7 @@ export default class SendMessage extends Component {
 
   async componentDidMount() {
     try {
-      const token = await AsyncStorage.getItem('@whatsThat_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
 
       const headers = {
         "X-Authorization": token,
@@ -41,9 +41,9 @@ export default class SendMessage extends Component {
         headers,
       });
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      this.setState({ messages: responseJson.messages.reverse() });
+      this.setState({ messages: rJson.messages.reverse() });
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +63,7 @@ export default class SendMessage extends Component {
     }
 
     try {
-      const token = await AsyncStorage.getItem('@whatsThat_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
       const Id = await AsyncStorage.getItem('user_id');
       const headers = {
         "X-Authorization": token,
@@ -79,9 +79,9 @@ export default class SendMessage extends Component {
         }),
       });
 
-      const responseJson = await response.json();
+      const rJson = await response.json();
 
-      console.log('Message has been Sent: ', responseJson.token);
+      console.log('Message has been Sent: ', rJson.token);
 
       this.setState({
         messages: [{ message: this.state.message }, ...this.state.messages],

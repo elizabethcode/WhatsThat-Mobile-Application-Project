@@ -79,7 +79,7 @@ export default class UpdateUser extends Component {
         method: "PATCH",
         headers: {
           "X-Authorization": await AsyncStorage.getItem(
-            "@whatsThat_session_token"
+            "app_session_token"
           ), //"X-Authorization": await AsyncStorage.getItem("@whatsThat_session_token")
           "Content-Type": "application/json",
         },

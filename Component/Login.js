@@ -10,11 +10,7 @@ export default class LoginScreen extends Component {
         super(props);
 
         this.state = {
-            //user.1@gmail.com
-            //Password123!
-
-
-            email: 'user.1@gmail.com',
+               email: 'user.1@gmail.com',
             password: 'Password123!',
             error: '',
             submitted: false,

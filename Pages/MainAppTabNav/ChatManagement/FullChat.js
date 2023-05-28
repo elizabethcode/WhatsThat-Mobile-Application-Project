@@ -28,7 +28,7 @@ export default class ChatApp extends Component {
   }
 
   loadChats = async () => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
       method: 'GET',
       headers: {
@@ -37,9 +37,9 @@ export default class ChatApp extends Component {
       },
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({ chats: responseJson });
+      .then((rJson) => {
+        console.log(rJson);
+        this.setState({ chats: rJson });
       })
       .catch((error) => {
         console.log(error);
@@ -47,7 +47,7 @@ export default class ChatApp extends Component {
   };
 
   createChat = async () => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
       method: 'POST',
       headers: {
@@ -59,8 +59,8 @@ export default class ChatApp extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
+      .then((rJson) => {
+        console.log(rJson);
         this.loadChats();
         this.setState({ chatName: '' });
       })
@@ -70,7 +70,7 @@ export default class ChatApp extends Component {
   };
 
   addUserToChat = async (chatId) => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}/user`, {
       method: 'POST',
       headers: {
@@ -82,8 +82,8 @@ export default class ChatApp extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
+      .then((rJson) => {
+        console.log(rJson);
         this.loadChats();
         this.setState({ usersToAdd: '' });
       })
@@ -93,7 +93,7 @@ export default class ChatApp extends Component {
   };
 
   deleteChat = async (chatId) => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}`, {
       method: 'DELETE',
       headers: {
@@ -114,7 +114,7 @@ export default class ChatApp extends Component {
   };
 
   updateChat = async (chatId) => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}`, {
       method: 'PATCH',
       headers: {
@@ -126,8 +126,8 @@ export default class ChatApp extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
+      .then((rJson) => {
+        console.log(rJson);
         this.loadChats();
         this.setState({ newChatName: '' });
       })
@@ -137,7 +137,7 @@ export default class ChatApp extends Component {
   };
 
   sendMessage = async (chatId) => {
-    const token = await AsyncStorage.getItem('@whatsThat_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}/message`, {
       method: 'POST',
       headers: {
@@ -149,8 +149,8 @@ export default class ChatApp extends Component {
       }),
     })
       .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
+      .then((rJson) => {
+        console.log(rJson);
         this.loadChats();
         this.setState({ messageText: '' });
       })
