@@ -264,7 +264,7 @@
 //   }
 // }
 
-//my edit sr 
+//my edit 
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import Ionicons from "react-native-vector-icons/Ionicons";
@@ -272,8 +272,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 // Authentication Navigators
-import LoginScreen from "./Pages/AuthStack/Login";
-import SignupScreen from "./Pages/AuthStack/Signup";
+import Login from "./Pages/AuthStack/Login";
+import Register from "./Pages/AuthStack/Register";
 
 // MainAppNav Tab Navigators
 import ProfileScreen from "./Pages/MainAppTabNav/Profile";
@@ -320,8 +320,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthStack.Navigator>
-        <AuthStack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        <AuthStack.Screen name="Signup" component={SignupScreen} options={{ headerShown: false }} />
+        <AuthStack.Screen name="Login" component={Login} options={{ headerShown: false }} />
+        <AuthStack.Screen name="Register" component={Register} options={{ headerShown: false }} />
         <AuthStack.Screen name="Profile" component={BottomTabNavigation} options={{ headerShown: false }} />
       </AuthStack.Navigator>
     </NavigationContainer>

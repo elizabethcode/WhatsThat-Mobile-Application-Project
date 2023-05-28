@@ -12,8 +12,10 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      email: "user.1@gmail.com",
-      password: "Password123!",
+      // user.1@gmail.com
+      // Password123!
+      email: "",
+      password: "",
       error: "",
       submitted: false,
     };
@@ -140,7 +142,7 @@ export default class Login extends Component {
           )}
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
           <Text style={styles.createAccountButton}>Do you have an account? Register</Text>
         </TouchableOpacity>
 

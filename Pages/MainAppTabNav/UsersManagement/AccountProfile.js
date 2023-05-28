@@ -290,8 +290,8 @@ export default class AccountProfile extends Component {
     super(props);
 
     this.state = {
-      photo: null,
       profile: {},
+      photo: null,      
       loading: true,
     };
   }
