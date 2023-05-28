@@ -102,19 +102,18 @@ export default class Users extends Component {
               return (
                 <View style={styles.userContainer} key={user.user_id}>
                   <View style={styles.userInfoContainer}>
-                    <Text style={styles.userId}>{user.user_id}</Text>
-                    <Text style={styles.userName}>
-                      {user.first_name} {user.last_name}
+                    <Text style={styles.userId}>ID: {user.user_id}</Text>
+                    <Text style={styles.userName}>Name: {user.first_name} {user.last_name}
                     </Text>
                     <Text style={styles.userEmail}>{user.email}</Text>
                   </View>
                   <View style={styles.addButtonContainer}>
                     <Button
-                      title="+"
+                      title=" Add"
                       onPress={() => this.addContact(user.user_id)}
                       color="#F98125"
                       borderStyle="solid"
-                      borderRadius={50}
+
                     />
                   </View>
                 </View>
@@ -132,19 +131,20 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: "#0d416f",
-    height: "100%"
   },
   header: {
     backgroundColor: "#F98125",
     paddingVertical: 15,
     paddingHorizontal: 20,
-    width:"100%"
   },
   headerText: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
+    
   },
   title: {
     fontSize: 20,
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   userContainer: {
-    backgroundColor: "#f2f2f2",
+    backgroundColor: "#FFFFFF",
     padding: 20,
     marginBottom: 20,
     borderRadius: 100,
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
   userName: {
     fontSize: 16,
     color: "black",
+    
   },
   userEmail: {
     fontSize: 16,

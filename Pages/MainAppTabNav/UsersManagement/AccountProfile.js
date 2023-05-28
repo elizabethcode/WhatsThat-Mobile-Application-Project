@@ -1,290 +1,3 @@
-// //AccountProfile
-// import React, { Component } from "react";
-// import {
-//   StyleSheet,
-//   Text,
-//   View,
-//   Image,
-//   TouchableOpacity,
-// } from "react-native";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// import { ScrollView } from "react-native-web";
-
-// export default class AccountProfile extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       photo: null,
-//       profile: {},
-//       loading: true,
-//     };
-//   }
-
-//   //Check Login Successful
-//   componentDidMount() {
-//     this.unsubscribe = this.props.navigation.addListener("focus", () => {
-//       this.checkLoggedIn();
-//       this.getProfilePic();
-//       this.getData();
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribe();
-//   }
-
-//   checkLoggedIn = async () => {
-//     const value = await AsyncStorage.getItem("@whatsThat_session_token");
-//     if (value == null) {
-//       // if (value != null) {
-//       this.props.navigation.navigate("Login");
-//     }
-//   };
-
-//   // Get / Display Profile Picture
-//   getProfilePic = async () => {
-//     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
-//     const token = await AsyncStorage.getItem("@whatsThat_session_token");
-
-//     if (user_id && token) {
-//       return fetch(`http://localhost:3333/api/1.0.0/user/${user_id}/photo`,
-//         {
-//           method: "GET",
-//           headers: {
-//             "X-Authorization": token,
-//             "Content-Type": "DisplayImage",
-//           },
-//         }
-//       )
-//         .then((res) => {
-//           return res.blob();
-//         })
-//         .then((responseBlob) => {
-//           console.log("working");
-//           let data = URL.createObjectURL(responseBlob);
-//           this.setState({
-//             photo: data,
-//             loading: false,
-//           });
-//         })
-//         .catch((error) => {
-//           console.log(error);
-//         });
-//     } else {
-//       console.log("User ID or session token is missing");
-//     }
-//   };
-
-//   // Get User Information
-//   async getData() {
-//     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
-//     const token = await AsyncStorage.getItem("@whatsThat_session_token");
-
-//     if (user_id && token) {
-//       return fetch("http://localhost:3333/api/1.0.0/user/" + user_id, {
-//         headers: {
-//           "X-Authorization": token,
-//         },
-//       })
-//         .then((response) => {
-//           if (response.status === 200) {
-//             return response.json();
-//           } else {
-//             throw "Something happened";
-//           }
-//         })
-//         .then((rJson) => {
-//           this.setState({
-//             profile: rJson,
-//             loading: false,
-//           });
-//         })
-//         .catch((err) => {
-//           console.log(err);
-//         });
-//     } else {
-//       console.log("User ID or session token is missing");
-//     }
-//   }
-
-//   //Logout
-//   async logoutSubmit() {
-//     console.log("Logout");
-
-//     return fetch("http://localhost:3333/api/1.0.0/logout", {
-//       method: "POST",
-//       headers: {
-//         "X-Authorization": await AsyncStorage.getItem(
-//           "@whatsThat_session_token"
-//         ),
-//       },
-//     })
-//       .then(async (response) => {
-//         console.log(response.status);
-//         if (response.status === 200) {
-//           await AsyncStorage.removeItem("@whatsThat_session_token");
-//           await AsyncStorage.removeItem("whatsThat_user_id");
-//           this.props.navigation.navigate("Login"); //send back to login screen
-//         } else if (response.status === 401) {
-//           console.log("Unauthorised");
-//           await AsyncStorage.removeItem("@whatsThat_session_token");
-//           await AsyncStorage.removeItem("whatsThat_user_id");
-//           this.props.navigation.navigate("Login"); //send back to login screen
-//         } else if (response.status === 500) {
-//           console.log("Server Code");
-//           await AsyncStorage.removeItem("@whatsThat_session_token");
-//           await AsyncStorage.removeItem("whatsThat_user_id");
-//           this.props.navigation.navigate("Login"); //send back to login screen
-//         } else {
-//           throw "Server Error";
-//         }
-//       })
-//       .catch((error) => {
-//         //  this.setState({"error": error})
-//         //  this.setState({"submitted": false});
-//         console.log(error);
-//       });
-//   }
-
-//   render() {
-//     const navigation = this.props.navigation;
-
-//     if (this.state.loading) {
-//       return <Text>Loading...</Text>;
-//     } else {
-//       return (
-//         <ScrollView>
-//           <View style={styles.container}>
-//             <Image
-//               source={{
-//                 uri: this.state.photo,
-//               }}
-//               style={{
-//                 width: 200,
-//                 height: 200,
-//                 borderWidth: 2,
-//               }}
-//             />
-
-//             <View style={styles.button}>
-//               <TouchableOpacity
-//                 onPress={() =>
-//                   this.props.navigation.navigate("EditProfilePic", {
-//                     data: this.state.profile,
-//                   })
-//                 }
-//               >
-//                 <View>
-//                   <Text style={styles.buttonText}>Edit Profile Photo</Text>
-//                 </View>
-//               </TouchableOpacity>
-//             </View>
-
-//             <View style={styles.inputContainer}>
-//               <Text style={styles.label}>
-//                 Name: {this.state.profile.first_name}{" "}
-//                 {this.state.profile.last_name}
-//               </Text>
-//               <Text style={styles.label}>
-//                 Email: {this.state.profile.email}{" "}
-//               </Text>
-
-//               <View style={styles.button}>
-//                 <TouchableOpacity
-//                   onPress={() =>
-//                     this.props.navigation.navigate("EditUserProfile", {
-//                       data: this.state.profile,
-//                     })
-//                   }
-//                 >
-//                   <View>
-//                     <Text style={styles.buttonText}>Edit Profile</Text>
-//                   </View>
-//                 </TouchableOpacity>
-//               </View>
-
-//               <View style={styles.button}>
-//                 <TouchableOpacity onPress={this.logoutSubmit.bind(this)}>
-//                   <View>
-//                     <Text style={styles.buttonText}>LOGOUT</Text>
-//                   </View>
-//                 </TouchableOpacity>
-//               </View>
-//             </View>
-//           </View>
-//         </ScrollView>
-//       );
-//     }
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     // backgroundColor: "#ffff",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     paddingHorizontal: 30,
-//     paddingVertical: 50,
-//   },
-//   profileImage: {
-//     width: 200,
-//     height: 200,
-//     borderWidth: 2,
-//   },
-//   inputContainer: {
-//     marginBottom: 20,
-//   },
-//   label: {
-//     marginBottom: 10,
-//     color: "#212121",
-//     fontSize: 16,
-//     fontWeight: "bold",
-//   },
-//   button: {
-//     width: "80%",
-//     backgroundColor: "#7a7d68",
-//     borderRadius: 25,
-//     height: 50,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     marginTop: 40,
-//   },
-//   buttonText: {
-//     color: "#ffff",
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//     padding: 20,
-//   },
-//   formContainer: {
-//     padding: 20,
-//     backgroundColor: "#ffff"
-//     },
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //my edit of sr 
 // import React, { Component } from "react";
 // import {
 //   StyleSheet,
@@ -309,7 +22,7 @@
 
 //   componentDidMount() {
 //     this.unsubscribe = this.props.navigation.addListener("focus", () => {
-//       this.checkLoggedIn();
+//       this.LoginStatus();
 //       this.getProfilePic();
 //       this.getData();
 //     });
@@ -319,7 +32,8 @@
 //     this.unsubscribe();
 //   }
 
-//   checkLoggedIn = async () => {
+//   //checking weather user has logged in or not
+//   LoginStatus = async () => {
 //     const value = await AsyncStorage.getItem("@whatsThat_session_token");
 //     if (value === null) {
 //       this.props.navigation.navigate("Login");
@@ -436,6 +150,9 @@
 //     } else {
 //       return (
 //         <ScrollView>
+//           <View style={styles.header}>
+//             <Text style={styles.headerText}>Users List</Text>
+//           </View>
 //           <View style={styles.container}>
 //             <Image
 //               source={{
@@ -444,17 +161,14 @@
 //               style={styles.profileImage}
 //             />
 
-//             <View style={styles.button}>
-//               <TouchableOpacity
-//                 onPress={() =>
-//                   navigation.navigate("EditProfilePic", {
-//                     data: this.state.profile,
-//                   })
-//                 }
-//               >
-//                 <Text style={styles.buttonText}>Edit Profile Photo</Text>
-//               </TouchableOpacity>
-//             </View>
+//             <TouchableOpacity style={styles.button} onPress={() =>
+//               navigation.navigate("EditProfilePic", {
+//                 data: this.state.profile,
+//               })
+//             }
+//             >
+//               <Text style={styles.buttonText}>Edit Profile Photo</Text>
+//             </TouchableOpacity>
 
 //             <View style={styles.inputContainer}>
 //               <Text style={styles.label}>
@@ -465,23 +179,23 @@
 //                 Email: {this.state.profile.email}{" "}
 //               </Text>
 
-//               <View style={styles.button}>
-//                 <TouchableOpacity
-//                   onPress={() =>
-//                     navigation.navigate("EditUserProfile", {
-//                       data: this.state.profile,
-//                     })
-//                   }
-//                 >
-//                   <Text style={styles.buttonText}>Edit Profile</Text>
-//                 </TouchableOpacity>
-//               </View>
+//               <TouchableOpacity
+//                 style={styles.button}
+//                 onPress={() =>
+//                   navigation.navigate("EditUserProfile", {
+//                     data: this.state.profile,
+//                   })
+//                 }
+//               >
+//                 <Text style={styles.buttonText}>Edit Profile</Text>
+//               </TouchableOpacity>
 
-//               <View style={styles.button}>
-//                 <TouchableOpacity onPress={this.logoutSubmit}>
-//                   <Text style={styles.buttonText}>LOGOUT</Text>
-//                 </TouchableOpacity>
-//               </View>
+//               <TouchableOpacity
+//                 style={styles.button}
+//                 onPress={this.logoutSubmit}
+//               >
+//                 <Text style={styles.buttonText}>Logout</Text>
+//               </TouchableOpacity>
 //             </View>
 //           </View>
 //         </ScrollView>
@@ -497,46 +211,64 @@
 //     justifyContent: "center",
 //     paddingHorizontal: 30,
 //     paddingVertical: 50,
+//     backgroundColor: "#193A6F",
+//     height: "100%",
 //   },
+//   header: {
+//     backgroundColor: "#F98125",
+//     paddingVertical: 15,
+//     paddingHorizontal: 20,
+//   },
+//   headerText: {
+//     fontSize: 25,
+//     fontWeight: "bold",
+//     color: "#FFFFFF",
+//     textAlign: "center",
+//     marginBottom: 10,
+//     marginTop: 10,
+
+//   },
+//   // title: {
+//   //   fontSize: 20,
+//   //   fontWeight: "bold",
+//   //   color: "#FFFFFF",
+//   //   textAlign: "center",
+//   //   marginBottom: 20,
+//   // },
 //   profileImage: {
-//     width: 200,
-//     height: 200,
+//     width: 180,
+//     height: 180,
 //     borderWidth: 4,
-//     borderStyle: "solid"
+//     borderStyle: "solid",
+//     borderColor: "#F98125",
+//     borderRadius: 200,
+//     marginTop: -35,
 //   },
 //   inputContainer: {
-//     marginBottom: 20,
+//     marginBottom: 0,
 //   },
 //   label: {
-//     marginBottom: 10,
-//     color: "#212121",
+//     // marginBottom: 10,
+//     color: "#F98125",
 //     fontSize: 16,
 //     fontWeight: "bold",
 //   },
 //   button: {
 //     width: "80%",
-//     backgroundColor: "#7a7d68",
+//     backgroundColor: "#F98125",
 //     borderRadius: 25,
 //     height: 50,
 //     justifyContent: "center",
 //     alignItems: "center",
-//     marginTop: 40,
+//     marginTop: 10,
 //   },
 //   buttonText: {
-//     color: "#ffff",
+//     color: "white",
 //     fontSize: 18,
 //     fontWeight: "bold",
 //     textAlign: "center",
-//     padding: 20,
 //   },
 // });
-
-
-
-
-
-
-
 
 
 
@@ -566,7 +298,7 @@ export default class AccountProfile extends Component {
 
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener("focus", () => {
-      this.checkLoggedIn();
+      this.LoginStatus();
       this.getProfilePic();
       this.getData();
     });
@@ -576,7 +308,8 @@ export default class AccountProfile extends Component {
     this.unsubscribe();
   }
 
-  checkLoggedIn = async () => {
+  //checking whether user has logged in or not
+  LoginStatus = async () => {
     const value = await AsyncStorage.getItem("@whatsThat_session_token");
     if (value === null) {
       this.props.navigation.navigate("Login");
@@ -685,7 +418,7 @@ export default class AccountProfile extends Component {
     }
   };
 
-render() {
+  render() {
     const navigation = this.props.navigation;
 
     if (this.state.loading) {
@@ -693,6 +426,9 @@ render() {
     } else {
       return (
         <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.headerText}>Profile</Text>
+          </View>
           <View style={styles.container}>
             <Image
               source={{
@@ -701,16 +437,7 @@ render() {
               style={styles.profileImage}
             />
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() =>
-                navigation.navigate("EditProfilePic", {
-                  data: this.state.profile,
-                })
-              }
-            >
-              <Text style={styles.buttonText}>Edit Profile Photo</Text>
-            </TouchableOpacity>
+
 
             <View style={styles.inputContainer}>
               <Text style={styles.label}>
@@ -720,25 +447,35 @@ render() {
               <Text style={styles.label}>
                 Email: {this.state.profile.email}{" "}
               </Text>
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() =>
-                  navigation.navigate("EditUserProfile", {
-                    data: this.state.profile,
-                  })
-                }
-              >
-                <Text style={styles.buttonText}>Edit Profile</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={this.logoutSubmit}
-              >
-                <Text style={styles.buttonText}>Logout</Text>
-              </TouchableOpacity>
             </View>
+            <TouchableOpacity style={styles.button}
+              onPress={() =>
+                navigation.navigate("EditProfilePic", {
+                  data: this.state.profile,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Edit Profile Photo</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() =>
+                navigation.navigate("EditUserProfile", {
+                  data: this.state.profile,
+                })
+              }
+            >
+              <Text style={styles.buttonText}>Edit Profile</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.button}
+              onPress={this.logoutSubmit}
+            >
+              <Text style={styles.buttonText}>Logout</Text>
+            </TouchableOpacity>
+
           </View>
         </ScrollView>
       );
@@ -751,42 +488,57 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 30,
-    paddingVertical: 50,
+    // paddingHorizontal: 30,
+    // paddingVertical: 50,
     backgroundColor: "#193A6F",
     height: "100%",
   },
+  header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    // marginBottom: 10,
+    // marginTop: 10,
+  },
   profileImage: {
-    width: 150,
-    height: 150,
+    width: 180,
+    height: 180,
     borderWidth: 4,
     borderStyle: "solid",
     borderColor: "#F98125",
     borderRadius: 200,
+    marginTop: 10,
   },
   inputContainer: {
-    marginBottom: 20,
+    marginBottom: 0,
   },
   label: {
-    marginBottom: 10,
-    color: "#F98125",
+    color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
+    marginBottom: 5,
+    marginTop: 10,
   },
   button: {
-    width: "80%",
+    width: "25%",
     backgroundColor: "#F98125",
     borderRadius: 25,
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 15,
+    marginBottom: 10,
   },
   buttonText: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
     textAlign: "center",
-    padding: 20,
   },
 });
