@@ -122,8 +122,8 @@ const styles = StyleSheet.create({
   },
   listContainer: { 
     paddingTop:50,  
-    paddingLeft:300,
-    paddingRight: 300,
+    paddingLeft:10,
+    paddingRight: 10,
 
   },
   listItemContainer: {

@@ -16,6 +16,12 @@ export default function CameraScreen({ route, navigation }) {
     permission()
 }, [])
 
+  function toggleCameraType() {
+    setType((current) =>
+      current === CameraType.back ? CameraType.front : CameraType.back
+    );
+  }
+
 
   async function takePhoto() {
     if (camera) {
@@ -58,11 +64,7 @@ export default function CameraScreen({ route, navigation }) {
       });
   }
 
-  function toggleCameraType() {
-    setType((current) =>
-      current === CameraType.back ? CameraType.front : CameraType.back
-    );
-  }
+
 
   if(!permission || !permission.granted){
     return (<Text>No access to camera</Text>)

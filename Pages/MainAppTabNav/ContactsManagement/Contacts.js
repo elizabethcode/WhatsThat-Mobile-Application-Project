@@ -36,7 +36,7 @@ export default class Contacts extends Component {
         this.setState({ contacts: rJson });
       })
       .catch((error) => {
-        //console.log(error);
+        console.log(error);
       });
   };
 
@@ -103,7 +103,7 @@ export default class Contacts extends Component {
       });
 
       if (response.status === 200) {
-        console.log('this works')
+        console.log('Deleted contact from list')
         this.loadContacts()
         return true;
 
@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '40%',
+    width: '50%',
   },
 
 });

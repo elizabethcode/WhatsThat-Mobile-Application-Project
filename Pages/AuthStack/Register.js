@@ -1,4 +1,4 @@
-// //Signup
+// Register
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import {
@@ -93,12 +93,7 @@ export default class Register extends Component {
           return response.json();
         } else if (response.status === 400) {
           throw "Email already exists or Invalid email or password";
-        } 
-        
-        
-        
-        
-        else {
+        } else {
           throw "Something went wrong";
         }
       })
@@ -123,401 +118,210 @@ export default class Register extends Component {
       });
   };
 
-//   render() {
-//     const navigation = this.props.navigation;
+  render() {
+    const navigation = this.props.navigation;
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      confirmPassword,
+      error,
+      submitted,
+    } = this.state;
 
-//     return (
-      
-//         <ScrollView>
-//         <View style={styles.header}>
-//             <Text style={styles.headerText}>Register</Text>
-//           </View>
-//           <View style={styles.container}>
-//           <StatusBar style="auto" />
-//           <View style={styles.appView}>
-//             <View style={styles.firstNameStyle}>
-//               <TextInput
-//                 style={styles.TextInput}
-//                 placeholder="Enter your forename"
-//                 placeholderTextColor="#7a7d68"
-//                 onChangeText={(firstName) => this.setState({ firstName })}
-//                 defaultValue={this.state.firstName}
-//               />
+    return (
+      <ScrollView>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Register</Text>
+        </View>
+        <View style={styles.container}>
+          <StatusBar style="auto" />
 
-//               <>
-//                 {this.state.submitted && !this.state.firstName && (
-//                   <Text style={styles.errorMsg}>*Must enter a forename</Text>
-//                 )}
-//               </>
-//             </View>
-//           </View>
+          <View style={styles.appView}>
+            <Text style={styles.inputTitle}>Forename</Text>
 
-//           <View style={styles.appView}>
-//             <View style={styles.lastNameStyle}>
-//               <TextInput
-//                 style={styles.TextInput}
-//                 placeholder="Enter your Last Name"
-//                 placeholderTextColor="#7a7d68"
-//                 onChangeText={(lastName) => this.setState({ lastName })}
-//                 defaultValue={this.state.lastName}
-//               />
-
-//               <>
-//                 {this.state.submitted && !this.state.lastName && (
-//                   <Text style={styles.errorMsg}>*Must enter a surname</Text>
-//                 )}
-//               </>
-//             </View>
-//           </View>
-
-//           <View style={styles.appView}>
-//             <View style={styles.email}>
-//               <TextInput
-//                 style={styles.TextInput}
-//                 placeholder="Enter your Email"
-//                 placeholderTextColor="#7a7d68"
-//                 onChangeText={(email) => this.setState({ email })}
-//                 defaultValue={this.state.email}
-//               />
-
-//               <>
-//                 {this.state.submitted && !this.state.email && (
-//                   <Text style={styles.errorMsg}>*Must enter an email</Text>
-//                 )}
-//               </>
-//             </View>
-//           </View>
-
-//           <View style={styles.appView}>
-//             <TextInput
-//               style={styles.TextInput}
-//               placeholder="Enter your Password"
-//               placeholderTextColor="#7a7d68"
-//               onChangeText={(password) => this.setState({ password })}
-//               defaultValue={this.state.password}
-//               secureTextEntry={true}
-//             />
-
-//             <>
-//               {this.state.submitted && !this.state.password && (
-//                 <Text style={styles.errorMsg}>*Must enter a password</Text>
-//               )}
-//             </>
-//           </View>
-
-//           <View style={styles.appView}>
-//             <TextInput
-//               style={styles.TextInput}
-//               placeholder="Confirm Password"
-//               placeholderTextColor="#7a7d68"
-//               onChangeText={(confirmPassword) =>
-//                 this.setState({ confirmPassword })
-//               }
-//               defaultValue={this.state.confirmPassword}
-//               secureTextEntry={true}
-//             />
-
-//             <>
-//               {this.state.submitted && !this.state.confirmPassword && (
-//                 <Text style={styles.errorMsg}>*Passwords do not match</Text>
-//               )}
-//             </>
-//           </View>
-
-//           <View>
-//             <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-//               <Text style={styles.createAccountButton}>
-//                 Already have an account? Sign In
-//               </Text>
-//             </TouchableOpacity>
-//           </View>
-
-
-
-//           <View>
-//           {this.state.error && (
-//               <Text style={styles.errorMsg}>{this.state.error}</Text>
-//             )}
-//           </View>  
-
-//           <View style={styles.button}>
-//             <TouchableOpacity onPress={this.signupSubmit.bind(this)}>
-//               <View>
-//                 <Text style={styles.buttonText}>Register</Text>
-//               </View>
-//             </TouchableOpacity>
-//           </View>
-//           </View>
-//         </ScrollView>
-      
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#0d416f",
-//     alignItems: "center",
-//     justifyContent: "center",
-//   },
-//   header: {
-//     backgroundColor: "#F98125",
-//     paddingVertical: 15,
-//     paddingHorizontal: 20,
-//   },
-//   headerText: {
-//     fontSize: 25,
-//     fontWeight: "bold",
-//     color: "#FFFFFF",
-//     textAlign: "center",
-//     marginBottom:10,
-//     marginTop: 10,
-    
-//   },
-//   appView: {
-//     backgroundColor: "#f4f4f4",
-//     borderRadius: 50,
-//     width: "30%",
-//     height: 45,
-//     marginTop: 20,
-//     marginBottom: 10,
-//     flexDirection: "row",
-//     // alignItems: "center",
-//   },
-//   TextInput: {
-//     flex: 1,
-//     paddingLeft: 10,
-//     color: "black",
-//     width: 600,
-//     borderRadius:50,
-
-
-//   },
-//   createAccountButton: {
-//     height: 30,
-//     marginBottom: 30,
-//     textDecorationLine: "underline",
-//     color: "#FFFFFF",
-//   },
-//   button: {
-//     width: "100%",
-//     backgroundColor: "#FF6F00",
-//     borderRadius: 25,
-//     height: 50,
-//     justifyContent: "center",
-//     alignItems: "center",
-//     marginTop: 30,
-//   },
-//   buttonText: {
-//     color: "#FFFFFF",
-//     fontSize: 18,
-//     fontWeight: "bold",
-//     textAlign: "center",
-//     padding: 20,
-//   },
-//   errorMsg: {
-//     color: "red",
-//     fontWeight: "650",
-//     marginBottom: 10,
-//     textAlign: "center",
-//   },
-// });
-
-
-
-render() {
-  const navigation = this.props.navigation;
-
-  return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.headerText}>Register</Text>
-      </View>
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-
-        <View style={styles.appView}>
-          <Text style={styles.inputTitle}>Forename</Text>
-          <View style={styles.firstNameStyle}>
             <TextInput
               style={styles.TextInput}
               onChangeText={(firstName) => this.setState({ firstName })}
-              defaultValue={this.state.firstName}
+              defaultValue={firstName}
             />
 
             <>
-              {this.state.submitted && !this.state.firstName && (
+              {submitted && !firstName && (
                 <Text style={styles.errorMsg}>*Must enter a forename</Text>
               )}
             </>
-          </View>
-        </View>
 
-        <View style={styles.appView}>
-          <Text style={styles.inputTitle}>Surname</Text>
-          <View style={styles.lastNameStyle}>
+          </View>
+
+          <View style={styles.appView}>
+            <Text style={styles.inputTitle}>Surname</Text>
             <TextInput
               style={styles.TextInput}
               onChangeText={(lastName) => this.setState({ lastName })}
-              defaultValue={this.state.lastName}
+              defaultValue={lastName}
             />
 
             <>
-              {this.state.submitted && !this.state.lastName && (
+              {submitted && !lastName && (
                 <Text style={styles.errorMsg}>*Must enter a surname</Text>
               )}
             </>
           </View>
-        </View>
 
-        <View style={styles.appView}>
-          <Text style={styles.inputTitle}>Email</Text>
-          <View style={styles.email}>
+          <View style={styles.appView}>
+            <Text style={styles.inputTitle}>Email</Text>
             <TextInput
               style={styles.TextInput}
-
               onChangeText={(email) => this.setState({ email })}
-              defaultValue={this.state.email}
+              defaultValue={email}
             />
-
             <>
-              {this.state.submitted && !this.state.email && (
+              {submitted && !email && (
                 <Text style={styles.errorMsg}>*Must enter an email</Text>
               )}
             </>
+
+          </View>
+
+          <View style={styles.appView}>
+            <Text style={styles.inputTitle}>Password</Text>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(password) => this.setState({ password })}
+              defaultValue={password}
+              secureTextEntry={true}
+            />
+
+            <>
+              {submitted && !password && (
+                <Text style={styles.errorMsg}>*Must enter a password</Text>
+              )}
+            </>
+          </View>
+
+          <View style={styles.appView}>
+            <Text style={styles.inputTitle}>Confirm Password</Text>
+            <TextInput
+              style={styles.TextInput}
+              onChangeText={(confirmPassword) =>
+                this.setState({ confirmPassword })
+              }
+              defaultValue={confirmPassword}
+              secureTextEntry={true}
+            />
+
+            <>
+              {submitted && confirmPassword !== password && (
+                <Text style={styles.errorMsg}>*Passwords do not match</Text>
+              )}
+            </>
+          </View>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.createAccountButton}>
+                Already have an account? Sign In
+              </Text>
+            </TouchableOpacity>
+
+          <View>
+            {error && (
+              <Text style={styles.errorMsg}>{error}</Text>
+            )}
+          </View>
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <TouchableOpacity onPress={this._onSubmitSignup}>
+                <Text style={styles.buttonText}>Register</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-
-        <View style={styles.appView}>
-          <Text style={styles.inputTitle}>Password</Text>
-          <TextInput
-            style={styles.TextInput}
-            onChangeText={(password) => this.setState({ password })}
-            defaultValue={this.state.password}
-            secureTextEntry={true}
-          />
-
-          <>
-            {this.state.submitted && !this.state.password && (
-              <Text style={styles.errorMsg}>*Must enter a password</Text>
-            )}
-          </>
-        </View>
-
-        <View style={styles.appView}>
-          <Text style={styles.inputTitle}>Confirm Password</Text>
-          <TextInput
-            style={styles.TextInput}
-            onChangeText={(confirmPassword) =>
-              this.setState({ confirmPassword })
-            }
-            defaultValue={this.state.confirmPassword}
-            secureTextEntry={true}
-          />
-
-          <>
-            {this.state.submitted && !this.state.confirmPassword && (
-              <Text style={styles.errorMsg}>*Passwords do not match</Text>
-            )}
-          </>
-        </View>
-
-        <View>
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
-            <Text style={styles.createAccountButton}>
-              Already have an account? Sign In
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        <View>
-          {this.state.error && (
-            <Text style={styles.errorMsg}>{this.state.error}</Text>
-          )}
-        </View>
-        <View style={styles.button}>
-          <TouchableOpacity onPress={this.signupSubmit.bind(this)}>
-            <View>
-              <Text style={styles.buttonText}>Register</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
-  );
+      </ScrollView>
+    );
+  }
 }
-}
+
 
 const styles = StyleSheet.create({
-container: {
-  flex: 1,
-  backgroundColor: "#0d416f",
-  alignItems: "center",
-  justifyContent: "center",
-  height:"100%",
-},
-header: {
-  backgroundColor: "#F98125",
-  paddingVertical: 15,
-  paddingHorizontal: 20,
-},
-headerText: {
-  fontSize: 25,
-  fontWeight: "bold",
-  color: "#FFFFFF",
-  textAlign: "center",
-  marginBottom: 10,
-  marginTop: 10,
-},
-appView: {
-  backgroundColor: "#f4f4f4",
-  borderRadius: 50,
-  width: "70%",
-  height: 45,
-  marginTop: 20,
-  marginBottom: 20,
-  flexDirection: "row",
-  alignItems: "center",
-  paddingHorizontal: 10,
-},
-TextInput: {
-  flex: 1,
-  paddingLeft: 10,
-  color: "black",
-  borderRadius: 50,
-},
-inputTitle: {
-  fontWeight: "bold",
-  marginRight: 10,
-  color: "#333333",
-},
-createAccountButton: {
-  // height: 30,
-  // marginBottom: 10,
-  textDecorationLine: "underline",
-  color: "#FFFFFF",
-},
-button: {
-  width: "70%",
-  backgroundColor: "#FF6F00",
-  borderRadius: 25,
-  height: 50,
-  justifyContent: "center",
-  alignItems: "center",
-  marginTop: 30,
-},
-buttonText: {
-  color: "#FFFFFF",
-  fontSize: 18,
-  fontWeight: "bold",
-  textAlign: "center",
-  padding: 20,
-},
-errorMsg: {
-  color: "red",
-  fontWeight: "650",
-  marginBottom: 10,
-  textAlign: "center",
-},
+  container: {
+    flex: 1,
+    backgroundColor: "#0d416f",
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
+  },
+  header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom: 10,
+    marginTop: 5,
+  },
+  appView: {
+    backgroundColor: "#f4f4f4",
+    borderRadius: 50,
+    width: "60%",
+    height: 45,
+    marginTop: 20,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  TextInput: {
+    flex: 1,
+    paddingLeft: 10,
+    color: "black",
+    borderRadius: 50,
+    width: "100%",
+    height: "100%",
+  },
+  inputTitle: {
+    fontWeight: "bold",
+    marginRight: 10,
+    color: "#333333",
+  },
+  createAccountButton: {
+    marginBottom: -15,
+    textDecorationLine: "underline",
+    color: "#FFFFFF",
+    padding:5,
+  },
+  buttonContainer: {
+    paddingBottom: 10,
+    width: "60%",
+    alignItems: "center",
+    justifyContent: "center",
+
+  },
+  button: {
+    width: "100%",
+    backgroundColor: "#FF6F00",
+    borderRadius: 25,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 30,
+  },
+  buttonText: {
+    color: "#FFFFFF",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+    padding: 20,
+  },
+  errorMsg: {
+    color: "red",
+    fontWeight: "650",
+    marginTop: 25,
+    textAlign: "center",
+  },
 });

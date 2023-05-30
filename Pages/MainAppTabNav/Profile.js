@@ -50,7 +50,7 @@ import AccountProfileScreen from "./UsersManagement/AccountProfile";
 import EditUserProfileScreen from "./UsersManagement/EditUserProfile";
 import EditProfilePicScreen from "./UsersManagement/EditProfilePic";
 import UploadPhotoScreen from "./UsersManagement/UploadPhoto";
-import camera from "../../Component/Camera";
+// import Camera from "../../Component/Camera";
 
 const ProfileNavigationStack = createNativeStackNavigator();
 
@@ -59,10 +59,35 @@ export default function Profile() {
     // This holds all the possible pages the user is able to go to through the profile
     <ProfileNavigationStack.Navigator screenOptions={{ headerShown: false}}>
       <ProfileNavigationStack.Screen name="AccountProfile" component={AccountProfileScreen} />
-      {/* <ProfileNavigationStack.Screen name="camera" component={CameraScreen} /> */}
       <ProfileNavigationStack.Screen name="EditUserProfile" component={EditUserProfileScreen} />
       <ProfileNavigationStack.Screen name="EditProfilePic" component={EditProfilePicScreen} />
       <ProfileNavigationStack.Screen name="UploadPhoto" component={UploadPhotoScreen} />
     </ProfileNavigationStack.Navigator>
   );
 }
+
+
+
+
+// import * as React from "react";
+// import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+// // Import all components related to USERS MANAGEMENT
+// import AccountProfileScreen from "./UsersManagement/AccountProfile";
+// import EditUserProfileScreen from "./UsersManagement/EditUserProfile";
+// import EditProfilePicScreen from "./UsersManagement/EditProfilePic";
+// // import CameraComponent from "./UsersManagement/CameraComponent";
+
+// const ProfileNavigationStack = createNativeStackNavigator();
+
+// export default function Profile() {
+//   return (
+//     // This holds all the possible pages the user is able to go to through the profile
+//     <ProfileNavigationStack.Navigator screenOptions={{ headerShown: false }}>
+//       <ProfileNavigationStack.Screen name="AccountProfile" component={AccountProfileScreen} />
+//       <ProfileNavigationStack.Screen name="EditUserProfile" component={EditUserProfileScreen} />
+//       <ProfileNavigationStack.Screen name="EditProfilePic" component={EditProfilePicScreen} />
+//       {/* <ProfileNavigationStack.Screen name="Camera" component={CameraComponent} /> */}
+//     </ProfileNavigationStack.Navigator>
+//   );
+// }

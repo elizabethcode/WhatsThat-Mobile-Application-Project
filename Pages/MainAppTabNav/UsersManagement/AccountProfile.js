@@ -455,7 +455,7 @@ export default class AccountProfile extends Component {
                 })
               }
             >
-              <Text style={styles.buttonText}>Edit Profile Photo</Text>
+              <Text style={styles.buttonText}>Update Profile Picture</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -466,7 +466,7 @@ export default class AccountProfile extends Component {
                 })
               }
             >
-              <Text style={styles.buttonText}>Edit Profile</Text>
+              <Text style={styles.buttonText}>Update Profile</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -488,8 +488,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 30,
-    // paddingVertical: 50,
     backgroundColor: "#193A6F",
     height: "100%",
   },
@@ -503,8 +501,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
-    // marginBottom: 10,
-    // marginTop: 10,
   },
   profileImage: {
     width: 180,
@@ -526,7 +522,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    width: "25%",
+    width: "60%",
     backgroundColor: "#F98125",
     borderRadius: 25,
     height: 50,

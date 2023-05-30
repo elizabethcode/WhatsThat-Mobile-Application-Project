@@ -14,8 +14,8 @@ export default class Login extends Component {
     this.state = {
       // user.1@gmail.com
       // Password123!
-      email: "",
-      password: "",
+      email: "user.1@gmail.com",
+      password: "Password123!",
       error: "",
       submitted: false,
     };
