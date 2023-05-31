@@ -242,7 +242,7 @@ export default class AddUserChat extends Component {
 
             const { chat_id } = this.props.route.params;
             const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`+'/user/'+ this.state.user_id , {
-                method: 'POST',
+                method: "POST",
                 headers,
                 body: JSON.stringify({
                     user_id: this.state.user_id,

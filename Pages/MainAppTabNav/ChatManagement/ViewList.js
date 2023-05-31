@@ -225,7 +225,7 @@ export default class ViewList extends Component {
   loadContacts = async () => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
-      method: 'GET',
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,

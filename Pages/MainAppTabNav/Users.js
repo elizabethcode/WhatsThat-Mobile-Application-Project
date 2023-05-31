@@ -86,6 +86,7 @@ export default class Users extends Component {
 
   render() {
     return (
+      <View style={styles.OutterContainer}>
       <ScrollView>
       <View style={styles.header}>
             <Text style={styles.headerText}>Users List</Text>
@@ -121,6 +122,7 @@ export default class Users extends Component {
             })}
         </View>
       </ScrollView>
+      </View>
     );
   }
 }
@@ -130,6 +132,11 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingTop: 30,
     paddingHorizontal: 20,
+    backgroundColor: "#0d416f",
+  },
+  OutterContainer:{
+    width:"100%",
+    height:"100%",
     backgroundColor: "#0d416f",
   },
   header: {

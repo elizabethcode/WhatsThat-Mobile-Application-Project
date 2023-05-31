@@ -425,7 +425,7 @@ export default class AccountProfile extends Component {
       return <Text>Loading...</Text>;
     } else {
       return (
-        <ScrollView>
+        <View style={styles.OutterContainer}>
           <View style={styles.header}>
             <Text style={styles.headerText}>Profile</Text>
           </View>
@@ -436,9 +436,6 @@ export default class AccountProfile extends Component {
               }}
               style={styles.profileImage}
             />
-
-
-
             <View style={styles.inputContainer}>
               <Text style={styles.label}>
                 Name: {this.state.profile.first_name}{" "}
@@ -477,30 +474,35 @@ export default class AccountProfile extends Component {
             </TouchableOpacity>
 
           </View>
-        </ScrollView>
+        </View>
       );
     }
   }
 }
 
 const styles = StyleSheet.create({
+  OutterContainer:{
+    height:"100%",
+  },
   container: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#193A6F",
-    height: "100%",
+    // height: "100%",
   },
   header: {
     backgroundColor: "#F98125",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   headerText: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
+    marginBottom: 10,
+    marginTop: 5,
   },
   profileImage: {
     width: 180,
@@ -509,7 +511,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#F98125",
     borderRadius: 200,
-    marginTop: 10,
+    // marginTop: 10,
   },
   inputContainer: {
     marginBottom: 0,
@@ -528,8 +530,8 @@ const styles = StyleSheet.create({
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 15,
-    marginBottom: 10,
+    marginTop: 10,
+    // marginBottom: 5,
   },
   buttonText: {
     color: "white",

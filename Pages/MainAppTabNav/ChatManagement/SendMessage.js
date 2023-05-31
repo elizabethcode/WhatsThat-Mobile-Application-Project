@@ -383,7 +383,7 @@ export default class SendMessage extends Component {
 
       const { chat_id } = this.props.route.params;
       const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}/message`, {
-        method: 'POST',
+        method: "POST",
         headers,
         body: JSON.stringify({
         message: this.state.message,

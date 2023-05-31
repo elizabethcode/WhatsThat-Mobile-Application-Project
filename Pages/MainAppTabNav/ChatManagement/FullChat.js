@@ -30,7 +30,7 @@ export default class ChatApp extends Component {
   loadChats = async () => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
-      method: 'GET',
+      method: "GET",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,
@@ -49,7 +49,7 @@ export default class ChatApp extends Component {
   createChat = async () => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
-      method: 'POST',
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,
@@ -95,7 +95,7 @@ export default class ChatApp extends Component {
   deleteChat = async (chatId) => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,
@@ -116,7 +116,7 @@ export default class ChatApp extends Component {
   updateChat = async (chatId) => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}`, {
-      method: 'PATCH',
+      method: "PATCH",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,
@@ -139,7 +139,7 @@ export default class ChatApp extends Component {
   sendMessage = async (chatId) => {
     const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}/message`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         'Content-Type': 'application/json',
         'X-Authorization': token,

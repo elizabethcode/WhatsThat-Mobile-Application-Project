@@ -132,6 +132,7 @@ export default class Register extends Component {
 
     return (
       <ScrollView>
+      <View style={styles.OutterContainer}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Register</Text>
         </View>
@@ -238,6 +239,7 @@ export default class Register extends Component {
             </View>
           </View>
         </View>
+      </View>
       </ScrollView>
     );
   }
@@ -245,17 +247,19 @@ export default class Register extends Component {
 
 
 const styles = StyleSheet.create({
+  OutterContainer:{
+    height:"100%",
+  },
   container: {
     flex: 1,
     backgroundColor: "#0d416f",
     alignItems: "center",
     justifyContent: "center",
-    height: "100%",
   },
   header: {
     backgroundColor: "#F98125",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
   headerText: {
     fontSize: 25,
@@ -293,10 +297,9 @@ const styles = StyleSheet.create({
     marginBottom: -15,
     textDecorationLine: "underline",
     color: "#FFFFFF",
-    padding:5,
   },
   buttonContainer: {
-    paddingBottom: 10,
+    paddingBottom: 14,
     width: "60%",
     alignItems: "center",
     justifyContent: "center",

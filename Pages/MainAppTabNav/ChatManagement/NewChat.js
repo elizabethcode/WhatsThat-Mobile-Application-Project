@@ -554,148 +554,160 @@
 
 
 
-
-//NewChat
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class NewChat extends Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            name:"",
-            error: "", 
-            submitted: false
-        }
-
-        this._onPressButton = this._onPressButton.bind(this)
+    this.state = {
+      name: "",
+      error: "",
+      submitted: false
     }
 
-    _onPressButton = async() => {
-        this.setState({ submitted: true });
-        this.setState({ error: "" });
+    this._onPressButton = this._onPressButton.bind(this)
+  }
 
-        if (!this.state.name) {
-            this.setState({ error: "*Must enter a chat name & ID " });
-            return;
-        }
+  _onPressButton = async () => {
+    this.setState({ submitted: true });
+    this.setState({ error: "" });
 
-        console.log("Chat Name: " + this.state.name + " . Created! ");
+    if (!this.state.name) {
+      this.setState({ error: "*Must enter a chat name & ID " });
+      return;
+    }
 
-        try {
-            const token = await AsyncStorage.getItem('app_session_token');
+    console.log("Chat Name: " + this.state.name + " . Created! ");
 
-            const headers = {
-                'Content-Type': 'application/json',
-                'X-Authorization': token,
-            };
+    try {
+      const token = await AsyncStorage.getItem('app_session_token');
 
-            const response = await fetch('http://localhost:3333/api/1.0.0/chat', {
-                method: 'post',
-                headers,
-                body: JSON.stringify({
-                    "name": this.state.name,
-                }),
-            });
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
+      };
 
-            const responseJson = await response.json();
+      const response = await fetch('http://localhost:3333/api/1.0.0/chat', {
+        method: "POST",
+        headers,
+        body: JSON.stringify({
+          "name": this.state.name,
+        }),
+      });
 
-            console.log("Chat Created: ", responseJson.token);
-            this.props.navigation.navigate("ViewChats");
-        } catch (error) {
-            console.log(error);
+      const responseJson = await response.json();
+
+      console.log("Chat Created: ", responseJson.token);
+      this.props.navigation.navigate("ViewChats");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  render() {
+    return (
+        <View style={styles.Outtercontainer}>
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Create Chats</Text>
+        </View>
+      <View style={styles.container}>
         
-        }
-    }
-
-    render(){
-        return (
-            <View style={styles.container}>
-               <Text style={styles.title}>Create Chats</Text>
-                <View style={styles.formContainer}>
-                
-            
-                    <View style={styles.email}>
-                       <Text style={styles.formLabel}>chat name:</Text>
-                        <TextInput
-                            style={{height: 40, borderWidth: 1, paddingVertical: 10}}
-                            placeholder=" Enter chat name"
-                            onChangeText={name => this.setState({name})}
-                            defaultValue={this.state.name}
-                        />
-
-                        <>
-                            {this.state.submitted && !this.state.name &&
-                                <Text style={styles.error}>*Chat name is required</Text>
-                            }
-                        </>
-                    </View>
-            
-                    <View style={styles.loginbtn}>
-                        <TouchableOpacity onPress={() => this._onPressButton()}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonText}>Create Chat</Text>
-                                
-                            </View>
-                        </TouchableOpacity>
-                    </View>
-
-                    <>
-                        {this.state.error &&
-                            <Text style={styles.error}>{this.state.error}</Text>
-                        }
-                    </>
-            
-                </View>
+        <View style={styles.formContainer}>
+          <View style={styles.email}>
+            <Text style={styles.formLabel}>Chat Name:</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter chat name"
+              onChangeText={name => this.setState({ name })}
+              defaultValue={this.state.name}
+            />
+            {this.state.submitted && !this.state.name &&
+              <Text style={styles.error}>*Chat name is required</Text>
+            }
+          </View>
+          <TouchableOpacity onPress={() => this._onPressButton()}>
+            <View style={styles.button}>
+              <Text style={styles.buttonText}>Create Chat</Text>
             </View>
-        )
-    }
-
+          </TouchableOpacity>
+          {this.state.error &&
+            <Text style={styles.error}>{this.state.error}</Text>
+          }
+        </View>
+      </View>
+      </View>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    backgroundColor: '#F6F1F1',
-    },
-     formContainer: {
-    padding: 20,
-    },
-
-  title: {
-    color:'#AFD3E2',
-    backgroundColor:'#146C94',
-    padding:10,
-    fontSize:25
-    },
-   formLabel: {
-    fontSize:15,
-    color:'#146C94'
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#193A6F",
+    width:"100%",
+    height:"100%",
   },
-    email:{
-     paddingVertical: 10
-    },
-
-    password:{
-     paddingVertical: 10
-    },
-    button: {
-   backgroundColor: '#146C94',
-    paddingHorizontal: 10,
+  Outtercontainer:{
+    width:"100%",
+    height:"100%",
+    backgroundColor: "#193A6F",
+  },
+  header: {
+    backgroundColor: "#F98125",
     paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-
-    },
-    buttonText: {
-    fontSize:15,
-    fontWeight:'bold',
-    color:'#000000'
-    },
-    error: {
-        color: "red",
-    }
-  });
+    paddingHorizontal: 15,
+    marginBottom: 20,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+  },
+  formContainer: {
+    marginBottom: 20,
+    width:"70%",
+    height:"82%",
+  },
+  formLabel: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  input: {
+    height: 50,
+    borderWidth: 1,
+    backgroundColor: "white",
+    width: "100%",
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 50,
+  },
+  button: {
+    width: "100%",
+    backgroundColor: "#F98125",
+    borderRadius: 25,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
+  error: {
+    color: "red",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 5,
+  },
+});
