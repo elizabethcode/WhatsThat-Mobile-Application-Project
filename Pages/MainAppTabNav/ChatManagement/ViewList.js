@@ -206,6 +206,7 @@ import React, { Component } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons} from '@expo/vector-icons';
+// import { globalStyles } from '../../globalStyles';
 
 export default class ViewList extends Component {
   constructor(props) {

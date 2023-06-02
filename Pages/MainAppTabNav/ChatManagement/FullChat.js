@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, Button, TouchableOpacity, StyleSheet, FlatList, TextInput, KeyboardAvoidingView, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+// import { globalStyles } from '../../globalStyles';
 
 export default class ChatApp extends Component {
   constructor(props) {

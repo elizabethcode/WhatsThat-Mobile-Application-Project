@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../../globalStyles';
 
 import * as EmailValidator from "email-validator";
 
@@ -132,9 +133,9 @@ export default class Register extends Component {
 
     return (
       <ScrollView>
-      <View style={styles.OutterContainer}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Register</Text>
+      <View style={globalStyles.OutterContainer}>
+        <View style={globalStyles.header}>
+          <Text style={globalStyles.headerText}>Register</Text>
         </View>
         <View style={styles.container}>
           <StatusBar style="auto" />
@@ -247,28 +248,28 @@ export default class Register extends Component {
 
 
 const styles = StyleSheet.create({
-  OutterContainer:{
-    height:"100%",
-  },
+  // OutterContainer:{
+  //   height:"100%",
+  // },
   container: {
     flex: 1,
     backgroundColor: "#0d416f",
     alignItems: "center",
     justifyContent: "center",
   },
-  header: {
-    backgroundColor: "#F98125",
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-  },
-  headerText: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 10,
-    marginTop: 5,
-  },
+  // header: {
+  //   backgroundColor: "#F98125",
+  //   paddingVertical: 10,
+  //   paddingHorizontal: 15,
+  // },
+  // headerText: {
+  //   fontSize: 25,
+  //   fontWeight: "bold",
+  //   color: "#FFFFFF",
+  //   textAlign: "center",
+  //   marginBottom: 10,
+  //   marginTop: 5,
+  // },
   appView: {
     backgroundColor: "#f4f4f4",
     borderRadius: 50,
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    backgroundColor: "#FF6F00",
+    backgroundColor: "#F98125",
     borderRadius: 25,
     height: 50,
     justifyContent: "center",

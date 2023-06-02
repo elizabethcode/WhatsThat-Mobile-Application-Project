@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native';
+// import { globalStyles } from '../../globalStyles';
 
 export default class ViewBlockContact extends Component {
   constructor(props) {

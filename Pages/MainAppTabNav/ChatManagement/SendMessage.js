@@ -314,6 +314,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
+// import { globalStyles } from '../../globalStyles';
 
 export default class SendMessage extends Component {
   constructor(props) {

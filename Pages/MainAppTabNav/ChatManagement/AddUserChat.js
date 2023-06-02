@@ -187,6 +187,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+// import { globalStyles } from '../../globalStyles';
 export default class AddUserChat extends Component {
     constructor(props){
         super(props);

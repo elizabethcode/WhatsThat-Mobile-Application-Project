@@ -166,6 +166,7 @@ import {
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { globalStyles } from '../../globalStyles';
 
 export default class DeleteUserChat extends Component {
   constructor(props) {

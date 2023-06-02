@@ -164,6 +164,7 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+// import { globalStyles } from '../../globalStyles';
 
 export default class AddRemove extends Component {
   constructor(props) {
@@ -204,7 +205,7 @@ export default class AddRemove extends Component {
         this.props.navigation.navigate("AddUserChat", { chat_id: item.chat_id })
       }
     >
-      <Text style={styles.title}>Add the user to chat</Text>
+      <Text style={styles.title}> Add the user to chat</Text>
       <Text style={styles.listItemTitle}>
         {item.chat_id} - {item.name}
       </Text>

@@ -399,6 +399,7 @@ import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
+// import { globalStyles } from '../../globalStyles';
 
 export default class ViewChats extends Component {
   constructor(props) {

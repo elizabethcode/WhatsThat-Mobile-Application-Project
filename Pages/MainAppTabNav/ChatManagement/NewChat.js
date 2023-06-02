@@ -557,6 +557,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { globalStyles } from '../../globalStyles';
 
 export default class NewChat extends Component {
   constructor(props) {

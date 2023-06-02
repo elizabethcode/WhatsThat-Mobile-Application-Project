@@ -353,6 +353,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Ionicons } from "@expo/vector-icons";
+// import { globalStyles } from '../../globalStyles';
 
 export default class ManageMessage extends Component {
   constructor(props) {
