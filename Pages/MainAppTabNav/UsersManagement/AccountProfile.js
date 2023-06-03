@@ -1,3 +1,4 @@
+//Account profile - working 
 // import React, { Component } from "react";
 // import {
 //   StyleSheet,
@@ -273,7 +274,7 @@
 
 
 
-
+//
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -299,8 +300,8 @@ export default class AccountProfile extends Component {
   componentDidMount() {
     this.unsubscribe = this.props.navigation.addListener("focus", () => {
       this.LoginStatus();
-      this.getProfilePic();
-      this.getData();
+      this.RetrievingProfilePicture();
+      this.RetrievingData();
     });
   }
 
@@ -316,7 +317,7 @@ export default class AccountProfile extends Component {
     }
   };
 
-  getProfilePic = async () => {
+  RetrievingProfilePicture = async () => {
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
     const token = await AsyncStorage.getItem("app_session_token");
 
@@ -351,9 +352,9 @@ export default class AccountProfile extends Component {
     }
   };
 
-  getData = async () => {
-    const user_id = await AsyncStorage.getItem("whatsThat_user_id");
+  RetrievingData = async () => {
     const token = await AsyncStorage.getItem("app_session_token");
+    const user_id = await AsyncStorage.getItem("whatsThat_user_id");   
 
     if (user_id && token) {
       try {
@@ -383,7 +384,7 @@ export default class AccountProfile extends Component {
     }
   };
 
-  logoutSubmit = async () => {
+  LogoutSubmit = async () => {
     console.log("Logout");
 
     try {
@@ -425,11 +426,11 @@ export default class AccountProfile extends Component {
       return <Text>Loading...</Text>;
     } else {
       return (
-        <View style={styles.OutterContainer}>
-          <View style={styles.header}>
+        <View style={styles.OuterContainer}>
+          <View style={styles.Header}>
             <Text style={styles.headerText}>Profile</Text>
           </View>
-          <View style={styles.container}>
+          <View style={styles.MainContainer}>
             <Image
               source={{
                 uri: this.state.photo,
@@ -468,7 +469,7 @@ export default class AccountProfile extends Component {
 
             <TouchableOpacity
               style={styles.button}
-              onPress={this.logoutSubmit}
+              onPress={this.LogoutSubmit}
             >
               <Text style={styles.buttonText}>Logout</Text>
             </TouchableOpacity>
@@ -481,17 +482,16 @@ export default class AccountProfile extends Component {
 }
 
 const styles = StyleSheet.create({
-  OutterContainer:{
+  OuterContainer:{
     height:"100%",
   },
-  container: {
+  MainContainer: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#193A6F",
-    // height: "100%",
   },
-  header: {
+  Header: {
     backgroundColor: "#F98125",
     paddingVertical: 10,
     paddingHorizontal: 15,
@@ -511,7 +511,6 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderColor: "#F98125",
     borderRadius: 200,
-    // marginTop: 10,
   },
   inputContainer: {
     marginBottom: 0,

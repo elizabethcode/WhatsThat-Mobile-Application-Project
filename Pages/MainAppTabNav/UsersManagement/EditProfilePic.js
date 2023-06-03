@@ -66,7 +66,7 @@ export default function EditProfilePic({ navigation }) {
       const options = { quality: 0.5, base64: true };
       const data = await camera.takePictureAsync(options);
 
-      console.log(data.uri);
+      // console.log(data.uri);
 
       sendToServer(data);
     }

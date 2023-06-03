@@ -34,8 +34,6 @@ export default function Chats() {
         <ChatsNavigationStack.Screen name="DeleteUserChat" component={DeleteUserChat} />
         <ChatsNavigationStack.Screen name="UpdateChat" component={UpdateChat}/>
         <ChatsNavigationStack.Screen name="ManageMessage" component={ManageMessage}/>
-
-      {/* <ChatsStack.Screen name="FullChat" component={FullChat} /> */}
       </ChatsNavigationStack.Navigator>
   );
 }
