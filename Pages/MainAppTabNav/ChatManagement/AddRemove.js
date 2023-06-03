@@ -8,6 +8,7 @@
 //   FlatList,
 // } from "react-native";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
+// // import { globalStyles } from '../../globalStyles';
 
 // export default class AddRemove extends Component {
 //   constructor(props) {
@@ -32,9 +33,9 @@
 //       },
 //     })
 //       .then((response) => response.json())
-//       .then((rJson) => {
-//         console.log(rJson);
-//         this.setState({ chats: rJson });
+//       .then((responseJson) => {
+//         console.log(responseJson);
+//         this.setState({ chats: responseJson });
 //       })
 //       .catch((error) => {
 //         console.log(error);
@@ -48,14 +49,14 @@
 //         this.props.navigation.navigate("AddUserChat", { chat_id: item.chat_id })
 //       }
 //     >
-//       <Text style={styles.title}>Add the user to chat</Text>
+//       <Text style={styles.title}> Add the user to chat</Text>
 //       <Text style={styles.listItemTitle}>
 //         {item.chat_id} - {item.name}
 //       </Text>
 //     </TouchableOpacity>
 //   );
 
-//   displayList = ({ item }) => (
+//   displayLis = ({ item }) => (
 //     <TouchableOpacity
 //       style={styles.RemoveItem}
 //       onPress={() =>
@@ -152,8 +153,6 @@
 
 
 
-
-
 //AddRemove
 import React, { Component } from "react";
 import {
@@ -164,7 +163,6 @@ import {
   FlatList,
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { globalStyles } from '../../globalStyles';
 
 export default class AddRemove extends Component {
   constructor(props) {
@@ -205,7 +203,7 @@ export default class AddRemove extends Component {
         this.props.navigation.navigate("AddUserChat", { chat_id: item.chat_id })
       }
     >
-      <Text style={styles.title}> Add the user to chat</Text>
+      <Text style={styles.title}>Add the user to chat</Text>
       <Text style={styles.listItemTitle}>
         {item.chat_id} - {item.name}
       </Text>
@@ -231,7 +229,10 @@ export default class AddRemove extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.title}> Add Or Remove User</Text>
+       
+        <View style={styles.header}>
+          <Text style={styles.headerText}>Add Or Remove User</Text>
+        </View>
         <FlatList
           style={styles.listContainer}
           data={this.state.chats}
@@ -251,56 +252,58 @@ export default class AddRemove extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F6F1F1",
+    backgroundColor: "#0d416f",
+  },
+  header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  headerText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
+   
   },
   listContainer: {
     padding: 20,
   },
-
   title: {
-    color: "#AFD3E2",
-    backgroundColor: "#146C94",
+    color: "green",
+    backgroundColor: "#FF9800",
     padding: 10,
     fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
   },
-
   RemoveItemTitle: {
-    color: "#6b1319",
-    backgroundColor: "#d46169",
+    color: "red",
+    backgroundColor: "#FF9800",
     padding: 10,
     fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  RemoveItemText: {
-    color: "#1f0103",
-    backgroundColor: "#d46169",
-    padding: 10,
-    fontSize: 25,
-  },
-
   AddItem: {
-    backgroundColor: "#AFD3E2",
+    backgroundColor: "#FF9800",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
     borderRadius: 5,
   },
   RemoveItem: {
-    backgroundColor: "#d46169",
+    backgroundColor: "#FF9800",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
     borderRadius: 5,
   },
-
-  listItemText: {
-    fontSize: 18,
-    color: "#4A641E",
-  },
   listItemTitle: {
     fontSize: 30,
-    color: "#00000",
-  },
-  Icon: {
-    alignSelf: "flex-end",
+    color: "#FFFFFF",
+    textAlign: "center",
   },
 });

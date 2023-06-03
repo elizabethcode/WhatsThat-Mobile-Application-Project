@@ -1,6 +1,6 @@
 // //Login
 
-// //my login edit - working
+// // my working edit
 // import React, { Component } from "react";
 // import { StatusBar } from "expo-status-bar";
 // import * as EmailValidator from "email-validator";
@@ -13,8 +13,6 @@
 //     super(props);
 
 //     this.state = {
-//       // user.1@gmail.com
-//       // Password123!
 //       email: "",
 //       password: "",
 //       error: "",
@@ -22,15 +20,31 @@
 //     };
 //   }
 
+//   componentDidMount() {
+//     this.unsubscribe = this.props.navigation.addListener("focus", () => {
+//       this.checkLoginStatus();
+//     });
+//   }
+
+//   componentWillUnmount() {
+//     this.unsubscribe();
+//   }
+
+//   checkLoginStatus = async () => {
+//     const token = await AsyncStorage.getItem("app_session_token");
+//     if (token != null) {
+//       this.props.navigation.navigate("Profile");
+//     }
+//   };
+
 //   onSubmitLogin = () => {
-//     this.setState({ submitted: true });
-//     this.setState({ error: "" });
+//     this.setState({ submitted: true, error: "" });
 
 //     if (!(this.state.email && this.state.password)) {
-//       this.setState({ error: "Please enter an email and password" });
+//       this.setState({ error: "Please enter both your email and password." });
 //       return;
 //     } else if (!EmailValidator.validate(this.state.email)) {
-//       this.setState({ error: "Please enter a valid email" });
+//       this.setState({ error: "Please enter a valid email address" });
 //       return;
 //     }
 
@@ -39,11 +53,13 @@
 //     if (!PASSWORD_REGEX.test(this.state.password)) {
 //       this.setState({
 //         error:
-//           "Password is too weak. It should contain at least 8 characters including one uppercase letter, one lowercase letter, one digit, and one special character: #?!@$%^&*-",
+//           "Please enter a stronger password. Your password should be at least 8 characters long, contain a mix of upper and lowercase letters, and include at least one number and a special character (#?!@$%^&*-)",
 //       });
 //       return;
 //     } else {
-//       console.log("Button clicked: " + this.state.email + " " + this.state.password);
+//       console.log(
+//         "Button clicked: " + this.state.email + " " + this.state.password
+//       );
 //       console.log("Validated and ready to send to the API");
 
 //       this.loginSubmit();
@@ -69,153 +85,132 @@
 
 //       if (response.status === 200) {
 //         const rJson = await response.json();
-
 //         await AsyncStorage.setItem("whatsThat_user_id", rJson.id);
 //         await AsyncStorage.setItem("app_session_token", rJson.token);
-
 //         this.setState({ submitted: false });
-
 //         this.props.navigation.navigate("Profile");
 //       } else if (response.status === 400) {
-//         throw "Invalid email or password";
+//         throw new Error("Invalid email or password");
 //       } else {
-//         throw "Something went wrong";
+//         throw new Error("Something went wrong");
 //       }
 //     } catch (error) {
 //       console.log(error);
 //     }
 //   };
 
-//   //checking to see if the user is being logged in or not
-//   LoginStatus = async () => {
-//     const value = await AsyncStorage.getItem("app_session_token");
-//     if (value != null) {
-//       this.props.navigation.navigate("Profile");
-//     }
-//   };
-
-//   componentDidMount() {
-//     this.unsubscribe = this.props.navigation.addListener("focus", () => {
-//       this.LoginStatus();
-//     });
-//   }
-
-//   componentWillUnmount() {
-//     this.unsubscribe();
-//   }
-
 //   render() {
 //     const navigation = this.props.navigation;
 
 //     return (
-//       <View style={styles.container}>
+//       <View style={styles.MainContainer}>
 //         <StatusBar style="auto" />
-//         <View style={styles.logoContainer}>
+//         <View style={styles.LogoContainer}>
 //           <Image style={styles.MessengerLogo}
-//             source={require("../../App/Images/MessengerLogo.png")}
-            
-            
-//           />
+//             source={require("../../App/Images/MessengerLogo.png")}/>
 //         </View>
 
-//         <View style={styles.inputContainer}>
-//           <TextInput style={styles.textInput}
+//         <View style={styles.InputContainer}>
+//           <TextInput style={styles.TextInput}
 //             placeholder="Email"
-//             placeholderTextColor="#7a7d68"
 //             onChangeText={(email) => this.setState({ email })}
 //             defaultValue={this.state.email}
 //           />
 //           {this.state.submitted && !this.state.email && (
-//             <Text style={styles.errorMsg}>*Must enter an email</Text>
+//             <Text style={styles.ErrorMessage}>*Must enter an email</Text>
 //           )}
 //         </View>
 
-//         <View style={styles.inputContainer}>
-//           <TextInput style={styles.textInput}
+//         <View style={styles.InputContainer}>
+//           <TextInput style={styles.TextInput}
 //             placeholder="Password"
-//             placeholderTextColor="#7a7d68"
 //             onChangeText={(password) => this.setState({ password })}
 //             defaultValue={this.state.password}
 //             secureTextEntry={true}
 //           />
 //           {this.state.submitted && !this.state.password && (
-//             <Text style={styles.errorMsg}>*Must enter a password</Text>
+//             <Text style={styles.ErrorMessage}>* Must enter a password</Text>
 //           )}
 //         </View>
 
 //         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-//           <Text style={styles.createAccountButton}>Do you have an account? Register</Text>
+//           <Text style={styles.RegisterButton}>Don't have an account? Register</Text>
 //         </TouchableOpacity>
 
-//         <TouchableOpacity style={styles.loginButton} onPress={this.onSubmitLogin}>
-//           <Text style={styles.buttonText}>LOGIN</Text>
+//         <TouchableOpacity style={styles.LoginButton} onPress={this.onSubmitLogin}>
+//           <Text style={styles.TextButton}>Login</Text>
 //         </TouchableOpacity>
 
-//         {this.state.error && <Text style={styles.errorMsg}>{this.state.error}</Text>}
+//         {this.state.error && <Text style={styles.ErrorMessage}>{this.state.error}</Text>}
 //       </View>
 //     );
 //   }
 // }
 
 // const styles = StyleSheet.create({
-//   container: {
+//   MainContainer: {
 //     flex: 1,
 //     backgroundColor: "#0d416f",
-//     alignItems: "center",
-//     justifyContent: "center",
 //     paddingHorizontal: 30,
-//     paddingVertical: 50,
-//   },
-//   logoContainer: {
 //     alignItems: "center",
+//     paddingVertical: 50,
+//     justifyContent: "center",
+//   },
+//   LogoContainer: {
 //     marginBottom: 30,
+//     alignItems: "center",
 //   },
 //   MessengerLogo: {
-//     width: 200,
+//     width: 200,   
+//     resizeMode:"contain", 
 //     height: 200,
-//     resizeMode:"contain",
 //   },
-//   inputContainer: {
+//   InputContainer: {
 //     backgroundColor: "white",
 //     borderRadius: 25,
 //     width: "50%",
-//     height: 50,
+//     height: "10%",    
+//     alignItems: "center",
 //     marginBottom: 20,
 //     flexDirection: "row",
-//     alignItems: "center",
-//     paddingHorizontal: 10,
+
 //   },
-//   textInput: {
-//     flex: 1,
-//     fontSize: 16,
+//   TextInput: {
+//     flex: 1,    
+//     width:"100%",
+//     height:"100%",
+//     fontSize: 18,
+//     borderRadius: 50,
+//     placeholderTextColor:"#7a7d68",
+//     padding:20,
 //   },
-//   createAccountButton: {
-//     height: 30,
-//     textDecorationLine: "underline",
+//   RegisterButton: {
+//     height: 30,   
 //     marginTop: 20,
 //     color: "white",
+//     textDecorationLine: "underline",
 //   },
-//   loginButton: {
-//     backgroundColor: "#F98125",
-//     borderRadius: 25,
+//   LoginButton: {
+//     backgroundColor: "#F98125",    
 //     width: "50%",
-//     height: 50,
+//     height: "10%",   
 //     justifyContent: "center",
+//     borderRadius: 25,
 //     alignItems: "center",
 //     marginTop: 40,
 //   },
-//   buttonText: {
-//     color: "white",
-//     fontSize: 18,
+//   TextButton: {
 //     fontWeight: "bold",
-//     textAlign: "center",
 //     padding: 20,
-//   },
-//   errorMsg: {
-//     color: "red",
-//     fontWeight: "bold",
-//     marginBottom: 10,
+//     color: "white",
 //     textAlign: "center",
+//     fontSize: 18,
+//   },
+//   ErrorMessage: {
+//     color: "red",    
+//     textAlign: "center",
+//     marginBottom: 10,
+//     fontWeight: "bold",
 //   },
 // });
 
@@ -226,7 +221,7 @@
 
 
 
-//my login - 2nd edit
+// My Login edit - completed
 import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as EmailValidator from "email-validator";
@@ -239,8 +234,6 @@ export default class Login extends Component {
     super(props);
 
     this.state = {
-      // user.1@gmail.com
-      // Password123!
       email: "",
       password: "",
       error: "",
@@ -248,15 +241,31 @@ export default class Login extends Component {
     };
   }
 
+  componentDidMount() {
+    this.unsubscribe = this.props.navigation.addListener("focus", () => {
+      this.checkLoginStatus();
+    });
+  }
+
+  componentWillUnmount() {
+    this.unsubscribe();
+  }
+
+  checkLoginStatus = async () => {
+    const token = await AsyncStorage.getItem("app_session_token");
+    if (token != null) {
+      this.props.navigation.navigate("Profile");
+    }
+  };
+
   onSubmitLogin = () => {
-    this.setState({ submitted: true });
-    this.setState({ error: "" });
+    this.setState({ submitted: true, error: "" });
 
     if (!(this.state.email && this.state.password)) {
-      this.setState({ error: "Please enter an email and password" });
+      this.setState({ error: "Please enter both your email and password." });
       return;
     } else if (!EmailValidator.validate(this.state.email)) {
-      this.setState({ error: "Please enter a valid email" });
+      this.setState({ error: "Please enter a valid email address" });
       return;
     }
 
@@ -265,11 +274,13 @@ export default class Login extends Component {
     if (!PASSWORD_REGEX.test(this.state.password)) {
       this.setState({
         error:
-          "Password is too weak. It should contain at least 8 characters including one uppercase letter, one lowercase letter, one digit, and one special character: #?!@$%^&*-",
+          "Please enter a stronger password. Your password should be at least 8 characters long, contain a mix of upper and lowercase letters, and include at least one number and a special character (#?!@$%^&*-)",
       });
       return;
     } else {
-      console.log("Button clicked: " + this.state.email + " " + this.state.password);
+      console.log(
+        "Button clicked: " + this.state.email + " " + this.state.password
+      );
       console.log("Validated and ready to send to the API");
 
       this.loginSubmit();
@@ -300,32 +311,15 @@ export default class Login extends Component {
         this.setState({ submitted: false });
         this.props.navigation.navigate("Profile");
       } else if (response.status === 400) {
-        throw "Invalid email or password";
+        throw new Error("Invalid email or password");
       } else {
-        throw "Something went wrong";
+        throw new Error("Something went wrong");
       }
     } catch (error) {
+      this.setState({ error: error.message });
       console.log(error);
     }
   };
-
-  //checking to see if the user is being logged in or not
-  LoginStatus = async () => {
-    const token = await AsyncStorage.getItem("app_session_token");
-    if (token != null) {
-      this.props.navigation.navigate("Profile");
-    }
-  };
-
-  componentDidMount() {
-    this.unsubscribe = this.props.navigation.addListener("focus", () => {
-      this.LoginStatus();
-    });
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
 
   render() {
     const navigation = this.props.navigation;
@@ -334,12 +328,15 @@ export default class Login extends Component {
       <View style={styles.MainContainer}>
         <StatusBar style="auto" />
         <View style={styles.LogoContainer}>
-          <Image style={styles.MessengerLogo}
-            source={require("../../App/Images/MessengerLogo.png")}/>
+          <Image
+            style={styles.MessengerLogo}
+            source={require("../../App/Images/MessengerLogo.png")}
+          />
         </View>
 
         <View style={styles.InputContainer}>
-          <TextInput style={styles.TextInput}
+          <TextInput
+            style={styles.TextInput}
             placeholder="Email"
             onChangeText={(email) => this.setState({ email })}
             defaultValue={this.state.email}
@@ -350,26 +347,34 @@ export default class Login extends Component {
         </View>
 
         <View style={styles.InputContainer}>
-          <TextInput style={styles.TextInput}
+          <TextInput
+            style={styles.TextInput}
             placeholder="Password"
             onChangeText={(password) => this.setState({ password })}
             defaultValue={this.state.password}
             secureTextEntry={true}
           />
           {this.state.submitted && !this.state.password && (
-            <Text style={styles.ErrorMessage}>*Must enter a password</Text>
+            <Text style={styles.ErrorMessage}>* Must enter a password</Text>
           )}
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.RegisterButton}>Do you have an account? Register</Text>
+          <Text style={styles.RegisterButton}>
+            Don't have an account? Register
+          </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.LoginButton} onPress={this.onSubmitLogin}>
+        <TouchableOpacity
+          style={styles.LoginButton}
+          onPress={this.onSubmitLogin}
+        >
           <Text style={styles.TextButton}>Login</Text>
         </TouchableOpacity>
 
-        {this.state.error && <Text style={styles.ErrorMessage}>{this.state.error}</Text>}
+        {this.state.error && (
+          <Text style={styles.ErrorMessage}>{this.state.error}</Text>
+        )}
       </View>
     );
   }
@@ -379,61 +384,64 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     backgroundColor: "#0d416f",
-    alignItems: "center",
-    justifyContent: "center",
     paddingHorizontal: 30,
+    alignItems: "center",
     paddingVertical: 50,
+    justifyContent: "center",
   },
   LogoContainer: {
-    alignItems: "center",
     marginBottom: 30,
+    alignItems: "center",
   },
   MessengerLogo: {
     width: 200,
+    resizeMode: "contain",
     height: 200,
-    resizeMode:"contain",
   },
   InputContainer: {
     backgroundColor: "white",
     borderRadius: 25,
     width: "50%",
-    height: 50,
+    height: "10%",
+    alignItems: "center",
     marginBottom: 20,
     flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 10,
   },
   TextInput: {
     flex: 1,
-    fontSize: 16,
-    placeholderTextColor:"#7a7d68",
+    width: "100%",
+    height: "100%",
+    fontSize: 18,
+    borderRadius: 50,
+    placeholderTextColor: "#7a7d68",
+    padding: 20,
   },
   RegisterButton: {
     height: 30,
-    textDecorationLine: "underline",
     marginTop: 20,
     color: "white",
+    textDecorationLine: "underline",
   },
   LoginButton: {
     backgroundColor: "#F98125",
-    borderRadius: 25,
     width: "50%",
-    height: 50,
+    height: "10%",
     justifyContent: "center",
+    borderRadius: 25,
     alignItems: "center",
     marginTop: 40,
   },
   TextButton: {
-    color: "white",
-    fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
     padding: 20,
+    color: "white",
+    textAlign: "center",
+    fontSize: 18,
   },
   ErrorMessage: {
     color: "red",
-    fontWeight: "bold",
-    marginBottom: 10,
     textAlign: "center",
+    marginBottom: 10,
+    fontWeight: "bold",
   },
 });
