@@ -4,7 +4,7 @@ export const globalStyles = StyleSheet.create({
   OutterContainer:{
     height:"100%",
   },
-  container: {
+  Maincontainer: {
     flex: 1,
     width: '100%',
     alignItems: 'stretch',
@@ -16,12 +16,12 @@ export const globalStyles = StyleSheet.create({
     fontSize: 20,
     color: "#F98125",
 },
-header: {
+Header: {
   backgroundColor: "#F98125",
   paddingVertical: 10,
   paddingHorizontal: 15,
 },
-headerText: {
+HeaderText: {
   fontSize: 25,
   fontWeight: "bold",
   color: "#FFFFFF",

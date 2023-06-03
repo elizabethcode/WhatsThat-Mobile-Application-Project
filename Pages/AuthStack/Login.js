@@ -220,13 +220,12 @@
 
 
 
-
 // My Login edit - completed
 import React, { Component } from "react";
 import { StatusBar } from "expo-status-bar";
 import * as EmailValidator from "email-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Text, TextInput, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, TextInput, View, Image, StyleSheet, TouchableOpacity } from "react-native";
 // import { globalStyles } from '../../globalStyles';
 
 export default class Login extends Component {
@@ -242,29 +241,36 @@ export default class Login extends Component {
   }
 
   componentDidMount() {
+    // Listen for focus event when the component is mounted
     this.unsubscribe = this.props.navigation.addListener("focus", () => {
       this.checkLoginStatus();
     });
   }
 
   componentWillUnmount() {
+    // Unsubscribe from the focus event when the component is unmounted
     this.unsubscribe();
   }
 
   checkLoginStatus = async () => {
+    // Check if the user is already logged in by checking the token in AsyncStorage
     const token = await AsyncStorage.getItem("app_session_token");
     if (token != null) {
+      // If the token exists, navigate to the Profile screen
       this.props.navigation.navigate("Profile");
     }
   };
 
   onSubmitLogin = () => {
+    // Set the submitted state to true and clear any previous error message
     this.setState({ submitted: true, error: "" });
 
     if (!(this.state.email && this.state.password)) {
+      // Check if both email and password fields are filled
       this.setState({ error: "Please enter both your email and password." });
       return;
     } else if (!EmailValidator.validate(this.state.email)) {
+      // Check if the email is valid using the EmailValidator library
       this.setState({ error: "Please enter a valid email address" });
       return;
     }
@@ -272,6 +278,7 @@ export default class Login extends Component {
     const PASSWORD_REGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
 
     if (!PASSWORD_REGEX.test(this.state.password)) {
+      // Check if the password meets the required criteria using a regular expression
       this.setState({
         error:
           "Please enter a stronger password. Your password should be at least 8 characters long, contain a mix of upper and lowercase letters, and include at least one number and a special character (#?!@$%^&*-)",
@@ -296,6 +303,7 @@ export default class Login extends Component {
     console.log(data);
 
     try {
+      // Make a POST request to the login API endpoint with the user's email and password
       const response = await fetch("http://localhost:3333/api/1.0.0/login", {
         method: "POST",
         headers: {
@@ -305,17 +313,21 @@ export default class Login extends Component {
       });
 
       if (response.status === 200) {
+        // If the login is successful, save the user ID and session token in AsyncStorage
         const rJson = await response.json();
         await AsyncStorage.setItem("whatsThat_user_id", rJson.id);
         await AsyncStorage.setItem("app_session_token", rJson.token);
         this.setState({ submitted: false });
         this.props.navigation.navigate("Profile");
       } else if (response.status === 400) {
+        // If the login credentials are invalid, display an error message
         throw new Error("Invalid email or password");
       } else {
+        // If an error occurs during login, display a generic error message
         throw new Error("Something went wrong");
       }
     } catch (error) {
+      // Handle any errors that occur during the login process
       this.setState({ error: error.message });
       console.log(error);
     }
@@ -347,28 +359,23 @@ export default class Login extends Component {
         </View>
 
         <View style={styles.InputContainer}>
-          <TextInput
-            style={styles.TextInput}
+          <TextInput style={styles.TextInput}
             placeholder="Password"
             onChangeText={(password) => this.setState({ password })}
             defaultValue={this.state.password}
             secureTextEntry={true}
           />
+
           {this.state.submitted && !this.state.password && (
             <Text style={styles.ErrorMessage}>* Must enter a password</Text>
           )}
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("Register")}>
-          <Text style={styles.RegisterButton}>
-            Don't have an account? Register
-          </Text>
+          <Text style={styles.RegisterButton}>Don't have an account? Register</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.LoginButton}
-          onPress={this.onSubmitLogin}
-        >
+        <TouchableOpacity style={styles.LoginButton} onPress={this.onSubmitLogin}>
           <Text style={styles.TextButton}>Login</Text>
         </TouchableOpacity>
 

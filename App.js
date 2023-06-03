@@ -276,10 +276,10 @@ import Login from "./Pages/AuthStack/Login";
 import Register from "./Pages/AuthStack/Register";
 
 // MainAppNav Tab Navigators
-import ProfileScreen from "./Pages/MainAppTabNav/Profile";
-import UsersScreen from "./Pages/MainAppTabNav/Users";
-import ContactScreen from "./Pages/MainAppTabNav/Contact";
-import ChatsScreen from "./Pages/MainAppTabNav/Chats";
+import ProfilePage from "./Pages/MainAppTabNav/Profile";
+import UsersPage from "./Pages/MainAppTabNav/Users";
+import ContactPage from "./Pages/MainAppTabNav/Contact";
+import ChatsPage from "./Pages/MainAppTabNav/Chats";
 
 const Tab = createBottomTabNavigator();
 const AuthStack = createNativeStackNavigator();
@@ -308,10 +308,10 @@ function BottomTabNavigation() {
         inactiveTintColor: "#F98125",
       }}
     >
-      <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Users" component={UsersScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Contact" component={ContactScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Chats" component={ChatsScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Profile" component={ProfilePage} options={{ headerShown: false }} />
+      <Tab.Screen name="Users" component={UsersPage} options={{ headerShown: false }} />
+      <Tab.Screen name="Contact" component={ContactPage} options={{ headerShown: false }} />
+      <Tab.Screen name="Chats" component={ChatsPage} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }
