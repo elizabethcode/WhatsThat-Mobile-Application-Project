@@ -10,7 +10,8 @@ export default class EditUserProfile extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
+        // Initialize state variables
+        this.state = {           
             originalData: {},
             first_name: " ",
             last_name: " ",
@@ -20,6 +21,7 @@ export default class EditUserProfile extends Component {
     }
 
     componentDidMount() {
+      // Set the initial state values based on the received data
         this.setState({
             originalData: this.props.route.params.data,
             first_name: this.props.route.params.data.first_name,
@@ -30,8 +32,8 @@ export default class EditUserProfile extends Component {
         })
     }
 
-    //Update the user Profile and then send to API
-    updateProfile = async () => {
+    // Function to update the user profile and send the updated data to the API
+    UpdatingUserProfile = async () => {
 
         //Validation:
         if (!(this.state.email && this.state.password)) {
@@ -44,19 +46,22 @@ export default class EditUserProfile extends Component {
 
         let data = {}
 
+        // Check if the first name has been changed
         if (this.state.first_name !== this.state.originalData.first_name) {
             data.first_name = this.state.first_name
         }
 
+        // Check if the last name has been changed
         if (this.state.last_name !== this.state.originalData.last_name) {
             data.last_name = this.state.last_name
         }
 
+        // Check if the email has been changed
         if (this.state.email !== this.state.originalData.email) {
             data.email = this.state.email
         }
 
-        // Send Patch request to API
+        // Send a PATCH request to the API with the updated data
         return fetch(`http://localhost:3333/api/1.0.0/user/${this.state.originalData.user_id}`, {
             method: 'PATCH',
             headers: {
@@ -84,50 +89,50 @@ export default class EditUserProfile extends Component {
 
     return (
       <ScrollView>
-        <View style={styles.header}>
-          <Text style={styles.headerText}> Update Profile</Text>
+        <View style={styles.Header}>
+          <Text style={styles.HeaderText}> Update Profile</Text>
         </View>
 
         <View style={styles.MainContainer}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>First Name:</Text>
+          <View style={styles.InputContainer}>
+            <Text style={styles.TextLabel}>First Name:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.Input}
               value={this.state.first_name}
               onChangeText={(val) => this.setState({ first_name: val })}
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Last Name:</Text>
+          <View style={styles.InputContainer}>
+            <Text style={styles.TextLabel}>Last Name:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.Input}
               value={this.state.last_name}
               onChangeText={(val) => this.setState({ last_name: val })}
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Email:</Text>
+          <View style={styles.InputContainer}>
+            <Text style={styles.TextLabel}>Email:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.Input}
               value={this.state.email}
               onChangeText={(val) => this.setState({ email: val })}
             />
           </View>
 
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Password:</Text>
+          <View style={styles.InputContainer}>
+            <Text style={styles.TextLabel}>Password:</Text>
             <TextInput
-              style={styles.input}
+              style={styles.Input}
               value={this.state.password}
               onChangeText={(val) => this.setState({ password: val })}
               secureTextEntry
             />
           </View>
-          <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={() => this.updateProfile()}>
-            <Text style={styles.buttonText}>Update</Text>
+          <View style={styles.ButtonContainer}>
+          <TouchableOpacity style={styles.Button} onPress={() => this.UpdatingUserProfile()}>
+            <Text style={styles.TextButton}>Update</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -142,15 +147,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#0d416f",
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 30,
-    // paddingVertical: 50,
   },
-  header: {
+  Header: {
     backgroundColor: "#F98125",
     paddingVertical: 10,
     paddingHorizontal: 20,
   },
-  headerText: {
+  HeaderText: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFFFFF",
@@ -158,17 +161,17 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     marginTop: 5,
   },
-  inputContainer: {
+  InputContainer: {
     marginBottom: 20,
     width:"60%",
   },
-  label: {
+  TextLabel: {
     marginBottom: 10,
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "bold",
   },
-  input: {
+  Input: {
     backgroundColor: "#1A2E44",
     borderRadius: 50,
     height: 50,
@@ -176,18 +179,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#FFFFFF",
   },
-  errorText: {
+  ErrorMessage: {
     color: "red",
     marginBottom: 10,
   },
-  buttonContainer: {
+  ButtonContainer: {
     paddingBottom: 10,
     width: "60%",
     alignItems: "center",
     justifyContent: "center",
 
   },
-  button: {
+  Button: {
     width: "100%",
     backgroundColor: "#F98125",
     borderRadius: 25,
@@ -196,7 +199,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
-  buttonText: {
+  TextButton: {
     color: "#FFFFFF",
     fontSize: 18,
     fontWeight: "bold",
@@ -205,7 +208,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
   },
-  title: {
+  Title: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,

@@ -90,4 +90,4 @@ export default function Profile() {
       {/* <ProfileNavigationStack.Screen name="Camera" component={CameraComponent} /> */}
     </ProfileNavigationStack.Navigator>
   );
-}
+} 

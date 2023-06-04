@@ -274,7 +274,7 @@
 
 
 
-//
+//AccountProfile.js - my edit
 import React, { Component } from "react";
 import {
   StyleSheet,
@@ -317,6 +317,7 @@ export default class AccountProfile extends Component {
     }
   };
 
+  // Retrieves profile picture from the server
   RetrievingProfilePicture = async () => {
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
     const token = await AsyncStorage.getItem("app_session_token");
@@ -352,6 +353,7 @@ export default class AccountProfile extends Component {
     }
   };
 
+  // Retrieves user data from the server
   RetrievingData = async () => {
     const token = await AsyncStorage.getItem("app_session_token");
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");   
@@ -384,6 +386,7 @@ export default class AccountProfile extends Component {
     }
   };
 
+  // Logs out the user by sending a request to the server
   LogoutSubmit = async () => {
     console.log("Logout");
 
@@ -428,50 +431,50 @@ export default class AccountProfile extends Component {
       return (
         <View style={styles.OuterContainer}>
           <View style={styles.Header}>
-            <Text style={styles.headerText}>Profile</Text>
+            <Text style={styles.HeaderText}>Profile</Text>
           </View>
           <View style={styles.MainContainer}>
             <Image
               source={{
                 uri: this.state.photo,
               }}
-              style={styles.profileImage}
+              style={styles.ProfilePhoto}
             />
-            <View style={styles.inputContainer}>
-              <Text style={styles.label}>
+            <View style={styles.InputContainer}>
+              <Text style={styles.Heading}>
                 Name: {this.state.profile.first_name}{" "}
                 {this.state.profile.last_name}
               </Text>
-              <Text style={styles.label}>
+              <Text style={styles.Heading}>
                 Email: {this.state.profile.email}{" "}
               </Text>
             </View>
-            <TouchableOpacity style={styles.button}
+            <TouchableOpacity style={styles.Button}
               onPress={() =>
                 navigation.navigate("EditProfilePic", {
                   data: this.state.profile,
                 })
               }
             >
-              <Text style={styles.buttonText}>Update Profile Picture</Text>
+              <Text style={styles.TextButton}>Update Profile Picture</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.button}
+              style={styles.Button}
               onPress={() =>
                 navigation.navigate("EditUserProfile", {
                   data: this.state.profile,
                 })
               }
             >
-              <Text style={styles.buttonText}>Update Profile</Text>
+              <Text style={styles.TextButton}>Update Profile</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
-              style={styles.button}
+              style={styles.Button}
               onPress={this.LogoutSubmit}
             >
-              <Text style={styles.buttonText}>Logout</Text>
+              <Text style={styles.TextButton}>Logout</Text>
             </TouchableOpacity>
 
           </View>
@@ -488,54 +491,52 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
     backgroundColor: "#193A6F",
+    justifyContent: "center",
   },
-  Header: {
-    backgroundColor: "#F98125",
+  Header: {    
     paddingVertical: 10,
+    backgroundColor: "#F98125",
     paddingHorizontal: 15,
   },
-  headerText: {
-    fontSize: 25,
+  HeaderText: {
     fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
     marginBottom: 10,
+    fontSize: 25,
+    textAlign: "center",
     marginTop: 5,
+    color: "#FFFFFF",
   },
-  profileImage: {
-    width: 180,
-    height: 180,
-    borderWidth: 4,
+  ProfilePhoto: {
     borderStyle: "solid",
+    borderWidth: 4,
     borderColor: "#F98125",
     borderRadius: 200,
+    height: 180,
+    width: 180,
   },
-  inputContainer: {
-    marginBottom: 0,
+  InputContainer: {
   },
-  label: {
-    color: "#FFFFFF",
+  Heading: {
     fontSize: 16,
-    fontWeight: "bold",
+    color: "#FFFFFF",
     marginBottom: 5,
+    fontWeight: "bold",
     marginTop: 10,
   },
-  button: {
+  Button: {
     width: "60%",
-    backgroundColor: "#F98125",
+    marginTop: 10,
     borderRadius: 25,
+    backgroundColor: "#F98125",
+    alignItems: "center",
     height: 50,
     justifyContent: "center",
-    alignItems: "center",
-    marginTop: 10,
-    // marginBottom: 5,
   },
-  buttonText: {
-    color: "white",
+  TextButton: {
+    textAlign: "center",
     fontSize: 18,
     fontWeight: "bold",
-    textAlign: "center",
+    color: "white",
   },
 });

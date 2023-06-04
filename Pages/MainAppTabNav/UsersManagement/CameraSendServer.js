@@ -9,10 +9,12 @@ import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function CameraSendServer() {
+    // Initialize state variables
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [camera, setCamera] = useState(null);
 
+    // Function to toggle the camera type (front or back)
     function toggleCameraType() {
         setType((current) =>
             current === CameraType.back ? CameraType.front : CameraType.back
@@ -20,7 +22,8 @@ export default function CameraSendServer() {
         console.log("Camera: ", type);
     }
 
-    async function takePhoto() {
+    // Function to take a picture using the camera
+    async function TakePicture() {
         if (camera) {
             const options = {
                 quality: 0.5,
@@ -31,22 +34,22 @@ export default function CameraSendServer() {
         }
     }
 
-    //to be able to upload the user's profile picture
+    // Function to send the captured picture to the server
     async function sendToServer(data) {
-        // Get these from AsyncStorage
+        // Get authentication token and user ID from AsyncStorage
         // const auth = await AsyncStorage.getItem('@whatsThat_session_token');
         const user_id = await AsyncStorage.getItem("whatsThat_user_id");
 
+        // Fetch the picture data from the base64 string
         let res = await fetch(data.base64);
         let blob = await res.blob();
 
+        // Send the picture to the server
         return fetch("http://localhost:3333/api/1.0.0/user/" + user_id + "/photo", {
             method: "POST",
             headers: {
                 "Content-Type": "image/png",
-                "X-Authorization": await AsyncStorage.getItem(
-                    "app_session_token"
-                ),
+                "X-Authorization": await AsyncStorage.getItem("app_session_token" ),
             },
             body: blob,
         })
@@ -59,21 +62,22 @@ export default function CameraSendServer() {
             });
     }
 
+    // Check camera permission and render the camera view
     if (!permission || !permission.granted) {
         return <Text>No access to camera</Text>;
     } else {
         return (
-            <View style={styles.container}>
+            <View style={styles.MainContainer}>
                 <Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                            <Text style={styles.text}>Flip Camera</Text>
+                    <View style={styles.ButtonContainer}>
+                        <TouchableOpacity style={styles.Button} onPress={toggleCameraType}>
+                            <Text style={styles.TextLabel}>Flip Camera</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={takePhoto}>
-                            <Text style={styles.text}>Take Photo</Text>
+                    <View style={styles.ButtonContainer}>
+                        <TouchableOpacity style={styles.Button} onPress={TakePicture}>
+                            <Text style={styles.TextLabel}>Take Photo</Text>
                         </TouchableOpacity>
                     </View>
                 </Camera>
@@ -83,22 +87,23 @@ export default function CameraSendServer() {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    MainContainer: {
         flex: 1,
     },
-    buttonContainer: {
+    ButtonContainer: {
         alignSelf: "flex-end",
         padding: 5,
         margin: 5,
         backgroundColor: "steelblue",
     },
-    button: {
-        width: "100%",
+    Button: {
         height: "100%",
+        width: "100%",
+
     },
-    text: {
-        fontSize: 14,
-        fontWeight: "bold",
+    TextLabel: {
         color: "#ddd",
+        fontWeight: "bold",
+        fontSize: 14,
     },
 });

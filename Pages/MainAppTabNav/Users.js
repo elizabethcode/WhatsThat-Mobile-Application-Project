@@ -1,26 +1,25 @@
+//Users
 import React, { Component } from "react";
-import {
-  Text,
-  View,
-  TextInput,
-  StyleSheet,
-  ScrollView,
-  Button,
-} from "react-native";
+import {View,Text,Button,TextInput,StyleSheet, ScrollView,} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+// Define the Users component
 export default class Users extends Component {
   constructor(props) {
     super(props);
+    // Initialize the component's state
     this.state = {
-      users: [],
       searchQuery: "",
+      users: [],      
     };
   }
 
-  getUsers = async () => {
+  // Function to retrieve users from the server
+  RetrievingUsers = async () => {
+    // Check if the search query is not empty
     if (this.state.searchQuery) {
       try {
+        // Make a GET request to the server to retrieve users based on the search query
         const response = await fetch(
           `http://localhost:3333/api/1.0.0/search?q=${this.state.searchQuery}`,
           {
@@ -34,6 +33,7 @@ export default class Users extends Component {
           }
         );
 
+        //Response Status
         if (response.status === 200) {
           const rJson = await response.json();
           console.log(rJson);
@@ -50,14 +50,17 @@ export default class Users extends Component {
     }
   };
 
-  handleSearch = (query) => {
+  // Function to handle user search
+  HandingUserSearch = (query) => {
     this.setState({ searchQuery: query }, () => {
-      this.getUsers();
+      this.RetrievingUsers();
     });
   };
 
-  addContact = async (userId) => {
+  // Function to add a user as a contact
+  AddingContacts = async (userId) => {
     try {
+      // Make a POST request to add the user as a contact
       const response = await fetch(
         "http://localhost:3333/api/1.0.0/user/" + userId + "/contact",
         {
@@ -74,6 +77,7 @@ export default class Users extends Component {
         }
       );
 
+      //Response status
       if (response.status === 200) {
         console.log("Success", "User added as contact", [{ text: "OK" }]);
       } else {
@@ -86,81 +90,80 @@ export default class Users extends Component {
 
   render() {
     return (
-      <View style={styles.OutterContainer}>
-      <ScrollView>
-      <View style={styles.header}>
-            <Text style={styles.headerText}>Users List</Text>
+      <View style={styles.OuterContainer}>
+        <ScrollView>
+          <View style={styles.Header}>
+            <Text style={styles.HeaderText}>Users List</Text>
           </View>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.searchBox}
-            placeholder="Search for users"
-            onChangeText={this.handleSearch}
-            value={this.state.searchQuery}
-          />
-          {this.state.searchQuery &&
-            this.state.users.map((user) => {
-              return (
-                <View style={styles.userContainer} key={user.user_id}>
-                  <View style={styles.userInfoContainer}>
-                    <Text style={styles.userId}>ID: {user.user_id}</Text>
-                    <Text style={styles.userName}>Name: {user.first_name} {user.last_name}
-                    </Text>
-                    <Text style={styles.userEmail}>{user.email}</Text>
+          <View style={styles.MainContainer}>
+            <TextInput
+              style={styles.UserSearchBar}
+              placeholder="Search for users"
+              onChangeText={this.HandingUserSearch}
+              value={this.state.searchQuery}
+            />
+            {this.state.searchQuery &&
+              this.state.users.map((user) => {
+                return (
+                  <View style={styles.SearchUserContainer} key={user.user_id}>
+                    <View style={styles.UserInformationContainer}>
+                      <Text style={styles.Headings}>ID: {user.user_id}</Text>
+                      <Text style={styles.Headings}>Name: {user.first_name} {user.last_name}
+                      </Text>
+                      <Text style={styles.Headings}>{user.email}</Text>
+                    </View>
+                    <View style={styles.AddUserButtonContainer}>
+                      <Button style={styles.AddButton}
+                        onPress={() => this.AddingContacts(user.user_id)}
+                        title=" Add"
+                        borderStyle="solid"
+                        color="#F98125"
+                      />
+                    </View>
                   </View>
-                  <View style={styles.addButtonContainer}>
-                    <Button
-                      title=" Add"
-                      onPress={() => this.addContact(user.user_id)}
-                      color="#F98125"
-                      borderStyle="solid"
-
-                    />
-                  </View>
-                </View>
-              );
-            })}
-        </View>
-      </ScrollView>
+                );
+              })}
+          </View>
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
+  MainContainer: {
     flex: 1,
     paddingTop: 30,
     paddingHorizontal: 20,
     backgroundColor: "#0d416f",
   },
-  OutterContainer:{
-    width:"100%",
-    height:"100%",
+  OuterContainer: {
+    width: "100%",
+    height: "100%",
     backgroundColor: "#0d416f",
   },
-  header: {
+  Header: {
     backgroundColor: "#F98125",
     paddingVertical: 15,
     paddingHorizontal: 20,
   },
-  headerText: {
+  HeaderText: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
-    marginBottom:10,
+    marginBottom: 10,
     marginTop: 10,
-    
+
   },
-  title: {
+  AddButton: {
     fontSize: 20,
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
     marginBottom: 20,
   },
-  searchBox: {
+  UserSearchBar: {
     height: 40,
     borderWidth: 1,
     borderRadius: 50,
@@ -168,7 +171,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "white",
   },
-  userContainer: {
+  SearchUserContainer: {
     backgroundColor: "#FFFFFF",
     padding: 20,
     marginBottom: 20,
@@ -180,26 +183,17 @@ const styles = StyleSheet.create({
     marginRight: 50,
     marginTop: 20,
   },
-  userInfoContainer: {
+  UserInformationContainer: {
     flex: 1,
     alignItems: "flex-start",
     paddingLeft: 40,
   },
-  addButtonContainer: {
+  AddUserButtonContainer: {
     alignItems: "flex-end",
     marginLeft: 20,
   },
-  userId: {
-    fontSize: 16,
-    color: "black",
-  },
-  userName: {
-    fontSize: 16,
-    color: "black",
-    
-  },
-  userEmail: {
-    fontSize: 16,
+  Headings: {
+    fontSize: 18,
     color: "black",
   },
 });

@@ -113,7 +113,7 @@
 
 
 
-
+// //working camera 
 // import React, { Component } from 'react';
 // import LoginScreen from './Component/Login';
 // import Register from './Component/Register';
@@ -263,6 +263,12 @@
 //     );
 //   }
 // }
+
+
+
+
+
+
 
 //my edit completed
 import React from "react";
