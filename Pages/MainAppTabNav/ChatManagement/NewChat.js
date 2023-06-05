@@ -147,6 +147,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 50,
   },
+  Input: {
+  height: 50,
+  borderWidth: 1,
+  backgroundColor: "white",
+  width: "100%",
+  marginBottom: 10,
+  paddingHorizontal: 10,
+  borderRadius: 50,
+},
   Button: {
     width: "100%",
     backgroundColor: "#F98125",
