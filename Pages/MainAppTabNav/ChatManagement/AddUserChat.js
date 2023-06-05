@@ -1,173 +1,184 @@
-//AddUserChat
+//AddUserChat - edited at uni
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
-// import { globalStyles } from '../../globalStyles';
+
 export default class AddUserChat extends Component {
-    constructor(props){
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            user_id: "",
-            error: "", 
-            submitted: false,
-        }
+    // Initialize state variables
+    this.state = {
+      user_id: '',
+      ErrorMessage: '',
+      submitted: false,
+    };
 
-        this._onPressButton = this._onPressButton.bind(this)
+    this._onPressButton = this._onPressButton.bind(this);
+  }
+
+  async componentDidMount() {
+    try {
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
+
+      // Set request headers
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
+      };
+
+      // Get chat_id from navigation params
+      const { chat_id } = this.props.route.params;
+
+      // Make a GET request to retrieve chat messages
+      const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`, {
+        headers,
+      });
+
+      // Parse the response as JSON
+      const responseJson = await response.json();
+
+      // Reverse the order of messages and update state
+      this.setState({ messages: responseJson.messages.reverse() });
+    } catch (ErrorMessage) {
+      console.log(ErrorMessage);
+    }
+  }
+
+  _onPressButton = async () => {
+    // Set submitted flag to true and clear error message
+    this.setState({ submitted: true });
+    this.setState({ ErrorMessage: '' });
+
+    // Check if user_id is empty
+    if (!this.state.user_id) {
+      this.setState({ ErrorMessage: '*User ID field Required' });
+      return;
     }
 
-    async componentDidMount() {
-        try {
-          const token = await AsyncStorage.getItem('app_session_token');
-    
-          const headers = {
-            "Content-Type": "application/json",
-            "X-Authorization": token,
-          };
-    
-          const { chat_id } = this.props.route.params;
-          const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`, {
-            headers,
-          });
-    
-          const responseJson = await response.json();
-    
-          this.setState({ messages: responseJson.messages.reverse() });
-        } catch (error) {
-          console.log(error);
-        }
-      }
-      
-    _onPressButton = async() => {
-        this.setState({ submitted: true });
-        this.setState({ error: "" });
+    try {
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
 
-        if (!this.state.user_id) {
-            this.setState({ error: "*User ID field Required" });
-            return;
-        }
+      // Set request headers
+      const headers = {
+        'Content-Type': 'application/json',
+        'X-Authorization': token,
+      };
 
-        try {
-         
-            const token = await AsyncStorage.getItem('app_session_token');
-    
-            const headers = {
-              "Content-Type": "application/json",
-              "X-Authorization": token,
-            };
+      // Get chat_id from navigation params
+      const { chat_id } = this.props.route.params;
 
-            const { chat_id } = this.props.route.params;
-            const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}`+'/user/'+ this.state.user_id , {
-                method: "POST",
-                headers,
-                body: JSON.stringify({
-                    user_id: this.state.user_id,
-                }),
-            });
+      // Make a POST request to add user to the chat
+      const response = await fetch(`http://localhost:3333/api/1.0.0/chat/${chat_id}` + '/user/' + this.state.user_id, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          user_id: this.state.user_id,
+        }),
+      });
 
-            const responseJson = await response.json();
+      const responseJson = await response.json();
 
-            console.log("User Added: ", responseJson.token);
-
-        } catch (error) {
-            console.log(error);
-            this.props.navigation.navigate("ViewChats");
-        }
-        
+      console.log('User Added: ', responseJson.token);
+    } catch (ErrorMessage) {
+      console.log(ErrorMessage);
+      // Navigate to the ViewChats screen if an error occurs
+      this.props.navigation.navigate('ViewChats');
     }
+  };
 
-    render(){  
-   const { chat_id } = this.props.route.params;
-        return (
-            <View style={styles.container}>
-                <Text style={styles.title}> Add Contact To The Chat: {chat_id}</Text>
-                <View style={styles.formContainer}>
-                
-                    <View style={styles.email}>
-                       <Text style={styles.formLabel}>user ID:</Text>
-                        <TextInput
-                            style={{height: 40, borderWidth: 1, paddingVertical: 10}}
-                            placeholder="Enter user_id"
-                            onChangeText={user_id => this.setState({user_id})}
-                            defaultValue={this.state.user_id}
-                        />
+  render() {
+    // Get chat_id from navigation params
+    const { chat_id } = this.props.route.params;
+    return (
+      <View style={styles.MainContainer}>       
+        <View style={styles.Header}>
+          <Text style={styles.HeaderText}>Add Contact To The Chat: {chat_id}</Text>
+        </View>
+        <View style={styles.FormContainer}>
+          <View style={styles.UserInputContainer}>
+            <Text style={styles.FormHeading}>User ID:</Text>
+            <TextInput
+              style={styles.UserInput}
+              placeholder="Enter user_id"
+              onChangeText={(user_id) => this.setState({ user_id })}
+              defaultValue={this.state.user_id}
+            />
 
-                        <>
-                            {this.state.submitted && !this.state.user_id &&
-                                <Text style={styles.error}>*user_id is required</Text>
-                            }
-                        </>
-                    </View>
-            
-                    <View style={styles.loginbtn}>
-                        <TouchableOpacity onPress={() => this._onPressButton()}>
-                            <View style={styles.button}>
-                                <Text style={styles.buttonText}>Add Contact</Text>
-                                
-                            </View>
-                        </TouchableOpacity>
-                    </View>
+            {this.state.submitted && !this.state.user_id && <Text style={styles.ErrorMessage}>*User ID is required</Text>}
+          </View>
 
-                    <>
-                        {this.state.error &&
-                            <Text style={styles.error}>{this.state.error}</Text>
-                        }
-                    </>
-            
-                </View>
-            </View>
-        )
-    }
+          <View style={styles.loginbtn}>
+            <TouchableOpacity onPress={() => this._onPressButton()}>
+              <View style={styles.Button}>
+                <Text style={styles.TextButton}>Add Contact</Text>
+              </View>
+            </TouchableOpacity>
+          </View>
 
+          {this.state.ErrorMessage && <Text style={styles.ErrorMessage}>{this.state.ErrorMessage}</Text>}
+        </View>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-    backgroundColor: '#FFFFFF',
-    },
-     formContainer: {
-    padding: 20,
-    },
-
-  title: {
-    color:'#000000',
-    backgroundColor:'#146C94',
-    padding:10,
-    fontSize:25
-    },
-   formLabel: {
-    fontSize:15,
-    color:'#146C94'
+  MainContainer: {
+    flex: 1,
+    backgroundColor: '#0d416f',
   },
-    email:{
-     paddingVertical: 10
-    },
-
-    password:{
-     paddingVertical: 10
-    },
-
-    loginbtn:{
-  
-    },
-    button: {
-   backgroundColor: '#146C94',
+  Header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  HeaderText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
+   
+  },
+  FormContainer: {
+    padding: 20,
+  },
+  FormHeading: {
+    fontSize: 15,
+    color: "#FFFFFF",
+    paddingBottom:20,
+    fontWeight:"bold",
+  },
+  UserInputContainer: {
+    paddingVertical: 10,
+  },
+  UserInput: {
+    height: 40,
+    borderWidth: 1,
+    paddingVertical: 10,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 50,
+    paddingHorizontal: 10,
+  },
+  Button: {
+    backgroundColor: "#F98125",
     paddingHorizontal: 10,
     paddingVertical: 10,
-    borderRadius: 5,
-    alignItems: 'center',
-
-    },
-    buttonText: {
-    fontSize:15,
-    fontWeight:'bold',
-    color:'#000000'
-    },
-    error: {
-        color: "red",
-        
-    }
-  });
+    borderRadius: 50,
+    alignItems: "center",
+  },
+  TextButton: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  ErrorMessage: {
+    color: 'red',
+    marginTop: 5,
+  },
+});

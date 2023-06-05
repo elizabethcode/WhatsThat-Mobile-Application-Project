@@ -1,159 +1,4 @@
-// //AddRemove
-// import React, { Component } from "react";
-// import {
-//   View,
-//   Text,
-//   TouchableOpacity,
-//   StyleSheet,
-//   FlatList,
-// } from "react-native";
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-// // import { globalStyles } from '../../globalStyles';
-
-// export default class AddRemove extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       chats: [],
-//     };
-//   }
-
-//   componentDidMount() {
-//     this.loadContacts();
-//   }
-
-//   loadContacts = async () => {
-//     const token = await AsyncStorage.getItem("app_session_token");
-//     fetch("http://localhost:3333/api/1.0.0/chat", {
-//       method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "X-Authorization": token,
-//       },
-//     })
-//       .then((response) => response.json())
-//       .then((responseJson) => {
-//         console.log(responseJson);
-//         this.setState({ chats: responseJson });
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-//   };
-
-//   displayList = ({ item }) => (
-//     <TouchableOpacity
-//       style={styles.AddItem}
-//       onPress={() =>
-//         this.props.navigation.navigate("AddUserChat", { chat_id: item.chat_id })
-//       }
-//     >
-//       <Text style={styles.title}> Add the user to chat</Text>
-//       <Text style={styles.listItemTitle}>
-//         {item.chat_id} - {item.name}
-//       </Text>
-//     </TouchableOpacity>
-//   );
-
-//   displayLis = ({ item }) => (
-//     <TouchableOpacity
-//       style={styles.RemoveItem}
-//       onPress={() =>
-//         this.props.navigation.navigate("DeleteUserChat", {
-//           chat_id: item.chat_id,
-//         })
-//       }
-//     >
-//       <Text style={styles.RemoveItemTitle}>Remove the user from chat</Text>
-//       <Text style={styles.listItemTitle}>
-//         {item.chat_id} - {item.name}
-//       </Text>
-//     </TouchableOpacity>
-//   );
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.title}> Add Or Remove User</Text>
-//         <FlatList
-//           style={styles.listContainer}
-//           data={this.state.chats}
-//           renderItem={this.displayList}
-//         />
-
-//         <FlatList
-//           style={styles.listContainer}
-//           data={this.state.chats}
-//           renderItem={this.displayLis}
-//         />
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#F6F1F1",
-//   },
-//   listContainer: {
-//     padding: 20,
-//   },
-
-//   title: {
-//     color: "#AFD3E2",
-//     backgroundColor: "#146C94",
-//     padding: 10,
-//     fontSize: 25,
-//   },
-
-//   RemoveItemTitle: {
-//     color: "#6b1319",
-//     backgroundColor: "#d46169",
-//     padding: 10,
-//     fontSize: 25,
-//   },
-//   RemoveItemText: {
-//     color: "#1f0103",
-//     backgroundColor: "#d46169",
-//     padding: 10,
-//     fontSize: 25,
-//   },
-
-//   AddItem: {
-//     backgroundColor: "#AFD3E2",
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     marginBottom: 10,
-//     borderRadius: 5,
-//   },
-//   RemoveItem: {
-//     backgroundColor: "#d46169",
-//     paddingVertical: 10,
-//     paddingHorizontal: 20,
-//     marginBottom: 10,
-//     borderRadius: 5,
-//   },
-
-//   listItemText: {
-//     fontSize: 18,
-//     color: "#4A641E",
-//   },
-//   listItemTitle: {
-//     fontSize: 30,
-//     color: "#00000",
-//   },
-//   Icon: {
-//     alignSelf: "flex-end",
-//   },
-// });
-
-
-
-
-
-//AddRemove
+//AddRemove - edited at uni
 import React, { Component } from "react";
 import {
   View,
@@ -169,26 +14,31 @@ export default class AddRemove extends Component {
     super(props);
 
     this.state = {
+      // Holds the list of chats
       chats: [],
     };
   }
 
   componentDidMount() {
+    // When the component mounts, load the chats
     this.loadContacts();
   }
 
+  // Fetches the list of chats from the server
   loadContacts = async () => {
     const token = await AsyncStorage.getItem("app_session_token");
     fetch("http://localhost:3333/api/1.0.0/chat", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        // Passes the session token in the request headers
         "X-Authorization": token,
       },
     })
       .then((response) => response.json())
       .then((responseJson) => {
         console.log(responseJson);
+        // Updates the state with the received list of chats
         this.setState({ chats: responseJson });
       })
       .catch((error) => {
@@ -196,31 +46,34 @@ export default class AddRemove extends Component {
       });
   };
 
+  // Renders each chat item in the list with an option to add users to the chat
   displayList = ({ item }) => (
     <TouchableOpacity
-      style={styles.AddItem}
+      style={styles.AddingUserToChat}
       onPress={() =>
+        // Navigates to the "AddUserChat" screen with the selected chat ID
         this.props.navigation.navigate("AddUserChat", { chat_id: item.chat_id })
       }
     >
-      <Text style={styles.title}>Add the user to chat</Text>
-      <Text style={styles.listItemTitle}>
+      <Text style={styles.Heading}>Add the user to chat</Text>
+      <Text style={styles.ItemListHeading}>
         {item.chat_id} - {item.name}
       </Text>
     </TouchableOpacity>
   );
 
+  // Renders each chat item in the list with an option to remove users from the chat
   displayLis = ({ item }) => (
     <TouchableOpacity
-      style={styles.RemoveItem}
+      style={styles.RemovingUserFromChat}
       onPress={() =>
         this.props.navigation.navigate("DeleteUserChat", {
           chat_id: item.chat_id,
         })
       }
     >
-      <Text style={styles.RemoveItemTitle}>Remove the user from chat</Text>
-      <Text style={styles.listItemTitle}>
+      <Text style={styles.RemoveUserTitle}>Remove the user from chat</Text>
+      <Text style={styles.ItemListHeading}>
         {item.chat_id} - {item.name}
       </Text>
     </TouchableOpacity>
@@ -228,20 +81,26 @@ export default class AddRemove extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-       
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Add Or Remove User</Text>
+      <View style={styles.MainContainer}>
+
+        <View style={styles.Header}>
+          <Text style={styles.HeaderText}>Add Or Remove User</Text>
         </View>
+        {/* Renders a FlatList to display the list of chats */}
         <FlatList
-          style={styles.listContainer}
+          style={styles.DisplayListContainer}
+          // Passes the list of chats as data
           data={this.state.chats}
+          // Renders each item using the displayList function
           renderItem={this.displayList}
         />
 
+        {/* Renders another FlatList to display the list of chats with an option to remove users */}
         <FlatList
-          style={styles.listContainer}
+          style={styles.DisplayListContainer}
+          // Passes the list of chats as data
           data={this.state.chats}
+          // Renders each item using the displayLis function
           renderItem={this.displayLis}
         />
       </View>
@@ -250,28 +109,28 @@ export default class AddRemove extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  MainContainer: {
     flex: 1,
     backgroundColor: "#0d416f",
   },
-  header: {
+  Header: {
     backgroundColor: "#F98125",
     paddingVertical: 15,
     paddingHorizontal: 20,
   },
-  headerText: {
+  HeaderText: {
     fontSize: 25,
     fontWeight: "bold",
     color: "#FFFFFF",
     textAlign: "center",
-    marginBottom:10,
+    marginBottom: 10,
     marginTop: 10,
-   
+
   },
-  listContainer: {
+  DisplayListContainer: {
     padding: 20,
   },
-  title: {
+  Heading: {
     color: "green",
     backgroundColor: "#FF9800",
     padding: 10,
@@ -279,7 +138,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  RemoveItemTitle: {
+  RemoveUserTitle: {
     color: "red",
     backgroundColor: "#FF9800",
     padding: 10,
@@ -287,21 +146,21 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
-  AddItem: {
+  AddingUserToChat: {
     backgroundColor: "#FF9800",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
     borderRadius: 5,
   },
-  RemoveItem: {
+  RemovingUserFromChat: {
     backgroundColor: "#FF9800",
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginBottom: 10,
     borderRadius: 5,
   },
-  listItemTitle: {
+  ItemListHeading: {
     fontSize: 30,
     color: "#FFFFFF",
     textAlign: "center",

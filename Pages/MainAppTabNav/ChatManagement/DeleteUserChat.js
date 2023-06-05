@@ -1,160 +1,4 @@
-// //DeleteUserChat
-// import React, { Component } from "react";
-// import {
-//   View,
-//   Text,
-//   TextInput,
-//   TouchableOpacity,
-//   StyleSheet,
-//   Alert,
-// } from "react-native";
-
-// import AsyncStorage from "@react-native-async-storage/async-storage";
-
-// export default class DeleteUserChat extends Component {
-//   constructor(props) {
-//     super(props);
-
-//     this.state = {
-//       user_id: "",
-//       error: "",
-//       submitted: false,
-//     };
-
-//     this._onPressButton = this._onPressButton.bind(this);
-//   }
-
-//   _onPressButton = async () => {
-//     this.setState({ submitted: true });
-//     this.setState({ error: "" });
-
-//     if (!this.state.user_id) {
-//       this.setState({ error: "*Must enter user id field" });
-//       return;
-//     }
-
-//     console.log("Contact: " + this.state.user_id + " deleted ");
-
-//     try {
-//       const token = await AsyncStorage.getItem("app_session_token");
-
-//       const headers = {
-//         "Content-Type": "application/json",
-//         "X-Authorization": token,
-//       };
-
-//       const response = await fetch(
-//         "http://localhost:3333/api/1.0.0/user/" +
-//           this.state.user_id +
-//           "/contact",
-//         {
-//           method: "DELETE",
-//           headers,
-//           body: JSON.stringify({
-//             user_id: this.state.user_id,
-//           }),
-//         }
-//       );
-
-//       const rJson = await response.json();
-
-//       console.log("User deleted: ", rJson.token);
-//     } catch (error) {
-//       console.log(error);
-//       this.props.navigation.navigate("Chats");
-//     }
-//   };
-
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <Text style={styles.title}>Delete Contact</Text>
-//         <View style={styles.formContainer}>
-//           <View style={styles.email}>
-//             <Text style={styles.formLabel}>user_id:</Text>
-//             <TextInput
-//               style={{ height: 40, borderWidth: 1, paddingVertical: 10 }}
-//               placeholder=" Enter user_id"
-//               onChangeText={(user_id) => this.setState({ user_id })}
-//               defaultValue={this.state.user_id}
-//             />
-
-//             <>
-//               {this.state.submitted && !this.state.user_id && (
-//                 <Text style={styles.error}>*user_id is required</Text>
-//               )}
-//             </>
-//           </View>
-
-//           <View style={styles.loginbtn}>
-//             <TouchableOpacity onPress={() => this._onPressButton()}>
-//               <View style={styles.button}>
-//                 <Text style={styles.buttonText}>Delete Contact</Text>
-//               </View>
-//             </TouchableOpacity>
-//           </View>
-
-//           <>
-//             {this.state.error && (
-//               <Text style={styles.error}>{this.state.error}</Text>
-//             )}
-//           </>
-//         </View>
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#F6F1F1",
-//   },
-//   formContainer: {
-//     padding: 20,
-//   },
-
-//   title: {
-//     color: "#AFD3E2",
-//     backgroundColor: "#146C94",
-//     padding: 10,
-//     fontSize: 25,
-//   },
-//   formLabel: {
-//     fontSize: 15,
-//     color: "#AFD3E2",
-//   },
-//   email: {
-//     paddingVertical: 10,
-//   },
-
-//   password: {
-//     paddingVertical: 10,
-//   },
-
-//   loginbtn: {},
-//   button: {
-//     backgroundColor: "#19A7CE",
-//     paddingHorizontal: 10,
-//     paddingVertical: 10,
-//     borderRadius: 5,
-//     alignItems: "center",
-//   },
-//   buttonText: {
-//     fontSize: 15,
-//     fontWeight: "bold",
-//     color: "#000000",
-//   },
-//   error: {
-//     color: "red",
-//   },
-// });
-
-
-
-
-
-//DeleteUserChat
+//DeleteUserChat - edited at uni
 import React, { Component } from "react";
 import {
   View,
@@ -166,15 +10,15 @@ import {
 } from "react-native";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { globalStyles } from '../../globalStyles';
 
 export default class DeleteUserChat extends Component {
   constructor(props) {
     super(props);
 
+    // Initialize state variables
     this.state = {
       user_id: "",
-      error: "",
+      ErrorMessage: "",
       submitted: false,
     };
 
@@ -182,24 +26,29 @@ export default class DeleteUserChat extends Component {
   }
 
   _onPressButton = async () => {
+    // Set submitted flag to true and clear ErrorMessage message
     this.setState({ submitted: true });
-    this.setState({ error: "" });
+    this.setState({ ErrorMessage: "" });
 
+    // Check if user_id is empty
     if (!this.state.user_id) {
-      this.setState({ error: "*Must enter user id field" });
+      this.setState({ ErrorMessage: "*Must enter user id field" });
       return;
     }
 
     console.log("Contact: " + this.state.user_id + " deleted ");
 
     try {
+      // Get token from AsyncStorage
       const token = await AsyncStorage.getItem("app_session_token");
 
+      // Set request headers
       const headers = {
         "Content-Type": "application/json",
         "X-Authorization": token,
       };
 
+      // Make a DELETE request to delete a contact
       const response = await fetch(
         "http://localhost:3333/api/1.0.0/user/" +
           this.state.user_id +
@@ -213,47 +62,51 @@ export default class DeleteUserChat extends Component {
         }
       );
 
+      // Parse the response as JSON
       const responseJson = await response.json();
 
       console.log("User deleted: ", responseJson.token);
-    } catch (error) {
-      console.log(error);
+    } catch (ErrorMessage) {
+      console.log(ErrorMessage);
+      // Navigate to the Chats screen if an ErrorMessage occurs
       this.props.navigation.navigate("Chats");
     }
   };
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Delete Contact</Text>
-        <View style={styles.formContainer}>
-          <View style={styles.email}>
-            <Text style={styles.formLabel}>user_id:</Text>
+      <View style={styles.MainContainer}>
+        <View style={styles.Header}>
+          <Text style={styles.HeaderText}>Delete Contact</Text>
+        </View>
+        <View style={styles.FormContainer}>
+          <View style={styles.UserInputContainer}>
+            <Text style={styles.FormHeading}>User ID:</Text>
             <TextInput
-              style={{ height: 40, borderWidth: 1, paddingVertical: 10 }}
-              placeholder=" Enter user_id"
+              style={{ backgroundColor: "white", height: 40, borderWidth: 1, paddingVertical: 10, borderRadius:50, padding:10 }}
+              placeholder="Enter user_id"
               onChangeText={(user_id) => this.setState({ user_id })}
               defaultValue={this.state.user_id}
             />
 
             <>
               {this.state.submitted && !this.state.user_id && (
-                <Text style={styles.error}>*user_id is required</Text>
+                <Text style={styles.ErrorMessage}>*user_id is required</Text>
               )}
             </>
           </View>
 
           <View style={styles.loginbtn}>
             <TouchableOpacity onPress={() => this._onPressButton()}>
-              <View style={styles.button}>
-                <Text style={styles.buttonText}>Delete Contact</Text>
+              <View style={styles.Button}>
+                <Text style={styles.TextButton}>Delete Contact</Text>
               </View>
             </TouchableOpacity>
           </View>
 
           <>
-            {this.state.error && (
-              <Text style={styles.error}>{this.state.error}</Text>
+            {this.state.ErrorMessage && (
+              <Text style={styles.ErrorMessage}>{this.state.ErrorMessage}</Text>
             )}
           </>
         </View>
@@ -263,46 +116,60 @@ export default class DeleteUserChat extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  MainContainer: {
     flex: 1,
-    backgroundColor: "#F6F1F1",
+    backgroundColor: "#0d416f",
   },
-  formContainer: {
+  Header: {
+    backgroundColor: "#F98125",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+  },
+  HeaderText: {
+    fontSize: 25,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    textAlign: "center",
+    marginBottom:10,
+    marginTop: 10,
+   
+  },
+  FormContainer: {
     padding: 20,
   },
-
-  title: {
-    color: "#AFD3E2",
-    backgroundColor: "#146C94",
+  Heading: {
+    color: "#F57C00",
+    backgroundColor: "#FF9800",
     padding: 10,
     fontSize: 25,
+    fontWeight: "bold",
+    textAlign: "center",
   },
-  formLabel: {
+  FormHeading: {
     fontSize: 15,
-    color: "#AFD3E2",
+    color: "#FFFFFF",
+    paddingBottom:20,
+    fontWeight:"bold",
   },
-  email: {
+  UserInputContainer: {
     paddingVertical: 10,
   },
-
-  password: {
-    paddingVertical: 10,
+  loginbtn: {
+   
   },
-
-  loginbtn: {},
-  button: {
-    backgroundColor: "#19A7CE",
+  Button: {
+    backgroundColor: "#F98125",
     paddingHorizontal: 10,
     paddingVertical: 10,
-    borderRadius: 5,
+    borderRadius: 50,
     alignItems: "center",
   },
-  buttonText: {
+  TextButton: {
     fontSize: 15,
     fontWeight: "bold",
-    color: "#000000",
+    color: "#FFFFFF",
   },
-  error: {
-    color: "red",
+  ErrorMessage: {
+    color: "#000000",
   },
 });
