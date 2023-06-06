@@ -1,11 +1,11 @@
-//ViewBlockedContacts - completed
+//DisplayBlockedContact
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native';
 // import { globalStyles } from '../../globalStyles';
 
-export default class ViewBlockContact extends Component {
+export default class DisplayBlockContact extends Component {
   constructor(props) {
     super(props);
 
@@ -23,12 +23,12 @@ export default class ViewBlockContact extends Component {
   // // Fetches the list of unblocked contacts from the server
   LoadingUnblockedContacts = async () => {
     try {
-      const token = await AsyncStorage.getItem('app_session_token');
+      const SessionToken = await AsyncStorage.getItem('app_session_token');
       const response = await fetch('http://localhost:3333/api/1.0.0/blocked', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
-          "X-Authorization": token,
+          "X-Authorization": SessionToken,
         },
       });
 

@@ -1,963 +1,291 @@
-import React, { Component } from 'react';
-import { Text, View, TextInput, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
-
-import * as EmailValidator from 'email-validator';
-
+// Register
+import { StatusBar } from "expo-status-bar";
+import React, { Component } from "react";
+import { Text, TextInput, View, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
+import * as EmailValidator from "email-validator";
 
 export default class Register extends Component {
-    constructor(props) {
-        super(props);
+  constructor(props) {
+    super(props);
 
-        this.state = {
-            first_name: "",
-            last_name: "",
-            email: "",
-            password: "",
-            confirm_password: "",
-            error: "",
-            submitted: false
-        }
+    this.state = {
+      email: "",
+      firstName: "",
+      lastName: "",
+      password: "",
+      confirmPassword: "",
+      error: "",
+      submitted: false,
+    };
 
-        this.RegisterButton = this.RegisterButton.bind(this)
+    this.OnSubmitRegister = this.OnSubmitRegister.bind(this);
+  }
+
+  // Function called when register button is clicked
+  OnSubmitRegister() {
+    this.setState({ submitted: true });
+    this.setState({ error: "" });
+
+    // Check if all required fields are filled
+    if (!(this.state.firstName && this.state.lastName && this.state.email && this.state.password && this.state.confirmPassword)) {
+      this.setState({ error: "Please fill in all the required fields" });
+      return;
+    } else if (!EmailValidator.validate(this.state.email)) {
+      this.setState({ error: "Please enter a valid email address" });
+      return;
     }
 
-    RegisterButton = () => {
+    // Check password strength using a regular expression
+    const PASSWORD_REGEX = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$");
 
-        this.setState({ submitted: true })
-        this.setState({ error: "" })
+    if (!PASSWORD_REGEX.test(this.state.password)) {
+      this.setState({
+        error:
+          "Please enter a stronger password. Your password should be at least 8 characters long, contain a mix of upper and lowercase letters, and include at least one number and a special character (#?!@$%^&*-)",
+      });
+      return;
+    } else {
+      console.log(
+        "Register button clicked. Email: " + this.state.email + ", Password: " + this.state.password
+      );
+      console.log("Validation successful. Ready to submit to the API.");
 
-        if (!(this.state.first_name)) {
-            this.setState({ error: "Must enter first name" })
-            return;
-        }
-
-        if (!(this.state.last_name)) {
-            this.setState({ error: "Must enter last name" })
-            return;
-        }
-
-        if (!(this.state.email && this.state.password)) {
-            this.setState({ error: "Must enter email and password" })
-            return;
-        }
-
-        console.log(this.state.password);
-        console.log(this.state.confirm_password);
-
-        if (!EmailValidator.validate(this.state.email)) {
-            this.setState({ error: "Must enter valid email" })
-            return;
-        }
-
-        const PASSWORD_REGEX = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-        if (!PASSWORD_REGEX.test(this.state.password)) {
-            this.setState({ error: "Password isn't strong enough (One upper, one lower, one special, one number, at least 8 characters long)" })
-            return;
-        }
-        if (this.state.password !== this.state.confirm_password) {
-            this.setState({ error: "Password isn't matching)" })
-            return;
-        }
-    
-
-
-        console.log("HERE:", this.state.email, this.state.password)
-
-        return fetch("http://localhost:3333/api/1.0.0/user", {
-        method: 'post',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(
-            {
-            "first_name": this.state.first_name,
-            "last_name": this.state.last_name,
-            "email": this.state.email,
-            "password": this.state.password,
-            })   
-        })
-        .then((response) => {
-           if(response.status === 201) 
-               return response.json()
-           if(response.status === 500)
-           {
-              throw 'Server error'
-           }else if(response.status === 400) {
-                throw "Email already exists or password isn't strong enough";
-           }else{
-                throw 'Something wrent wrong';
-           }
-        })
-
-        .then((rJson) => {
-            console.log("User created with ID: ", rJson);
-            this.setState({"error":"User added successfully"})
-            this.setState({"submitted":false})
-            this.props.navigation.navigate("Login");
-        })
-        .catch((error) => {
-          this.setState({"error": error})
-          this.setState({"submitted": false})
-        })
-
-            
-
-        //API REquest to login
-
-        //get the response
-        //save the token and the ID
-        //send to the contacts screen
-
+      this.RegisterSubmit();
     }
+  }
 
-    render() {
-        return (
-            // <View style={styles.Container}>
-            <View style={styles.formContainer}>
-                <View style={styles.email}>
-                    <Text style={styles.Titles}>First Name:</Text>
-                    <TextInput style={styles.first_name_input}
-                        placeholder="Enter first name"
-                        onChangeText={first_name => this.setState({ first_name })}
-                        defaultValue={this.state.first_name}
-                    />
+  // Send register request to API
+  RegisterSubmit = async () => {
+    const data = {
+      first_name: this.state.firstName, last_name: this.state.lastName,
+      email: this.state.email, password: this.state.password,
+    };
 
-                    <>
-                        {this.state.submitted && !this.state.first_name &&
-                            <Text style={styles.error}>Please enter first name</Text>
-                        }
-                    </>
-                </View>
+    console.log(data);
 
-                {/* <View style={styles.formContainer}> */}
-                    <View style={styles.email}>
-                        <Text style={styles.Titles}>Last Name:</Text>
-                        <TextInput style={styles.last_name_input}
-                            placeholder="Enter last name"
-                            onChangeText={last_name => this.setState({ last_name })}
-                            defaultValue={this.state.last_name}
-                        />
+    // Make the API request to register the user
+    fetch("http://localhost:3333/api/1.0.0/user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    })
 
-                        <>
-                            {this.state.submitted && !this.state.last_name &&
-                                <Text style={styles.error}>Please enter last name</Text>
-                            }
-                        </>
-                    </View>
+      //different response handlers
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        } else if (response.status === 400) {
+          throw "An error occurred during registration. Please check your email and password. Make sure your email doesn't exits or make sure your email or password is valid";
+        } else if (response.status === 500) {
+          throw "Something unexpected happened. Please try again.";
+        }
+      })
 
+      // Handle the successful response from the server after registration
+      .then((response) => {
+        console.log(response);
+        this.setState({ error: "Registration successful! You can now log in." });
+        this.setState({ submitted: false });
+        this.props.navigation.navigate("Login");
+      })
 
-                    {/* <View style={styles.formContainer}> */}
-                        <View style={styles.email}>
-                            <Text style={styles.Titles}>Email:</Text>
-                            <TextInput style={styles.email_input}
-                                placeholder="Enter email"
-                                onChangeText={email => this.setState({ email })}
-                                defaultValue={this.state.email}
-                            />
+      // Store the received SessionToken in AsyncStorage (assuming it's part of the response JSON)
+      .then(async (rJson) => {
+        console.log(rJson);
+        await AsyncStorage.setItem("app_session_token", rJson.SessionToken);
+        this.props.navigation.navigate("Login");
+      })
 
-                            <>
-                                {this.state.submitted && !this.state.email &&
-                                    <Text style={styles.error}>Please enter an email</Text>
-                                }
-                            </>
-                        </View>
+      // Handle any errors that occurred during the API request or response handling
+      .catch((error) => {
+        console.log(error);
+        this.setState({ error: error });
+        this.setState({ submitted: false });
+      });
+  };
 
-                        <View style={styles.password}>
-                            <Text style={styles.Titles}>Password:</Text>
-                            <TextInput style={styles.password_input}
-                                placeholder="Enter password"
-                                onChangeText={password => this.setState({ password })}
-                                defaultValue={this.state.password}
-                                secureTextEntry
-                            />
+  render() {
+    const navigation = this.props.navigation;
+    const { firstName, lastName, email, password, confirmPassword, error, submitted, } = this.state;
 
-                            <>
-                                {this.state.submitted && !this.state.password &&
-                                    <Text style={styles.error}>Please enter a password</Text>
-                                }
-                            </>
-                        </View>
+    return (
+      <ScrollView>
+        <View style={globalStyles.OutterContainer}>
+          <View style={globalStyles.Header}>
+            <Text style={globalStyles.HeaderText}>Register</Text>
+          </View>
+          <View style={styles.MainContainer}>
+            <StatusBar style="auto" />
+            <View style={styles.FormField}>
+              <Text style={styles.TitleInput}>Forename</Text>
 
-                        <View style={styles.password}>
-                            <Text style={styles.Titles}>Confirm Password:</Text>
-                            <TextInput style={styles.password_input}
-                                placeholder="Confirm Password"
-                                onChangeText={confirm_password => this.setState({ confirm_password })}
-                                defaultValue={this.state.confirm_password}
-                                secureTextEntry
-                            />
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(firstName) => this.setState({ firstName })}
+                defaultValue={firstName}
+              />
 
-                            <>
-                                {this.state.submitted && !this.state.confirm_password &&
-                                    <Text style={styles.error}>Please confirm your password</Text>
-                                }
+              <>
+                {submitted && !firstName && (
+                  <Text style={styles.ErrorMessage}>* Must enter a forename</Text>
+                )}
+              </>
 
-                            </>
-                        </View>
+            </View>
 
+            <View style={styles.FormField}>
+              <Text style={styles.TitleInput}>Surname</Text>
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(lastName) => this.setState({ lastName })}
+                defaultValue={lastName}
+              />
 
-                        <View style={styles.signupbtn}>
-                            <TouchableOpacity onPress={() => this.RegisterButton()}>
-                                <View style={styles.button}>
-                                    <Text style={styles.buttonText}>Sign Up</Text>
-                                </View>
-                            </TouchableOpacity>
-                            <Text style={styles.error}>{this.state.error}</Text>
-                        </View>
-                    {/* </View> */}
-                </View>
-            // </View>
+              <>
+                {submitted && !lastName && (
+                  <Text style={styles.ErrorMessage}>* Must enter a surname</Text>
+                )}
+              </>
+            </View>
 
+            <View style={styles.FormField}>
+              <Text style={styles.TitleInput}>Email</Text>
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(email) => this.setState({ email })}
+                defaultValue={email}
+              />
+              <>
+                {submitted && !email && (
+                  <Text style={styles.ErrorMessage}>* Must enter an email</Text>
+                )}
+              </>
 
-        )
-    }
+            </View>
+
+            <View style={styles.FormField}>
+              <Text style={styles.TitleInput}>Password</Text>
+              <TextInput
+                style={styles.TextInput}
+                onChangeText={(password) => this.setState({ password })}
+                defaultValue={password}
+                secureTextEntry={true}
+              />
+
+              <>
+                {submitted && !password && (
+                  <Text style={styles.ErrorMessage}>* Must enter a password</Text>
+                )}
+              </>
+            </View>
+
+            <View style={styles.FormField}>
+              <Text style={styles.TitleInput}>Confirm Password</Text>
+              <TextInput style={styles.TextInput}
+                onChangeText={(confirmPassword) =>
+                  this.setState({ confirmPassword })
+                }
+                defaultValue={confirmPassword}
+                secureTextEntry={true}
+              />
+
+              <>
+                {submitted && confirmPassword !== password && (
+                  <Text style={styles.ErrorMessage}>* Passwords do not match</Text>
+                )}
+              </>
+            </View>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text style={styles.LoginButton}>Already have an account? Login</Text>
+            </TouchableOpacity>
+
+            <View>
+              {error && (
+                <Text style={styles.ErrorMessage}>{error}</Text>
+              )}
+            </View>
+            <View style={styles.ButtonContainer}>
+              <View style={styles.Button}>
+                <TouchableOpacity onPress={this.OnSubmitRegister}>
+                  <Text style={styles.TextButton}>Register</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      </ScrollView>
+    );
+  }
 }
 
-    
-
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: "80%",
-        alignItems: "stretch",
-        justifyContent: "center",
-        height:"100%",
-    },
-    first_name_input: {
-        height: 35,
-        borderWidth: 1,
-        width: "60%",
-        color: "white",
-        marginLeft:130,
-        padding:10,
-        borderRadius:50,
-        borderColor: "Black",
-    },
-    last_name_input: {
-        height: 35,
-        borderWidth: 1,
-        width: "60%",
-        color: "white",
-        marginLeft:130,
-        padding:10,
-        borderRadius:50,
-        borderColor: "Black",
-    },
-
-    email_input: {
-        height: 35,
-        borderWidth: 1,
-        width: "60%",
-        color: "white",
-        marginLeft:130,
-        padding:10,
-        borderRadius:50,
-        borderColor: "Black",
-    },
-    password_input: {
-        height: 35,
-        borderWidth: 1,
-        width: "60%",
-        color: "white",
-        marginLeft:130,
-        padding:10,
-        borderRadius:50,
-        borderColor: "Black",
-    },
-    formContainer: {
-        backgroundColor: "#193A6F",
-        width:"100%",
-        height:"100%",
-
-    },
-    Titles:{
-        fontWeight: "Bold",
-        paddingTop:10,
-        paddingBottom:10,
-        color:"white",
-        fontSize:12,
-        marginLeft:140,
-    },
-    email: {
-        marginBottom: 5
-    },
-    password: {
-        marginBottom: 10
-    },
-    signupbtn: {
-                justifyContent: "center",
-        textDecorationLine: "underline"
-
-    },
-    signup: {
-        justifyContent: "center",
-        textDecorationLine: "underline"
-    },
-    button: {
-        backgroundColor: '#F98125',
-        borderRadius: 60,
-        width: "50%",
-        marginLeft: "25%",
-        marginTop: 13,
-        padding: 5,
-    },
-    buttonText: {
-        textAlign: 'center',
-        padding: 8,
-        color: 'white',
-        fontWeight: "bold",
-        fontSize: 14,
-    },
-    error: {
-        color: "#F98125",
-        fontWeight: '900',
-        marginLeft:140,
-    }
+  MainContainer: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#0d416f",
+    justifyContent: "center",
+  },
+  FormField: {
+    backgroundColor: "#f4f4f4",
+    borderRadius: 50,
+    marginBottom: 20,
+    width: "60%",
+    height: 45,
+    marginTop: 20,
+    flexDirection: "row",
+    alignItems: "center",
+    paddingHorizontal: 10,
+  },
+  TextInput: {
+    flex: 1,
+    width: "100%",
+    paddingLeft: 10,
+    borderRadius: 50,
+    color: "black",
+    height: "100%",
+  },
+  TitleInput: {
+    fontWeight: "bold",
+    color: "#333333",
+    marginRight: 10,
+  },
+  LoginButton: {
+    marginBottom: -15,
+    textDecorationLine: "underline",
+    color: "#FFFFFF",
+  },
+  ButtonContainer: {
+    alignItems: "center",
+    width: "60%",
+    justifyContent: "center",
+    paddingBottom: 14,
+  },
+  Button: {
+    width: "100%",
+    alignItems: "center",
+    height: 50,
+    borderRadius: 25,
+    justifyContent: "center",
+    backgroundColor: "#F98125",
+    marginTop: 30,
+  },
+  TextButton: {
+    textAlign: "center",
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#FFFFFF",
+    padding: 20,
+  },
+  ErrorMessage: {
+    color: "red",
+    marginTop: 25,
+    fontWeight: "650",
+    textAlign: "center",
+  },
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//edit 1 
-// import React, { Component } from 'react';
-// import { Text, View, TextInput, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
-
-// import * as EmailValidator from 'email-validator';
-
-// export default class Register extends Component {
-//     constructor(props) {
-//         super(props);
-
-//         this.state = {
-//             first_name: "",
-//             last_name: "",
-//             email: "",
-//             password: "",
-//             confirm_password: "",
-//             error: "",
-//             submitted: false
-//         }
-
-//         this.RegisterButton = this.RegisterButton.bind(this)
-//     }
-
-//     RegisterButton = () => {
-
-//         this.setState({ submitted: true })
-//         this.setState({ error: "" })
-
-//         if (!(this.state.first_name)) {
-//             this.setState({ error: "Must enter first name" })
-//             return;
-//         }
-
-//         if (!(this.state.last_name)) {
-//             this.setState({ error: "Must enter last name" })
-//             return;
-//         }
-
-//         if (!(this.state.email && this.state.password)) {
-//             this.setState({ error: "Must enter email and password" })
-//             return;
-//         }
-
-//         console.log(this.state.password);
-//         console.log(this.state.confirm_password);
-
-//         if (!EmailValidator.validate(this.state.email)) {
-//             this.setState({ error: "Must enter valid email" })
-//             return;
-//         }
-
-//         const PASSWORD_REGEX = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-//         if (!PASSWORD_REGEX.test(this.state.password)) {
-//             this.setState({ error: "Password isn't strong enough (One upper, one lower, one special, one number, at least 8 characters long)" })
-//             return;
-//         }
-//         if (this.state.password !== this.state.confirm_password) {
-//             this.setState({ error: "Password isn't matching)" })
-//             return;
-//         }
-    
-
-
-//         console.log("HERE:", this.state.email, this.state.password)
-
-//         return fetch("http://localhost:3333/api/1.0.0/user", {
-//         method: 'post',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(
-//             {
-//             "first_name": this.state.first_name,
-//             "last_name": this.state.last_name,
-//             "email": this.state.email,
-//             "password": this.state.password,
-//             })   
-//         })
-//         .then((response) => {
-//            if(response.status === 201) 
-//                return response.json()
-//            if(response.status === 500)
-//            {
-//               throw 'Server error'
-//            }else if(response.status === 400) {
-//                 throw "Email already exists or password isn't strong enough";
-//            }else{
-//                 throw 'Something wrent wrong';
-//            }
-//         })
-
-//         .then((rJson) => {
-//             console.log("User created with ID: ", rJson);
-//             this.setState({"error":"User added successfully"})
-//             this.setState({"submitted":false})
-//             this.props.navigation.navigate("Login");
-//         })
-//         .catch((error) => {
-//           this.setState({"error": error})
-//           this.setState({"submitted": false})
-//         })
-
-            
-
-//         //API REquest to login
-
-//         //get the response
-//         //save the token and the ID
-//         //send to the contacts screen
-
-//     }
-
-//     render() {
-//         return (
-//             <View style={styles.formContainer}>
-//                 <View style={styles.email}>
-//                     <Text>First Name:</Text>
-//                     <TextInput style={styles.first_name_input}
-//                         placeholder="Enter first name"
-//                         onChangeText={first_name => this.setState({ first_name })}
-//                         defaultValue={this.state.first_name}
-//                     />
-
-//                     <>
-//                         {this.state.submitted && !this.state.first_name &&
-//                             <Text style={styles.error}>Please enter first name</Text>
-//                         }
-//                     </>
-//                 </View>
-
-//                 <View style={styles.formContainer}>
-//                     <View style={styles.email}>
-//                         <Text>Last Name:</Text>
-//                         <TextInput style={styles.last_name_input}
-//                             placeholder="Enter last name"
-//                             onChangeText={last_name => this.setState({ last_name })}
-//                             defaultValue={this.state.last_name}
-//                         />
-
-//                         <>
-//                             {this.state.submitted && !this.state.last_name &&
-//                                 <Text style={styles.error}>Please enter last name</Text>
-//                             }
-//                         </>
-//                     </View>
-
-
-//                     <View style={styles.formContainer}>
-//                         <View style={styles.email}>
-//                             <Text>Email:</Text>
-//                             <TextInput style={styles.email_input}
-//                                 placeholder="Enter email"
-//                                 onChangeText={email => this.setState({ email })}
-//                                 defaultValue={this.state.email}
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.email &&
-//                                     <Text style={styles.error}>Please enter an email</Text>
-//                                 }
-//                             </>
-//                         </View>
-
-//                         <View style={styles.password}>
-//                             <Text>Password:</Text>
-//                             <TextInput style={styles.password_input}
-//                                 placeholder="Enter password"
-//                                 onChangeText={password => this.setState({ password })}
-//                                 defaultValue={this.state.password}
-//                                 secureTextEntry
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.password &&
-//                                     <Text style={styles.error}>Please enter a password</Text>
-//                                 }
-//                             </>
-//                         </View>
-
-//                         <View style={styles.password}>
-//                             <Text>Confirm Password:</Text>
-//                             <TextInput style={styles.password_input}
-//                                 placeholder="Confirm Password"
-//                                 onChangeText={confirm_password => this.setState({ confirm_password })}
-//                                 defaultValue={this.state.confirm_password}
-//                                 secureTextEntry
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.confirm_password &&
-//                                     <Text style={styles.error}>Please confirm your password</Text>
-//                                 }
-
-//                             </>
-//                         </View>
-
-
-//                         <View style={styles.signupbtn}>
-//                             <TouchableOpacity onPress={() => this.RegisterButton()}>
-//                                 <View style={styles.button}>
-//                                     <Text style={styles.buttonText}>Sign Up</Text>
-//                                 </View>
-//                             </TouchableOpacity>
-//                             <Text style={styles.error}>{this.state.error}</Text>
-//                         </View>
-//                     </View>
-//                 </View>
-//             </View>
-
-
-//         )
-//     }
-// }
-
-    
-
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         width: "80%",
-//         alignItems: "stretch",
-//         justifyContent: "center"
-//     },
-//     first_name_input: {
-//         height: 40,
-//         borderWidth: 1,
-//         width: "100%",
-//     },
-//     last_name_input: {
-//         height: 40,
-//         borderWidth: 1,
-//         width: "100%",
-//     },
-
-//     email_input: {
-//         height: 40,
-//         borderWidth: 1,
-//         width: "100%",
-//     },
-//     password_input: {
-//         height: 40,
-//         borderWidth: 1,
-//         width: "100%",
-//     },
-//     formContainer: {
-
-//     },
-//     email: {
-//         marginBottom: 5
-//     },
-//     password: {
-//         marginBottom: 10
-//     },
-//     signupbtn: {
-
-//     },
-//     signup: {
-//         justifyContent: "center",
-//         textDecorationLine: "underline"
-//     },
-//     button: {
-//         marginBottom: 30,
-//         backgroundColor: '#2196F3'
-//     },
-//     buttonText: {
-//         textAlign: 'center',
-//         padding: 20,
-//         color: 'white'
-//     },
-//     error: {
-//         color: "red",
-//         fontWeight: '900'
-//     }
-// }); 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//this is my edit
-// import React, { Component } from 'react';
-// import { Text, View, TextInput, StyleSheet, ScrollView, Alert, TouchableOpacity } from 'react-native';
-
-// import * as EmailValidator from 'email-validator';
-
-// export default class Register extends Component {
-//     constructor(props) {
-//         super(props);
-
-//         this.state = {
-//             FirstName: "",
-//             LastName: "",
-//             email: "",
-//             password: "",
-//             confirm_password: "",
-//             error: "",
-//             submitted: false,
-//         }
-
-//         this.RegisterButton = this.RegisterButton.bind(this)
-//     }
-
-//     RegisterButton = () => {
-
-//         this.setState({ submitted: true })
-//         this.setState({ error: "" })
-
-//         if (!(this.state.FirstName)) {
-//             this.setState({ error: "Must enter first name" })
-//             return;
-//         }
-
-//         if (!(this.state.LastName)) {
-//             this.setState({ error: "Must enter last name" })
-//             return;
-//         }
-
-//         if (!(this.state.email && this.state.password)) {
-//             this.setState({ error: "Must enter email and password" })
-//             return;
-//         }
-
-//         console.log(this.state.password);
-//         console.log(this.state.confirm_password);
-
-//         if (!EmailValidator.validate(this.state.email)) {
-//             this.setState({ error: "Must enter valid email" })
-//             return;
-//         }
-
-//         const PASSWORD_REGEX = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$")
-//         if (!PASSWORD_REGEX.test(this.state.password)) {
-//             this.setState({ error: "Password isn't strong enough (One upper, one lower, one special, one number, at least 8 characters long)" })
-//             return;
-//         }
-//         if (this.state.password !== this.state.confirm_password) {
-//             this.setState({ error: "Password isn't matching)" })
-//             return;
-//         }
-    
-
-
-//         console.log("HERE:", this.state.email, this.state.password)
-
-//         return fetch("http://localhost:3333/api/1.0.0/user", {
-//         method: 'post',
-//         headers: {
-//             'Content-Type': 'application/json'
-//         },
-//         body: JSON.stringify(
-//             {
-//             "FirstName": this.state.FirstName,
-//             "LastName": this.state.LastName,
-//             "email": this.state.email,
-//             "password": this.state.password,
-//             })   
-//         })
-//         .then((response) => {
-//            if(response.status === 201) 
-//                return response.json()
-//            if(response.status === 500)
-//            {
-//               throw 'Server error'
-//            }else if(response.status === 400) {
-//                 throw "Email already exists or password isn't strong enough";
-//            }else{
-//                 throw 'Something wrent wrong';
-//            }
-//         })
-
-//         .then((rJson) => {
-//             console.log("User created with ID: ", rJson);
-//             this.setState({"error":"User added successfully"})
-//             this.setState({"submitted":false})
-//             this.props.navigation.navigate("Login");
-//         })
-//         .catch((error) => {
-//           this.setState({"error": error})
-//           this.setState({"submitted": false})
-//         })
-
-            
-
-//         //API REquest to login
-
-//         //get the response
-//         //save the token and the ID
-//         //send to the contacts screen
-
-//     }
-
-//     render() {
-//         return (
-//             <View style={styles.FormContainer}>
-//                 <View style={styles.email}>
-//                     <Text style={styles.Titles}>First Name:</Text>
-//                     <TextInput style={styles.Inputs}
-//                         placeholder="Enter first name"
-//                         onChangeText={FirstName => this.setState({ FirstName })}
-//                         defaultValue={this.state.FirstName}
-//                     />
-
-//                     <>
-//                         {this.state.submitted && !this.state.FirstName &&
-//                             <Text style={styles.error}>Please enter first name</Text>
-//                         }
-//                     </>
-//                 </View>
-
-//                 <View style={styles.formContainer}>
-//                     <View style={styles.email}>
-//                         <Text style={styles.Titles}>Last Name:</Text>
-//                         <TextInput style={styles.Inputs}
-//                             placeholder="Enter last name"
-//                             onChangeText={LastName => this.setState({ LastName })}
-//                             defaultValue={this.state.LastName}
-//                         />
-
-//                         <>
-//                             {this.state.submitted && !this.state.LastName &&
-//                                 <Text style={styles.error}>Please enter last name</Text>
-//                             }
-//                         </>
-//                     </View>
-
-
-//                     <View style={styles.formContainer}>
-//                         <View style={styles.Email}>
-//                             <Text style={styles.Titles}>Email:</Text>
-//                             <TextInput style={styles.Inputs}
-//                                 placeholder="Enter email"
-//                                 onChangeText={email => this.setState({ email })}
-//                                 defaultValue={this.state.email}
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.email &&
-//                                     <Text style={styles.error}>Please enter an email</Text>
-//                                 }
-//                             </>
-//                         </View>
-
-//                         <View style={styles.password}>
-//                             <Text style={styles.Titles}>Password:</Text>
-//                             <TextInput style={styles.Inputs}
-//                                 placeholder="Enter password"
-//                                 onChangeText={password => this.setState({ password })}
-//                                 defaultValue={this.state.password}
-//                                 secureTextEntry
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.password &&
-//                                     <Text style={styles.error}>Please enter a password</Text>
-//                                 }
-//                             </>
-//                         </View>
-
-//                         <View style={styles.password}>
-//                             <Text style={styles.Titles}>Confirm Password:</Text>
-//                             <TextInput style={styles.Inputs}
-//                                 placeholder="Confirm Password"
-//                                 onChangeText={confirm_password => this.setState({ confirm_password })}
-//                                 defaultValue={this.state.confirm_password}
-//                                 secureTextEntry
-//                             />
-
-//                             <>
-//                                 {this.state.submitted && !this.state.confirm_password &&
-//                                     <Text style={styles.error}>Please confirm your password</Text>
-//                                 }
-
-//                             </>
-//                         </View>
-
-
-//                         <View style={styles.signupbtn}>
-//                             <TouchableOpacity onPress={() => this.RegisterButton()}>
-//                                 <View style={styles.button}>
-//                                     <Text style={styles.buttonText}>Sign Up</Text>
-//                                 </View>
-//                             </TouchableOpacity>
-//                             <Text style={styles.error}>{this.state.error}</Text>
-//                         </View>
-//                     </View>
-//                 </View>
-//             </View>
-
-
-//         )
-//     }
-// }
-
-    
-
-
-// const styles = StyleSheet.create({
-//     FormContainer:{
-//         backgroundColor: "#193A6F",
-//         width:"100%",
-//         height:"100%",
-//     },
-//     container: {
-//         flex: 1,
-//         width: "80%",
-//         alignItems: "stretch",
-//         justifyContent: "center",
-//         height:"100%",
-
-//     },
-
-//     Titles:{
-//         fontWeight: "Bold",
-//         paddingTop:10,
-//         paddingBottom:10,
-//         color:"white",
-//         fontSize:12,
-//         marginLeft:140,
-//     },
-
-//     Inputs: {
-//         height: 35,
-//         borderWidth: 1,
-//         width: "60%",
-//         color: "white",
-//         marginLeft:130,
-//         padding:10,
-//         borderRadius:50,
-//         borderColor: "Black",
-//     },
-
-//     signup: {
-//         justifyContent: "center",
-//         textDecorationLine: "underline"
-//     },
-
-//     button: {
-//         backgroundColor: '#F98125',
-//         borderRadius: 60,
-//         width: "50%",
-//         marginLeft: "25%",
-//         marginTop: 13,
-//         padding: 5,
-
-//     },
-//     buttonText: {
-//         textAlign: 'center',
-//         padding: 8,
-//         color: 'white',
-//         fontWeight: "bold",
-//         fontSize: 14,
-//     },
-
-//     error: {
-//         color: "#F98125",
-//         fontWeight: '900',
-//         marginLeft:140,
-//     }
-// });

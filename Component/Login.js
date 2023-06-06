@@ -1,242 +1,233 @@
-import React, { Component } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import * as EmailValidator from 'email-validator';
-import { globalStyles } from '../globalStyles';
+// My Login
+import React, { Component } from "react";
+import { StatusBar } from "expo-status-bar";
+import * as EmailValidator from "email-validator";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Text, TextInput, View, Image, StyleSheet, TouchableOpacity } from "react-native";
+// import { globalStyles } from '../../globalStyles';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
+export default class Login extends Component {
+  constructor(props) {
+    super(props);
 
-export default class LoginScreen extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-               email: 'user.1@gmail.com',
-            password: 'Password123!',
-            error: '',
-            submitted: false,
-        };
-
-        this.LoginingButton = this.LoginingButton.bind(this);
-    }
-
-    LoginingButton = async () => {
-        console.log('Hello');
-
-        this.setState({ submitted: true });
-        this.setState({ error: '' });
-
-        if (!(this.state.email && this.state.password)) {
-            this.setState({ error: 'Please enter a email and password' });
-            return;
-        }
-
-        if (!EmailValidator.validate(this.state.email)) {
-            this.setState({ error: 'Please enter a valid email' });
-            return;
-        }
-
-        const PASSWORD_REGEX = new RegExp('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$');
-        if (!PASSWORD_REGEX.test(this.state.password)) {
-            this.setState({ error: "Please enter a stronger password. It must be 8 character long with a mixture of uppercase and lowercase letters and have special characters and numbers" });
-            return;
-        }
-
-        console.log('HERE:', this.state.email, this.state.password);
-
-        return fetch('http://localhost:3333/api/1.0.0/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(
-                {
-                    email: this.state.email,
-                    password: this.state.password,
-                },
-            ),
-        })
-            .then((response) => {
-                if (response.status === 200) {
-                    return response.json();
-                } if (response.status === 400) {
-                    throw 'Invalid email or password';
-                } else {
-                    throw 'Something wrent wrong';
-                }
-            })
-            .then(async (rJson) => {
-                console.log(rJson);
-                try {
-                    await AsyncStorage.setItem('whatsthat_user_id', rJson.id);
-                    await AsyncStorage.setItem('whatsthat_session_token', rJson.token);
-
-                    this.setState({ submitted: false });
-
-                    this.props.navigation.navigate('MainAppNavigation');
-                } catch {
-                    throw 'Something wrent wrong';
-                }
-            });
+    this.state = {
+      email: "",
+      password: "",
+      error: "",
+      submitted: false,
     };
-    // API REquest to login
-    // get the response
-    // save the token and the ID
-    // send to the contacts screen
-    // API REquest to login
-    // get the response
-    // save the token and the ID
-    // send to the contacts screen
+  }
 
+  componentDidMount() {
+    // Listen for focus event when the component is mounted
+    this.unsubscribe = this.props.navigation.addListener("focus", () => {
+      this.checkLoginStatus();
+    });
+  }
 
-    componentDidMount() {
-        this.unsubscribe = this.props.navigation.addListener("focus", () => {
-          this.checkLoggedIn();
-        });
-      }
-    
-      componentWillUnmount() {
-        this.unsubscribe();
-      }
+  componentWillUnmount() {
+    // Unsubscribe from the focus event when the component is unmounted
+    this.unsubscribe();
+  }
 
-      checkLoggedIn = async () => {
-        const value = await AsyncStorage.getItem("whatsthat_session_token");
-        if (value != null) {
-          // if (value == null) { if then go to Home
-          this.props.navigation.navigate("Profile");
-        }
-      };
-    
-
-
-
-    render() {
-        return (
-            <View style={styles.formContainer}>
-                <View style={styles.email}>
-                    <Text style={globalStyles.Titles}>Email:</Text>
-                    <TextInput
-                        style={styles.email_input}
-                        placeholder="Enter email"
-                        onChangeText={(email) => this.setState({ email })}
-                        defaultValue={this.state.email}
-                    />
-
-                    <>
-                        {this.state.submitted && !this.state.email
-                            && <Text style={styles.error}>Email is required</Text>}
-                    </>
-                </View>
-
-                <View style={styles.password}>
-                    <Text style={globalStyles.Titles}>Password:</Text>
-                    <TextInput
-                        style={styles.password_input}
-                        placeholder="Enter password"
-                        onChangeText={(password) => this.setState({ password })}
-                        defaultValue={this.state.password}
-                        secureTextEntry
-                    />
-
-                    <>
-                        {this.state.submitted && !this.state.password
-                            && <Text style={styles.error}>Password is required</Text>}
-                    </>
-                </View>
-
-                <View style={styles.loginbtn}>
-                    <TouchableOpacity onPress={() => this.LoginingButton()}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>Login</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-                <>
-                    {this.state.error
-                        && <Text style={styles.error}>{this.state.error}</Text>}
-                </>
-                <View style={styles.sign_up_btn}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                        <View style={styles.button}>
-                            <Text style={styles.buttonText}>Register</Text>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-            </View>
-        );
+  checkLoginStatus = async () => {
+    // Check if the user is already logged in by checking the SessionToken in AsyncStorage
+    const SessionToken = await AsyncStorage.getItem("app_session_token");
+    if (SessionToken != null) {
+      // If the SessionToken exists, navigate to the ProfileNavigator screen
+      this.props.navigation.navigate("ProfileNavigator");
     }
+  };
+
+  onSubmitLogin = () => {
+    // Set the submitted state to true and clear any previous error message
+    this.setState({ submitted: true, error: "" });
+
+    if (!(this.state.email && this.state.password)) {
+      // Check if both email and password fields are filled
+      this.setState({ error: "Please enter both your email and password." });
+      return;
+    } else if (!EmailValidator.validate(this.state.email)) {
+      // Check if the email is valid using the EmailValidator library
+      this.setState({ error: "Please enter a valid email address" });
+      return;
+    }
+
+    const PASSWORD_REGEX = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/;
+
+    if (!PASSWORD_REGEX.test(this.state.password)) {
+      // Check if the password meets the required criteria using a regular expression
+      this.setState({
+        error:
+          "Please enter a stronger password. Your password should be at least 8 characters long, contain a mix of upper and lowercase letters, and include at least one number and a special character (#?!@$%^&*-)",
+      });
+      return;
+    } else {
+      console.log(
+        "Users Credentials: " + this.state.email + " " + this.state.password
+      );
+      console.log("Validated and ready to send to the API");
+
+      this.loginSubmit();
+    }
+  };
+
+  loginSubmit = async () => {
+    const data = {
+      email: this.state.email,
+      password: this.state.password,
+    };
+
+    console.log(data);
+
+    try {
+      // Make a POST request to the login API endpoint with the user's email and password
+      const response = await fetch("http://localhost:3333/api/1.0.0/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.status === 200) {
+        // If the login is successful, save the user ID and session SessionToken in AsyncStorage
+        const rJson = await response.json();
+        console.log(rJson);
+        await AsyncStorage.setItem("whatsThat_user_id", rJson.id);
+        await AsyncStorage.setItem("app_session_token", rJson.token);
+        this.setState({ submitted: false });
+        this.props.navigation.navigate("ProfileNavigator");
+      } else if (response.status === 400) {
+        // If the login credentials are invalid, display an error message
+        throw new Error("Invalid email or password");
+      } else {
+        // If an error occurs during login, display a generic error message
+        throw new Error("Something went wrong");
+      }
+    } catch (error) {
+      // Handle any errors that occur during the login process
+      this.setState({ error: error.message });
+      console.log(error);
+    }
+  };
+
+  render() {
+    const navigation = this.props.navigation;
+
+    return (
+      <View style={styles.MainContainer}>
+        <StatusBar style="auto" />
+        <View style={styles.LogoContainer}>
+          <Image
+            style={styles.MessengerLogo}
+            source={require("../App/Images/MessengerLogo.png")}
+          />
+        </View>
+
+        <View style={styles.InputContainer}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            onChangeText={(email) => this.setState({ email })}
+            defaultValue={this.state.email}
+          />
+          {this.state.submitted && !this.state.email && (
+            <Text style={styles.ErrorMessage}>*Must enter an email</Text>
+          )}
+        </View>
+
+        <View style={styles.InputContainer}>
+          <TextInput style={styles.TextInput}
+            placeholder="Password"
+            onChangeText={(password) => this.setState({ password })}
+            defaultValue={this.state.password}
+            secureTextEntry={true}
+          />
+
+          {this.state.submitted && !this.state.password && (
+            <Text style={styles.ErrorMessage}>* Must enter a password</Text>
+          )}
+        </View>
+
+        <TouchableOpacity onPress={() => navigation.navigate("Register")}>
+          <Text style={styles.RegisterButton}>Don't have an account? Register</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.LoginButton} onPress={this.onSubmitLogin}>
+          <Text style={styles.TextButton}>Login</Text>
+        </TouchableOpacity>
+
+        {this.state.error && (
+          <Text style={styles.ErrorMessage}>{this.state.error}</Text>
+        )}
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        width: "100%",
-        alignItems: "stretch",
-        justifyContent: "center",
-        backgroundColor: "#193A6F",
-    },
-    email_input: {
-        height: 40,
-        width: 300,
-        fontSize: 16,
-        color: 'white',
-    },
-    password_input: {
-        color: "white",
-        height: 40,
-        width: 300,
-        fontSize: 18,
-    },
-    formContainer: {
-        width: "100%",
-        height: "100%",
-        backgroundColor: "#193A6F",
-
-    },
-
-    Titles:{
-        fontSize: 20,
-        color: "#F98125",         
-
-    },
-
-    email: {
-        marginBottom: 20,
-        fontSize: 16,
-        color: 'white',
-        marginLeft: "40%",
-        marginTop: "10%",
-    },
-    password: {
-        fontSize: 16,
-        color: 'white',
-        marginLeft: "40%",
-        paddingBottom: 20,
-    },
-    loginbtn: {
-
-    },
-    signup: {
-        justifyContent: 'center',
-        textDecorationLine: 'underline',
-    },
-    button: {
-        backgroundColor: '#F98125',
-        borderRadius: 60,
-        width: "25%",
-        marginLeft: "35%",
-        marginTop: 20,
-        padding: 10,
-    },
-    buttonText: {
-        textAlign: 'center',
-        padding: 8,
-        color: 'white',
-        fontWeight: "bold",
-        fontSize: 14,
-    },
-    error: {
-        color: '#F98125',
-        fontWeight: '900',
-    },
+  MainContainer: {
+    flex: 1,
+    backgroundColor: "#0d416f",
+    paddingHorizontal: 30,
+    alignItems: "center",
+    paddingVertical: 50,
+    justifyContent: "center",
+  },
+  LogoContainer: {
+    marginBottom: 30,
+    alignItems: "center",
+  },
+  MessengerLogo: {
+    width: 200,
+    resizeMode: "contain",
+    height: 200,
+  },
+  InputContainer: {
+    backgroundColor: "white",
+    borderRadius: 25,
+    width: "50%",
+    height: "10%",
+    alignItems: "center",
+    marginBottom: 20,
+    flexDirection: "row",
+  },
+  TextInput: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    fontSize: 18,
+    borderRadius: 50,
+    placeholderTextColor: "#7a7d68",
+    padding: 20,
+  },
+  RegisterButton: {
+    height: 30,
+    marginTop: 20,
+    color: "white",
+    textDecorationLine: "underline",
+  },
+  LoginButton: {
+    backgroundColor: "#F98125",
+    width: "50%",
+    height: "10%",
+    justifyContent: "center",
+    borderRadius: 25,
+    alignItems: "center",
+    marginTop: 40,
+  },
+  TextButton: {
+    fontWeight: "bold",
+    padding: 20,
+    color: "white",
+    textAlign: "center",
+    fontSize: 18,
+  },
+  ErrorMessage: {
+    color: "red",
+    textAlign: "center",
+    marginBottom: 10,
+    fontWeight: "bold",
+  },
 });

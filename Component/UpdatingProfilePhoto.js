@@ -1,10 +1,10 @@
-//EditProfilePic - 
+//UpdatingProfilePhoto
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function EditProfilePic({ navigation }) {
+export default function UpdatingProfilePhoto({ navigation }) {
   // Initialize state variables
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
@@ -22,6 +22,8 @@ export default function EditProfilePic({ navigation }) {
     );
     console.log("Camera: ", type);
   };
+
+
 
   // Function to send the captured picture to the server
   const sendToServer = async (data) => {
@@ -54,35 +56,17 @@ export default function EditProfilePic({ navigation }) {
       });
   };
 
-  //Long URI
-  //  const takePhoto = async () => {
-  //   if (camera) {
-  //     const options = { quality: 0.5, base64: true };
-  //     const data = await camera.takePictureAsync(options);
-
-  //     console.log(data.uri);
-
-  //     sendToServer(data);
-  //   }
-  // };
-
-  //Short URI  - Ashes way
-  // Function to take a picture using the camera
-  async function TakePicture() {
-    if (camera) {
-      const options = { quality: 0.5, base64: true };
-      const data = await camera.takePictureAsync(options);
-
-      console.log(data.uri);
-
-      sendToServer(data);
-    }
-  }
-
-  // Function to navigate back to the user's profile
-  const backToMyProfile = () => {
-    navigation.navigate("AccountProfile");
-  };
+      // Function to take a picture using the camera
+      async function TakePicture() {
+        if (camera) {
+          const options = { quality: 0.5, base64: true };
+          const data = await camera.takePictureAsync(options);
+    
+          console.log(data.uri);
+    
+          sendToServer(data);
+        }
+      }
 
   // Check camera permission and render the camera view
   if (!permission || !permission.granted) {
@@ -113,11 +97,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   ButtonContainer: {
-    padding: 20,
+    alignSelf: "flex-end",
     backgroundColor: "#F98125",
     margin: 10,
-    alignSelf: "flex-end",
     borderRadius: 50,
+    padding: 20,
   },
   Button: {
     width: "100%",
@@ -125,10 +109,24 @@ const styles = StyleSheet.create({
   },
   TextLabel: {
     fontSize: 18,
-    fontWeight: "bold",
     color: "white",
+    fontWeight: "bold",
   },
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -137,7 +135,7 @@ const styles = StyleSheet.create({
 // import { Camera, CameraType, onCameraReady, CameraPictureOptions } from "expo-camera";
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
-// export default function EditProfilePic({ navigation }) {
+// export default function UpdatingProfilePhoto({ navigation }) {
 //   const [type, setType] = useState(CameraType.back);
 //   const [permission, requestPermission] = Camera.useCameraPermissions();
 //   const [camera, setCamera] = useState(null);

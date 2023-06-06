@@ -1,11 +1,11 @@
-// // //EditUserProfile
+//UpdatingUserProfile
 import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EmailValidator from 'email-validator';
 import { ScrollView } from 'react-native-web';
 
-export default class EditUserProfile extends Component {
+export default class UpdatingUserProfile extends Component {
 
     constructor(props) {
         super(props);
@@ -144,74 +144,74 @@ export default class EditUserProfile extends Component {
 const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
-    backgroundColor: "#0d416f",
     alignItems: "center",
+    backgroundColor: "#0d416f",
     justifyContent: "center",
   },
   Header: {
     backgroundColor: "#F98125",
-    paddingVertical: 10,
     paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   HeaderText: {
+    marginBottom: 10,
     fontSize: 25,
+    textAlign: "center",
     fontWeight: "bold",
     color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 10,
     marginTop: 5,
   },
   InputContainer: {
-    marginBottom: 20,
     width:"60%",
+    marginBottom: 20,
   },
   TextLabel: {
     marginBottom: 10,
-    color: "#FFFFFF",
-    fontSize: 16,
     fontWeight: "bold",
+    fontSize: 16,
+    color: "#FFFFFF",
   },
   Input: {
-    backgroundColor: "#1A2E44",
-    borderRadius: 50,
     height: 50,
-    paddingHorizontal: 5,
     fontSize: 16,
     color: "#FFFFFF",
+    backgroundColor: "#1A2E44",
+    borderRadius: 50,
+    paddingHorizontal: 5,
   },
   ErrorMessage: {
     color: "red",
     marginBottom: 10,
   },
   ButtonContainer: {
-    paddingBottom: 10,
-    width: "60%",
     alignItems: "center",
+    paddingBottom: 10,
     justifyContent: "center",
-
+    width: "60%",
   },
   Button: {
-    width: "100%",
     backgroundColor: "#F98125",
+    justifyContent: "center",
     borderRadius: 25,
     height: 50,
-    justifyContent: "center",
     alignItems: "center",
+    width: "100%",
     marginTop: 10,
   },
   TextButton: {
     color: "#FFFFFF",
     fontSize: 18,
-    fontWeight: "bold",
+    marginRight: 20,
     textAlign: 'center',
     padding: 20,
+    fontWeight: "bold",
     marginLeft: 20,
-    marginRight: 20,
+
   },
   Title: {
-    fontSize: 24,
-    fontWeight: "bold",
     marginBottom: 20,
+    fontWeight: "bold",
+    fontSize: 24,
     color: "#FFFFFF",
   },
 });

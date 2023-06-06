@@ -1,10 +1,10 @@
-//Users
+//UsersNavigator
 import React, { Component } from "react";
 import {View,Text,Button,TextInput,StyleSheet, ScrollView,} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Define the Users component
-export default class Users extends Component {
+export default class UsersNavigator extends Component {
   constructor(props) {
     super(props);
     // Initialize the component's state
@@ -25,9 +25,7 @@ export default class Users extends Component {
           {
             method: "GET",
             headers: {
-              "X-Authorization": await AsyncStorage.getItem(
-                "app_session_token"
-              ),
+              "X-Authorization": await AsyncStorage.getItem("app_session_token"),
               "Content-Type": "application/json",
             },
           }
