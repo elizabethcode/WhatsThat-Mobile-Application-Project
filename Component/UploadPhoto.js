@@ -1,8 +1,8 @@
 //UploadPhoto
 import * as React from "react";
-import CameraSendServer from "./CameraSendServer";
+import PictureSendServer from "./PictureSendServer";
 
 export default function UploadPhoto() {
-  return <CameraSendServer />;
+  return <PictureSendServer />;
 }
  

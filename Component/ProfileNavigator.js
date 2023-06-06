@@ -9,7 +9,6 @@ const ProfileNavigationStack = createNativeStackNavigator();
 
 export default function ProfileNavigator() {
   return (
-    // This holds all the possible pages the user is able to go to through the profile
     <ProfileNavigationStack.Navigator screenOptions={{ headerShown: false }}>
       <ProfileNavigationStack.Screen name="AccountProfile" component={AccountProfileScreen} />
       <ProfileNavigationStack.Screen name="UpdatingUserProfile" component={EditUserProfileScreen} />

@@ -5,7 +5,6 @@ import { Button, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-// import Chat from './Chat';
 import SendingMessage from './SendingMessage';
 import ViewingChats from './ViewingChats';
 import CreateNewChat from './CreateNewChat';
@@ -21,7 +20,6 @@ const ChatsNavigationStack = createNativeStackNavigator();
 export default function ChatsNavigator() {
   return (
       <ChatsNavigationStack.Navigator screenOptions={{ headerShown: false}}>
-        {/* <ChatsStack.Screen name="Chat" component={Chat} /> */}
         <ChatsNavigationStack.Screen name="CreateNewChat" component={CreateNewChat} />
         <ChatsNavigationStack.Screen name="ViewingChats" component={ViewingChats} />
         <ChatsNavigationStack.Screen name="SendingMessage" component={SendingMessage} />      

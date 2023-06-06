@@ -1,4 +1,4 @@
-//AccountProfile - completed
+//AccountProfile
 import React, { Component } from "react";
 import {View, Text, Image, TouchableOpacity, StyleSheet} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";

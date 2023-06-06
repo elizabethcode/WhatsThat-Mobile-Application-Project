@@ -1,9 +1,9 @@
-//CameraSendServer
+//PictureSendServer
 import {Camera, CameraType, onCameraReady, CameraPictureOptions} from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function CameraSendServer() {
+export default function PictureSendServer() {
     const [type, setType] = useState(CameraType.back);
     const [permission, requestPermission] = Camera.useCameraPermissions();
     const [camera, setCamera] = useState(null);
@@ -46,7 +46,7 @@ export default function CameraSendServer() {
         })
             .then((response) => {
                 console.log("Photo added successfully", response);
-                this.props.navigation.navigate("CameraSendServer");
+                this.props.navigation.navigate("PictureSendServer");
             })
             .catch((err) => {
                 console.log(err);
