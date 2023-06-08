@@ -62,13 +62,13 @@ export default function PictureSendServer() {
                 <Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
                     <View style={styles.ButtonContainer}>
                         <TouchableOpacity style={styles.Button} onPress={toggleCameraType}>
-                            <Text style={styles.Text}>Flip Camera</Text>
+                            <Text style={styles.TextLabel}>Flip Camera</Text>
                         </TouchableOpacity>
                     </View>
 
                     <View style={styles.ButtonContainer}>
                         <TouchableOpacity style={styles.Button} onPress={takePhoto}>
-                            <Text style={styles.Text}>Take Photo</Text>
+                            <Text style={styles.TextLabel}>Take Photo</Text>
                         </TouchableOpacity>
                     </View>
                 </Camera>
@@ -78,22 +78,23 @@ export default function PictureSendServer() {
 }
 
 const styles = StyleSheet.create({
-    MainContainer: {
+     MainContainer: {
         flex: 1,
-    },
-    ButtonContainer: {
+      },
+      ButtonContainer: {
         alignSelf: "flex-end",
-        padding: 5,
-        margin: 5,
-        backgroundColor: "steelblue",
-    },
-    Button: {
+        backgroundColor: "#F98125",
+        margin: 10,
+        borderRadius: 50,
+        padding: 20,
+      },
+      Button: {
         width: "100%",
         height: "100%",
-    },
-    Text: {
-        fontSize: 14,
+      },
+      TextLabel: {
+        fontSize: 18,
+        color: "white",
         fontWeight: "bold",
-        color: "#ddd",
-    },
+      },
 });
