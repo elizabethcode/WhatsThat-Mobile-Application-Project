@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { FlatList } from 'react-native';
+import { globalStyles } from '../globalStyles';
 
 export default class Contacts extends Component {
   constructor(props) {
@@ -27,12 +28,12 @@ export default class Contacts extends Component {
   // Load all contacts from the server
   LoadingAllContacts = async () => {
     try {
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
       const response = await fetch('http://localhost:3333/api/1.0.0/contacts', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
-          "X-Authorization": SessionToken,
+          "X-Authorization": token,
         },
       });
 

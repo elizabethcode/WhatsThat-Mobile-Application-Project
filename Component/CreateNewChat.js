@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-// import { globalStyles } from '../../globalStyles';
+import { globalStyles } from '../globalStyles';
 
 export default class CreateNewChat extends Component {
   constructor(props) {
@@ -29,14 +29,14 @@ export default class CreateNewChat extends Component {
       return;
     }
 
-    console.log("Chat Name: " + this.state.name + " . Created! ");
+    console.log("Chat Name: " + this.state.name + " has been successfully created! ");
 
     try {
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
 
       const headers = {
         'Content-Type': 'application/json',
-        'X-Authorization': SessionToken,
+        'X-Authorization': token,
       };
 
       // Send a POST request to create a new chat
@@ -50,7 +50,7 @@ export default class CreateNewChat extends Component {
 
       const responseJson = await response.json();
 
-      console.log("Chat Created: ", responseJson.SessionToken);
+      console.log("Chat Created: ", responseJson.token);
       this.props.navigation.navigate("ViewingChats");
     } catch (error) {
       console.log(error);
@@ -59,7 +59,7 @@ export default class CreateNewChat extends Component {
 
   render() {
     return (
-        <View style={styles.Outtercontainer}>
+        <View style={styles.Outercontainer}>
         <View style={styles.Header}>
           <Text style={styles.HeaderText}>Create a New Chat</Text>
         </View>
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     height:"100%",
     backgroundColor: "#193A6F",
   },
-  Outtercontainer:{
+  Outercontainer:{
     backgroundColor: "#193A6F",
     width:"100%",
     height:"100%",

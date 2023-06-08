@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { globalStyles } from '../globalStyles';
 
 export default class AddingUserChat extends Component {
   constructor(props) {
@@ -9,8 +10,8 @@ export default class AddingUserChat extends Component {
 
     // Initialize state variables
     this.state = {
-      user_id: '',
       error: '',
+      user_id: '',      
       submitted: false,
     };
 
@@ -19,13 +20,13 @@ export default class AddingUserChat extends Component {
 
   async componentDidMount() {
     try {
-      // Get SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
 
       // Set request headers
       const headers = {
         'Content-Type': 'application/json',
-        'X-Authorization': SessionToken,
+        'X-Authorization': token,
       };
 
       // Get chat_id from navigation params
@@ -58,13 +59,13 @@ export default class AddingUserChat extends Component {
     }
 
     try {
-      // Get SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
 
       // Set request headers
       const headers = {
         'Content-Type': 'application/json',
-        'X-Authorization': SessionToken,
+        'X-Authorization': token,
       };
 
       // Get chat_id from navigation params
@@ -81,7 +82,7 @@ export default class AddingUserChat extends Component {
 
       const responseJson = await response.json();
 
-      console.log('User Added: ', responseJson.SessionToken);
+      console.log('User Added: ', responseJson.token);
     } catch (error) {
       console.log(error);
       // Navigate to the ViewingChats screen if an error occurs
@@ -107,7 +108,7 @@ export default class AddingUserChat extends Component {
               defaultValue={this.state.user_id}
             />
 
-            {this.state.submitted && !this.state.user_id && <Text style={styles.error}>* Must Enter User ID</Text>}
+            {this.state.submitted && !this.state.user_id && <Text style={styles.ErrorMessage}>* Must Enter User ID</Text>}
           </View>
 
           <View style={styles.loginbtn}>

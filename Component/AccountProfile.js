@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import {View, Text, Image, TouchableOpacity, StyleSheet} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
 
 export default class AccountProfile extends Component {
   constructor(props) {
@@ -28,8 +29,8 @@ export default class AccountProfile extends Component {
 
   //checking whether user has logged in or not
   LoginStatus = async () => {
-    const SessionToken = await AsyncStorage.getItem("app_session_token");
-    if (SessionToken === null) {
+    const token = await AsyncStorage.getItem("app_session_token");
+    if (token === null) {
       this.props.navigation.navigate("Login");
     }
   };
@@ -37,16 +38,16 @@ export default class AccountProfile extends Component {
   // Retrieves profile picture from the server
   RetrievingProfilePicture = async () => {
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");
-    const SessionToken = await AsyncStorage.getItem("app_session_token");
+    const token = await AsyncStorage.getItem("app_session_token");
 
-    if (user_id && SessionToken) {
+    if (user_id && token) {
       try {
         const response = await fetch(
           `http://localhost:3333/api/1.0.0/user/${user_id}/photo`,
           {
             method: "GET",
             headers: {
-              "X-Authorization": SessionToken,
+              "X-Authorization": token,
               "Content-Type": "DisplayImage",
             },
           }
@@ -72,21 +73,21 @@ export default class AccountProfile extends Component {
 
   // Retrieves user data from the server
   RetrievingData = async () => {
-    const SessionToken = await AsyncStorage.getItem("app_session_token");
+    const token = await AsyncStorage.getItem("app_session_token");
     const user_id = await AsyncStorage.getItem("whatsThat_user_id");   
 
-    if (user_id && SessionToken) {
+    if (user_id && token) {
       try {
         const response = await fetch(
           `http://localhost:3333/api/1.0.0/user/${user_id}`,
           {
             headers: {
-              "X-Authorization": SessionToken,
+              "X-Authorization": token,
             },
           }
         );
 
-        console.log(response.status, SessionToken)
+        console.log(response.status, token)
         if (response.status === 200) {
           const profileData = await response.json();
           this.setState({
@@ -149,7 +150,7 @@ export default class AccountProfile extends Component {
           <View style={styles.Header}>
             <Text style={styles.HeaderText}>Profile</Text>
           </View>
-          <View style={styles.MainContainer}>
+          <View style={[styles.MainContainer]}>
             <Image 
               source={{uri: this.state.photo}}  
               style={styles.ProfilePhoto}            

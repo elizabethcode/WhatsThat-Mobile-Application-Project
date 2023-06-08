@@ -93,10 +93,10 @@ export default class Register extends Component {
         this.props.navigation.navigate("Login");
       })
 
-      // Store the received SessionToken in AsyncStorage (assuming it's part of the response JSON)
+      // Store the received token in AsyncStorage (assuming it's part of the response JSON)
       .then(async (rJson) => {
         console.log(rJson);
-        await AsyncStorage.setItem("app_session_token", rJson.SessionToken);
+        await AsyncStorage.setItem("app_session_token", rJson.token);
         this.props.navigation.navigate("Login");
       })
 
@@ -114,7 +114,7 @@ export default class Register extends Component {
 
     return (
       <ScrollView>
-        <View style={globalStyles.OutterContainer}>
+        <View style={globalStyles.OuterContainer}>
           <View style={globalStyles.Header}>
             <Text style={globalStyles.HeaderText}>Register</Text>
           </View>

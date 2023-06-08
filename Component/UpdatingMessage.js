@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
+import { globalStyles } from '../globalStyles';
 
 export default class UpdatingMessage extends Component {
   constructor(props) {
@@ -32,11 +33,11 @@ export default class UpdatingMessage extends Component {
 
   async componentDidMount() {
     try {
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       const { chat_id } = this.props.route.params;
@@ -74,10 +75,10 @@ export default class UpdatingMessage extends Component {
       return;
     }
     try {
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       const { chat_id } = this.props.route.params;
@@ -112,11 +113,11 @@ export default class UpdatingMessage extends Component {
 
   DeletingMessages = async (message_id) => {
     try {
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      const token = await AsyncStorage.getItem("app_session_token");
 
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       const { chat_id } = this.props.route.params;

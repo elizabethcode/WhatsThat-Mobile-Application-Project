@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import * as EmailValidator from "email-validator";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text, TextInput, View, Image, StyleSheet, TouchableOpacity } from "react-native";
-// import { globalStyles } from '../../globalStyles';
+import { globalStyles } from '../globalStyles';
 
 export default class Login extends Component {
   constructor(props) {
@@ -31,10 +31,10 @@ export default class Login extends Component {
   }
 
   checkLoginStatus = async () => {
-    // Check if the user is already logged in by checking the SessionToken in AsyncStorage
-    const SessionToken = await AsyncStorage.getItem("app_session_token");
-    if (SessionToken != null) {
-      // If the SessionToken exists, navigate to the ProfileNavigator screen
+    // Check if the user is already logged in by checking the token in AsyncStorage
+    const token = await AsyncStorage.getItem("app_session_token");
+    if (token != null) {
+      // If the token exists, navigate to the ProfileNavigator screen
       this.props.navigation.navigate("ProfileNavigator");
     }
   };
@@ -91,7 +91,7 @@ export default class Login extends Component {
       });
 
       if (response.status === 200) {
-        // If the login is successful, save the user ID and session SessionToken in AsyncStorage
+        // If the login is successful, save the user ID and session token in AsyncStorage
         const rJson = await response.json();
         console.log(rJson);
         await AsyncStorage.setItem("whatsThat_user_id", rJson.id);

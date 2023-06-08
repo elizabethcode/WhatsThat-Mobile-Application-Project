@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { TextInput, View, TouchableOpacity, Text, StyleSheet} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
 
 export default class DeletingUserChat extends Component {
   constructor(props) {
@@ -31,13 +32,13 @@ export default class DeletingUserChat extends Component {
     console.log("Contact: " + this.state.user_id + " deleted ");
 
     try {
-      // Get SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      // Get token from AsyncStorage
+      const token = await AsyncStorage.getItem("app_session_token");
 
       // Set request headers
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       // Make a DELETE request to delete a contact
@@ -55,7 +56,7 @@ export default class DeletingUserChat extends Component {
       // Parse the response as JSON
       const responseJson = await response.json();
 
-      console.log("User deleted: ", responseJson.SessionToken);
+      console.log("User deleted: ", responseJson.token);
     } catch (error) {
       console.log(error);
       // Navigate to the ChatsNavigator screen if an error occurs

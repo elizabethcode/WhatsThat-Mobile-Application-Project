@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import {View,Text,Button,TextInput,StyleSheet, ScrollView,} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
 
 // Define the Users component
 export default class UsersNavigator extends Component {

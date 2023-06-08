@@ -2,7 +2,7 @@
 import React, { Component } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import { globalStyles } from '../../globalStyles';
+import { globalStyles } from '../globalStyles';
 
 export default class UpdatingChat extends Component {
   constructor(props) {
@@ -22,13 +22,13 @@ export default class UpdatingChat extends Component {
   // Fetch the chat details from the server on component mount
   async componentDidMount() {
     try {
-      // Retrieve the user SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      // Retrieve the user token from AsyncStorage
+      const token = await AsyncStorage.getItem("app_session_token");
 
       // Set the request headers
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       // Extract the chat ID from the navigation params
@@ -66,13 +66,13 @@ export default class UpdatingChat extends Component {
     console.log("Chat Name: " + this.state.name + " . Changed! ");
 
     try {
-      // Retrieve the user SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem("app_session_token");
+      // Retrieve the user token from AsyncStorage
+      const token = await AsyncStorage.getItem("app_session_token");
 
       // Set the request headers
       const headers = {
         "Content-Type": "application/json",
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
       };
 
       // Extract the chat ID from the navigation params
@@ -93,7 +93,7 @@ export default class UpdatingChat extends Component {
       // Parse the response JSON
       const responseJson = await response.json();
 
-      console.log("Chat name changed: ", responseJson.SessionToken);
+      console.log("Chat name changed: ", responseJson.token);
     } catch (error) {
       console.log(error);
       this.props.navigation.navigate("ViewingChats");

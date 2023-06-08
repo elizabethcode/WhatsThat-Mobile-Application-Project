@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FlatList } from 'react-native';
-// import { globalStyles } from '../../globalStyles';
+import { globalStyles } from '../globalStyles';
 
 export default class DisplayBlockContact extends Component {
   constructor(props) {
@@ -23,12 +23,12 @@ export default class DisplayBlockContact extends Component {
   // // Fetches the list of unblocked contacts from the server
   LoadingUnblockedContacts = async () => {
     try {
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      const token = await AsyncStorage.getItem('app_session_token');
       const response = await fetch('http://localhost:3333/api/1.0.0/blocked', {
         method: 'GET',
         headers: {
           "Content-Type": "application/json",
-          "X-Authorization": SessionToken,
+          "X-Authorization": token,
         },
       });
 

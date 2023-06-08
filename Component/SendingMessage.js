@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons } from '@expo/vector-icons';
-// import { globalStyles } from '../../globalStyles';
+import { globalStyles } from '../globalStyles';
 
 export default class SendingMessage extends Component {
   constructor(props) {
@@ -33,12 +33,12 @@ export default class SendingMessage extends Component {
 
   async componentDidMount() {
     try {
-      // Retrieve the user SessionToken from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      // Retrieve the user token from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
 
       // Set the request headers
       const headers = {
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
         "Content-Type": "application/json"
       };
 
@@ -76,13 +76,13 @@ export default class SendingMessage extends Component {
     }
 
     try {
-      // Retrieve the user SessionToken and ID from AsyncStorage
-      const SessionToken = await AsyncStorage.getItem('app_session_token');
+      // Retrieve the user token and ID from AsyncStorage
+      const token = await AsyncStorage.getItem('app_session_token');
       const Id = await AsyncStorage.getItem('user_id');
 
       // Set the request headers
       const headers = {
-        "X-Authorization": SessionToken,
+        "X-Authorization": token,
         "Content-Type": "application/json"
       };
 
@@ -101,7 +101,7 @@ export default class SendingMessage extends Component {
       // Parse the response JSON
       const responseJson = await response.json();
 
-      console.log('Message has been Sent: ', responseJson.SessionToken);
+      console.log('Message has been Sent: ', responseJson.token);
 
       // Update the component state to include the new message
       this.setState({

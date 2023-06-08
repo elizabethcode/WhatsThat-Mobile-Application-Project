@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Ionicons, Entypo, MaterialIcons } from '@expo/vector-icons';
+import { globalStyles } from '../globalStyles';
 
 export default class ViewingChats extends Component {
   constructor(props) {
@@ -19,12 +20,12 @@ export default class ViewingChats extends Component {
   }
 
   LoadingContacts = async () => {
-    const SessionToken = await AsyncStorage.getItem('app_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch('http://localhost:3333/api/1.0.0/chat', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        'X-Authorization': SessionToken,
+        'X-Authorization': token,
       },
     })
       .then((response) => response.json())
@@ -39,12 +40,12 @@ export default class ViewingChats extends Component {
   };
 
   DeletingChat = async (chatId) => {
-    const SessionToken = await AsyncStorage.getItem('app_session_token');
+    const token = await AsyncStorage.getItem('app_session_token');
     fetch(`http://localhost:3333/api/1.0.0/chat/${chatId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
-        'X-Authorization': SessionToken,
+        'X-Authorization': token,
       },
     })
       .then((response) => {

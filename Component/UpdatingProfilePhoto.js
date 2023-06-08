@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
 
 export default function UpdatingProfilePhoto({ navigation }) {
   // Initialize state variables

@@ -2,6 +2,7 @@
 import {Camera, CameraType, onCameraReady, CameraPictureOptions} from "expo-camera";
 import { useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { globalStyles } from '../globalStyles';
 
 export default function PictureSendServer() {
     const [type, setType] = useState(CameraType.back);
@@ -57,17 +58,17 @@ export default function PictureSendServer() {
         return <Text>No access to camera</Text>;
     } else {
         return (
-            <View style={styles.container}>
+            <View style={styles.MainContainer}>
                 <Camera style={styles.camera} type={type} ref={(ref) => setCamera(ref)}>
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
-                            <Text style={styles.text}>Flip Camera</Text>
+                    <View style={styles.ButtonContainer}>
+                        <TouchableOpacity style={styles.Button} onPress={toggleCameraType}>
+                            <Text style={styles.Text}>Flip Camera</Text>
                         </TouchableOpacity>
                     </View>
 
-                    <View style={styles.buttonContainer}>
-                        <TouchableOpacity style={styles.button} onPress={takePhoto}>
-                            <Text style={styles.text}>Take Photo</Text>
+                    <View style={styles.ButtonContainer}>
+                        <TouchableOpacity style={styles.Button} onPress={takePhoto}>
+                            <Text style={styles.Text}>Take Photo</Text>
                         </TouchableOpacity>
                     </View>
                 </Camera>
@@ -77,20 +78,20 @@ export default function PictureSendServer() {
 }
 
 const styles = StyleSheet.create({
-    container: {
+    MainContainer: {
         flex: 1,
     },
-    buttonContainer: {
+    ButtonContainer: {
         alignSelf: "flex-end",
         padding: 5,
         margin: 5,
         backgroundColor: "steelblue",
     },
-    button: {
+    Button: {
         width: "100%",
         height: "100%",
     },
-    text: {
+    Text: {
         fontSize: 14,
         fontWeight: "bold",
         color: "#ddd",

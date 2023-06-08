@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import {Text, View, TouchableOpacity, FlatList, StyleSheet} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { globalStyles } from '../globalStyles';
 
 export default class AddOrRemoveUserChats extends Component {
   constructor(props) {
@@ -20,13 +21,13 @@ export default class AddOrRemoveUserChats extends Component {
 
   // Fetches the list of chats from the server
   LoadingContacts = async () => {
-    const SessionToken = await AsyncStorage.getItem("app_session_token");
+    const token = await AsyncStorage.getItem("app_session_token");
     fetch("http://localhost:3333/api/1.0.0/chat", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        // Passes the session SessionToken in the request headers
-        "X-Authorization": SessionToken,
+        // Passes the session token in the request headers
+        "X-Authorization": token,
       },
     })
       .then((response) => response.json())
