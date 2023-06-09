@@ -147,8 +147,8 @@ export default class AccountProfile extends Component {
     } else {
       return (
         <View style={styles.OuterContainer}>
-          <View style={styles.Header}>
-            <Text style={styles.HeaderText}>Profile</Text>
+          <View style={globalStyles.Header}>
+            <Text style={globalStyles.HeaderText}>Profile</Text>
           </View>
           <View style={[styles.MainContainer]}>
             <Image 
@@ -171,7 +171,7 @@ export default class AccountProfile extends Component {
                 })
               }
             >
-              <Text style={styles.TextButton}>Update Profile Picture</Text>
+              <Text style={styles.ButtonText}>Update Profile Picture</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -182,14 +182,14 @@ export default class AccountProfile extends Component {
                 })
               }
             >
-              <Text style={styles.TextButton}>Update Profile</Text>
+              <Text style={styles.ButtonText}>Update Profile</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={styles.Button}
               onPress={this.LogoutSubmit}
             >
-              <Text style={styles.TextButton}>Logout</Text>
+              <Text style={styles.ButtonText}>Logout</Text>
             </TouchableOpacity>
 
           </View>
@@ -208,19 +208,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#193A6F",
     justifyContent: "center",
-  },
-  Header: {    
-    paddingVertical: 10,
-    backgroundColor: "#F98125",
-    paddingHorizontal: 15,
-  },
-  HeaderText: {
-    marginTop: 5,
-    fontSize: 25,
-    textAlign: "center",
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#FFFFFF",
   },
   ProfilePhoto: {
     borderStyle: "solid",
@@ -249,7 +236,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F98125",
     justifyContent: "center",
   },
-  TextButton: {
+  ButtonText: {
     fontWeight: "bold",
     fontSize: 18,
     color: "white",

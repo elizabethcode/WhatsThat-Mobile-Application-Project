@@ -95,8 +95,8 @@ export default class AddingUserChat extends Component {
     const { chat_id } = this.props.route.params;
     return (
       <View style={styles.MainContainer}>       
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Adding Contact to the Chat: {chat_id}</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Adding Contact to the Chat: {chat_id}</Text>
         </View>
         <View style={styles.FormContainer}>
           <View style={styles.UserInputContainer}>
@@ -114,12 +114,12 @@ export default class AddingUserChat extends Component {
           <View style={styles.loginbtn}>
             <TouchableOpacity onPress={() => this.OnPressButton()}>
               <View style={styles.Button}>
-                <Text style={styles.TextButton}>Add Contact</Text>
+                <Text style={styles.ButtonText}>Add Contact</Text>
               </View>
             </TouchableOpacity>
           </View>
 
-          {this.state.error && <Text style={styles.error}>{this.state.error}</Text>}
+          {this.state.error && <Text style={styles.ErrorMessage}>{this.state.error}</Text>}
         </View>
       </View>
     );
@@ -130,20 +130,6 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     backgroundColor: '#0d416f',
-  },
-  Header: {   
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    backgroundColor: "#F98125",
-  },
-  HeaderText: {
-    color: "#FFFFFF",
-    fontSize: 25,   
-    textAlign: "center",
-    marginBottom:10,
-    fontWeight: "bold",
-    marginTop: 10,
-   
   },
   FormContainer: {
     padding: 20,
@@ -172,12 +158,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: "center",
   },
-  TextButton: {
+  ButtonText: {
     fontSize: 15,    
     color: '#FFFFFF',
     fontWeight: 'bold',
   },
-  error: {
+  ErrorMessage: {
     color: 'red',
     marginTop: 5,
   },

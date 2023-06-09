@@ -91,8 +91,8 @@ export default class UsersNavigator extends Component {
     return (
       <View style={styles.OuterContainer}>
         <ScrollView>
-          <View style={styles.Header}>
-            <Text style={styles.HeaderText}>Users List</Text>
+          <View style={globalStyles.Header}>
+            <Text style={globalStyles.HeaderText}>Users List</Text>
           </View>
           <View style={styles.MainContainer}>
             <TextInput
@@ -140,20 +140,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     backgroundColor: "#0d416f",
-  },
-  Header: {
-    backgroundColor: "#F98125",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-  },
-  HeaderText: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 10,
-    marginTop: 10,
-
   },
   AddButton: {
     fontSize: 20,

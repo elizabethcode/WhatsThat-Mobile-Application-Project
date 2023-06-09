@@ -155,7 +155,7 @@ export default class Login extends Component {
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.LoginButton} onPress={this.onSubmitLogin}>
-          <Text style={styles.TextButton}>Login</Text>
+          <Text style={globalStyles.ButtonText}>Login</Text>
         </TouchableOpacity>
 
         {this.state.error && (
@@ -216,13 +216,6 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     alignItems: "center",
     marginTop: 40,
-  },
-  TextButton: {
-    fontWeight: "bold",
-    padding: 20,
-    color: "white",
-    textAlign: "center",
-    fontSize: 18,
   },
   ErrorMessage: {
     color: "red",

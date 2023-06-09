@@ -60,8 +60,8 @@ export default class CreateNewChat extends Component {
   render() {
     return (
         <View style={styles.Outercontainer}>
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Create a New Chat</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Create a New Chat</Text>
         </View>
       <View style={styles.MainContainer}>
        
@@ -75,23 +75,23 @@ export default class CreateNewChat extends Component {
               defaultValue={this.state.name}
             />
             {this.state.submitted && !this.state.name &&
-              <Text style={styles.error}>*Chat name is required</Text>
+              <Text style={styles.ErrorMessage}>*Chat name is required</Text>
             }
           </View>
           <TouchableOpacity onPress={() => this.OnPressButton()}>
             <View style={styles.Button}>
-              <Text style={styles.TextButton}>Create Chat</Text>
+              <Text style={globalStyles.ButtonText}>Create Chat</Text>
             </View>
           </TouchableOpacity>
           {this.state.error &&
-            <Text style={styles.error}>{this.state.error}</Text>
+            <Text style={styles.ErrorMessage}>{this.state.error}</Text>
           }
 
         <TouchableOpacity
           onPress={() => this.props.navigation.navigate('ViewingChats')}
         >
           <View style={styles.Button}>
-            <Text style={styles.TextButton}>Go to View Chats</Text>
+            <Text style={globalStyles.ButtonText}>Go to View Chats</Text>
           </View>
         </TouchableOpacity>
         </View>
@@ -114,19 +114,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#193A6F",
     width:"100%",
     height:"100%",
-  },
-  Header: {
-    paddingHorizontal: 15,
-    marginBottom: 20,
-    paddingVertical: 10,
-    backgroundColor: "#F98125",
-  },
-  HeaderText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    textAlign: "center",
-    padding:10,
-    fontSize: 25,
   },
   FormContainer: {
     width:"70%",
@@ -166,13 +153,7 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     marginTop: 10,
   },
-  TextButton: {
-    fontWeight: "bold",
-    fontSize: 18,
-    textAlign: "center",
-    color: "white",
-  },
-  error: {
+  ErrorMessage: {
     fontWeight: "bold",
     fontSize: 16,
     marginTop: 5,

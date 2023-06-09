@@ -142,13 +142,13 @@ export default class Contacts extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Contacts</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Contacts</Text>
         </View>
         <View style={styles.AppFormContainer}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate('DisplayBlockedContact')}>
             <View style={styles.Button}>
-              <Text style={styles.TextButton}> View Blocked Contacts List</Text>
+              <Text style={globalStyles.ButtonText}> View Blocked Contacts List</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -162,12 +162,12 @@ export default class Contacts extends Component {
               <View style={styles.ButtonContainer}>
                 <TouchableOpacity onPress={() => this.BlockingContacts(item.user_id)}>
                   <View style={styles.Button}>
-                    <Text style={styles.TextButton}>Block</Text>
+                    <Text style={globalStyles.ButtonText}>Block</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => this.DeletingContact(item.user_id)}>
                   <View style={styles.Button}>
-                    <Text style={styles.TextButton}>Delete</Text>
+                    <Text style={globalStyles.ButtonText}>Delete</Text>
                   </View>
                 </TouchableOpacity>
               </View>
@@ -184,19 +184,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0d416f',
   },
-  Header: {
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    backgroundColor: "#F98125",
-  },
-  HeaderText: {
-    marginTop: 10,
-    fontSize: 25,
-    textAlign: "center",
-    marginBottom: 10,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-  },
   AppFormContainer: {
     backgroundColor: "#0d416f",
     padding: 20,
@@ -210,11 +197,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingLeft: 40,
     paddingRight: 40,
-  },
-  TextButton: {
-    fontSize: 18,
-    color: 'white',
-    fontWeight: 'bold',
   },
   AppListContainer: {
     padding: 20,

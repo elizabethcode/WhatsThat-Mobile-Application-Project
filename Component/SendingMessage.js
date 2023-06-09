@@ -145,7 +145,7 @@ export default class SendingMessage extends Component {
       <View style={styles.MainContainer}>
         
         <View style={styles.Header}>
-          <Text style={styles.HeaderText}> Chat: {chat_id}</Text>
+          <Text style={globalStyles.HeaderText}> Chat: {chat_id}</Text>
           <View style={styles.HeaderButton}>
 
             <TouchableOpacity style={styles.HeaderNavigateButton} onPress={() => this.props.navigation.goBack()}>
@@ -179,19 +179,19 @@ export default class SendingMessage extends Component {
               onChangeText={this.MessageChangeHandler}
             />
             {this.state.submitted && !this.state.message && (
-              <Text style={styles.error}>*Message is required</Text>
+              <Text style={styles.ErrorMessage}>*Message is required</Text>
             )}
           </View>
 
           <View style={styles.loginbtn}>
             <TouchableOpacity onPress={this.SendingMessage}>
-              <View style={styles.Button}>
-                <Text style={styles.TextButton}>Send Message </Text>
+              <View style={globalStyles.Button}>
+                <Text style={styles.ButtonText}>Send Message </Text>
               </View>
             </TouchableOpacity>
           </View>
 
-          {this.state.error && <Text style={styles.error}>{this.state.error}</Text>}
+          {this.state.error && <Text style={styles.ErrorMessage}>{this.state.error}</Text>}
         </View>
 
       </View>
@@ -224,13 +224,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#F98125',
     alignItems: 'center',
     paddingHorizontal: 20,
-  },
-  HeaderText: {
-    textAlign: "center",
-    fontSize: 25,
-    color: "#FFFFFF",
-    fontWeight: "bold",
-
   },
   HeaderButton: {
     flexDirection: 'row',
@@ -306,16 +299,7 @@ const styles = StyleSheet.create({
   OuterInput: {
     paddingVertical: 10,
   },
-  Button: {
-    width: "100%",
-    height: 50,
-    justifyContent: "center",        
-    borderRadius: 25,
-    alignItems: "center",
-    backgroundColor: "#F98125",
-    marginTop: 10,
-  },
-  TextButton: {
+  ButtonText: {
     fontWeight: 'bold',
     fontSize: 20,
     color: '#FFFFFF',
@@ -326,5 +310,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#FFFFFF',
   },
+  ErrorMessage:{
+    color:"red",
+  }
 
 });

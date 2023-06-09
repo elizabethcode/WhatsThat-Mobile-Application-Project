@@ -78,8 +78,8 @@ export default class AddOrRemoveUserChats extends Component {
     return (
       <View style={styles.MainContainer}>
 
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Add Or Remove User</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Add Or Remove User</Text>
         </View>
         {/* Renders a FlatList to display the list of chats */}
         <FlatList
@@ -107,20 +107,6 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     backgroundColor: "#0d416f",
-  },
-  Header: {
-    backgroundColor: "#F98125",
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  HeaderText: {
-    textAlign: "center",
-    fontSize: 25,    
-    color: "#FFFFFF",    
-    marginBottom: 10,
-    fontWeight: "bold",
-    marginTop: 10,
-
   },
   DisplayListContainer: {
     padding: 20,

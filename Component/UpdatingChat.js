@@ -119,19 +119,19 @@ export default class UpdatingChat extends Component {
 
             <>
               {this.state.submitted && !this.state.name && (
-                <Text style={styles.error}>*Chat Name is Required</Text>
+                <Text style={styles.ErrorMessage}>*Chat Name is Required</Text>
               )}
             </>
           </View>
 
           <TouchableOpacity onPress={() => this.OnPressButton()}>
             <View style={styles.Button}>
-              <Text style={styles.TextButton}>Update Chat Name</Text>
+              <Text style={styles.ButtonText}>Update Chat Name</Text>
             </View>
           </TouchableOpacity>
           <>
             {this.state.error && (
-              <Text style={styles.error}>{this.state.error}</Text>
+              <Text style={styles.ErrorMessage}>{this.state.error}</Text>
             )}
           </>
         </View>
@@ -185,17 +185,16 @@ const styles = StyleSheet.create({
   Button: {
     alignItems: "center",
     paddingHorizontal: 10,
-    borderRadius: 5,
     borderRadius: 50,
     backgroundColor: "#F98125",
     paddingVertical: 10,
   },
-  TextButton: {
+  ButtonText: {
     fontWeight: "bold",
     fontSize: 20,
     color: "#FFF",
   },
-  error: {
+  ErrorMessage: {
     color: "red",
   },
 });

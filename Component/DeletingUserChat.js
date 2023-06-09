@@ -67,8 +67,8 @@ export default class DeletingUserChat extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Delete Contact</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Delete Contact</Text>
         </View>
         <View style={styles.FormContainer}>
           <View style={styles.UserInputContainer}>
@@ -81,7 +81,7 @@ export default class DeletingUserChat extends Component {
 
             <>
               {this.state.submitted && !this.state.user_id && (
-                <Text style={styles.error}>*user_id is required</Text>
+                <Text style={styles.ErrorMessage}>*user_id is required</Text>
               )}
             </>
           </View>
@@ -89,14 +89,14 @@ export default class DeletingUserChat extends Component {
           <View style={styles.loginbtn}>
             <TouchableOpacity onPress={() => this.OnPressButton()}>
               <View style={styles.Button}>
-                <Text style={styles.TextButton}>Delete Contact</Text>
+                <Text style={styles.ButtonText}>Delete Contact</Text>
               </View>
             </TouchableOpacity>
           </View>
 
           <>
             {this.state.error && (
-              <Text style={styles.error}>{this.state.error}</Text>
+              <Text style={styles.ErrorMessage}>{this.state.error}</Text>
             )}
           </>
         </View>
@@ -109,20 +109,6 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     backgroundColor: "#0d416f",
-  },
-  Header: {
-    backgroundColor: "#F98125",    
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  HeaderText: {
-    fontSize: 25,   
-    textAlign: "center",
-    marginBottom: 10,
-    fontWeight: "bold",
-    marginTop: 10,
-    color: "#FFFFFF",
-
   },
   FormContainer: {
     padding: 20,
@@ -159,12 +145,12 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     backgroundColor: "#F98125",
   },
-  TextButton: {
+  ButtonText: {
     fontWeight: "bold",
     fontSize: 15,
     color: "#FFFFFF",
   },
-  error: {
-    color: "#000000",
+  ErrorMessage: {
+    color: "red",
   },
 });

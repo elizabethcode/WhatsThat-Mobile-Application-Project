@@ -212,7 +212,7 @@ export default class Register extends Component {
             <View style={styles.ButtonContainer}>
               <View style={styles.Button}>
                 <TouchableOpacity onPress={this.OnSubmitRegister}>
-                  <Text style={styles.TextButton}>Register</Text>
+                  <Text style={globalStyles.ButtonText}>Register</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -273,13 +273,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#F98125",
     marginTop: 30,
-  },
-  TextButton: {
-    textAlign: "center",
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    padding: 20,
   },
   ErrorMessage: {
     color: "red",

@@ -204,7 +204,7 @@ export default class UpdatingMessage extends Component {
       <View style={styles.MainContainer}>
         <View style={styles.Header}>
           <View style={styles.Header}>
-            <Text style={styles.HeaderText}>Manage Chat {chat_id} Messages</Text>
+            <Text style={globalStyles.HeaderText}>Manage Chat {chat_id} Messages</Text>
           </View>
           <View style={styles.buttonHeader}></View>
         </View>
@@ -230,14 +230,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F98125",
     paddingHorizontal: 20,
     paddingVertical: 15,
-  },
-  HeaderText: {
-    color: "#FFFFFF",
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 5,
-    fontSize: 25,
-    marginTop: 5,
   },
   Heading: {
     fontSize: 25,

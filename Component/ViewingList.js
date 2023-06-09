@@ -87,7 +87,7 @@ export default class ViewingList extends Component {
     return (
       <View style={styles.MainContainer}>
         <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Selecte Chat To Update</Text>
+          <Text style={globalStyles.HeaderText}>Selecte Chat To Update</Text>
           <TouchableOpacity style={styles.HeaderNavigateButton} onPress={() => this.props.navigation.goBack()}>
             <Ionicons name="chevron-back" size={24} color="white" />
           </TouchableOpacity>
@@ -119,13 +119,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F98125',
     paddingHorizontal: 15,
-  },
-  HeaderText: {
-    fontWeight: "bold",
-    fontSize: 25,
-    textAlign: "center",
-    padding: 10,
-    color: "#FFFFFF",
   },
   ContainerList: {
     padding: 20,

@@ -86,8 +86,8 @@ export default class DisplayBlockContact extends Component {
   render() {
     return (
       <View style={styles.MainContainer}>
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}>Blocked Contacts</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}>Blocked Contacts</Text>
         </View>
 
         <FlatList
@@ -99,7 +99,7 @@ export default class DisplayBlockContact extends Component {
 
               <TouchableOpacity onPress={() => this.UnblockingContact(item.user_id)}>
                 <View style={styles.Button}>
-                  <Text style={styles.ButtonText}>Unblock</Text>
+                  <Text style={globalStyles.ButtonText}>Unblock</Text>
                 </View>
               </TouchableOpacity>
             </View>
@@ -114,19 +114,6 @@ const styles = StyleSheet.create({
   MainContainer: {
     flex: 1,
     backgroundColor: '#0d416f',
-  },
-  Header: {
-    backgroundColor: "#F98125",
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-  },
-  HeaderText: {
-    fontSize: 25,
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    textAlign: "center",
-    marginBottom: 10,
-    marginTop: 10,
   },
   ContactListContainer: {
     paddingTop: 50,
@@ -155,10 +142,5 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     alignItems: 'center',
     width: 140,
-  },
-  ButtonText: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: 'white',
   },
 });

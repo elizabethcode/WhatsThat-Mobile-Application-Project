@@ -92,8 +92,8 @@ export default class UpdatingUserProfile extends Component {
 
     return (
       <ScrollView>
-        <View style={styles.Header}>
-          <Text style={styles.HeaderText}> Update Profile</Text>
+        <View style={globalStyles.Header}>
+          <Text style={globalStyles.HeaderText}> Update Profile</Text>
         </View>
 
         <View style={styles.MainContainer}>
@@ -135,7 +135,7 @@ export default class UpdatingUserProfile extends Component {
           </View>
           <View style={styles.ButtonContainer}>
             <TouchableOpacity style={styles.Button} onPress={() => this.UpdatingUserProfile()}>
-              <Text style={styles.TextButton}>Update</Text>
+              <Text style={styles.ButtonText}>Update</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -150,19 +150,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#0d416f",
     justifyContent: "center",
-  },
-  Header: {
-    backgroundColor: "#F98125",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-  },
-  HeaderText: {
-    marginBottom: 10,
-    fontSize: 25,
-    textAlign: "center",
-    fontWeight: "bold",
-    color: "#FFFFFF",
-    marginTop: 5,
   },
   InputContainer: {
     width: "60%",
@@ -201,7 +188,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 10,
   },
-  TextButton: {
+  ButtonText: {
     color: "#FFFFFF",
     fontSize: 18,
     marginRight: 20,
